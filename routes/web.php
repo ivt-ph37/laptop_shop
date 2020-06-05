@@ -11,6 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+
+Route::get('/index', function () {
+    return view('user.index');
+});
+
+Route::get('/product_detail', function(){
+	return view('user.product_detail');
 });
