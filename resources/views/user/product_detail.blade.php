@@ -28,42 +28,45 @@
 								<div id="products_example">
 									<div id="products">
 										<div class="slides_container">
-											<a href="#" target="_blank"><img src="images/productslide-1.jpg" alt=" " /></a>
-											<a href="#" target="_blank"><img src="images/productslide-2.jpg" alt=" " /></a>
-											<a href="#" target="_blank"><img src="images/productslide-3.jpg" alt=" " /></a>					
-											<a href="#" target="_blank"><img src="images/productslide-4.jpg" alt=" " /></a>
-											<a href="#" target="_blank"><img src="images/productslide-5.jpg" alt=" " /></a>
-											<a href="#" target="_blank"><img src="images/productslide-6.jpg" alt=" " /></a>
+											@foreach($productImage as $value)
+												@foreach($value->product_images as $item)
+											<a href="#"><img src="{{$item->path}}" alt="" /></a></a>
+												@endforeach
+											@endforeach
+											
 										</div>
 										<ul class="pagination">
-											<li><a href="#"><img src="images/thumbnailslide-1.jpg" alt=" " /></a></li>
-											<li><a href="#"><img src="images/thumbnailslide-2.jpg" alt=" " /></a></li>
-											<li><a href="#"><img src="images/thumbnailslide-3.jpg" alt=" " /></a></li>
-											<li><a href="#"><img src="images/thumbnailslide-4.jpg" alt=" " /></a></li>
-											<li><a href="#"><img src="images/thumbnailslide-5.jpg" alt=" " /></a></li>
-											<li><a href="#"><img src="images/thumbnailslide-6.jpg" alt=" " /></a></li>
+											@foreach($productImage as $value)
+												@foreach($value->product_images as $item)
+											<li>
+												<a href="#"><img src="{{$item->path}}" alt="" /></a>
+											</li>
+												@endforeach
+											@endforeach
 										</ul>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="desc span_3_of_2">
-							<h2>Lorem Ipsum is simply dummy text </h2>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>					
+
+							<h2>{{$product->name}}</h2>
+							<p>{{$product->description}}</p>					
 							<div class="price">
-								<p>Price: <span>$500</span></p> <p>Promotion Price: <span>$400</span></p>
+								<p>Price: <span>${{$product->price}}</span></p> <p>Promotion Price: <span>$400</span></p>
 
 							</div>
+							
 							<div class="available">
 								<p>Available Options :</p>
 								<ul>
-									<li>Color:
+									<!-- <li>Color:
 										<select>
 											<option>Silver</option>
 											<option>Black</option>
 											<option>Dark Black</option>
 											<option>Red</option>
-										</select></li>
+										</select></li> -->
 										<li>Quality:<select>
 											<option>1</option>
 											<option>2</option>
@@ -93,6 +96,7 @@
 							</div>
 							<div class="clear"></div>
 						</div>
+
 						<div class="product_desc">	
 							<div id="horizontalTab">
 								<ul class="resp-tabs-list">
@@ -271,4 +275,4 @@ fit: true   // 100% fit in a container
 		</div>
 	</div>
 	@include('user.footer')
-	@endsection
+	@endsection`
