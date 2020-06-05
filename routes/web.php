@@ -16,13 +16,12 @@
 // });
 
 
-Route::get('/index', function () {
-    return view('user.index');
-});
+Route::get('/home', 'User\ProductController@index')->name('home');
+Route::get('/product', 'User\ProductController@getAllProduct')->name('list-product');
+Route::get('/preview/{id}', 'User\ProductController@show')->name('preview');
 
-Route::get('/product_detail', function(){
-	return view('user.product_detail');
-});
+// Route::get('/preview', 'User\ProductController');
+
 Route::get('/text', function(){
 	return view('admin.cate.list');
 });

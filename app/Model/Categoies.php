@@ -6,9 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Categoies extends Model
 {
+	
     protected $table ='categories';
+
     protected $fillable = ['name','parent_id','desription'];
-    public function products(){
+
+    public function products()
+    {
     	return $this->hasMany('App\Model\Products','category_id','id');
     }
     public $timestamps = false;
