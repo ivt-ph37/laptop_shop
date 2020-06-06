@@ -23,3 +23,13 @@ Route::get('/index', function () {
 Route::get('/product_detail', function(){
 	return view('user.product_detail');
 });
+Route::get('/text', function(){
+	return view('admin.cate.list');
+});
+// ADMIN
+
+
+Route::group(['prefix'=>'admin'],function (){
+
+
+});
