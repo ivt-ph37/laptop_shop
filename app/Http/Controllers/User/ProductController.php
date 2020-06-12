@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Model\Products;
+use App\Model\Promotions;
 use App\Model\Product_Image;
 
 class ProductController extends Controller
@@ -59,13 +60,16 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Products::where('id', $id)->first();
+        $promotionPrice = Products::with('promotions')->where('id', $id)->take(1)->orderBy('created_at', 'ASC')->get();
+
+        // dd($promotionPrice, $product);/
         $productImage = Products::with('product_images')->where('id', $id)->get();
        // dd($productImage);
         // foreach ($product as $key) {
         
         //     $image = explode(',', $key);
         // }
-        return view('user.product_detail', compact('product','productImage'));
+        return view('user.product_detail', compact('product','promotionPrice','productImage'));
     }
 
     /**
