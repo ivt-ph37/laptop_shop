@@ -28,71 +28,77 @@
 								<div id="products_example">
 									<div id="products">
 										<div class="slides_container">
-											<a href="#" target="_blank"><img src="images/productslide-1.jpg" alt=" " /></a>
-											<a href="#" target="_blank"><img src="images/productslide-2.jpg" alt=" " /></a>
-											<a href="#" target="_blank"><img src="images/productslide-3.jpg" alt=" " /></a>					
-											<a href="#" target="_blank"><img src="images/productslide-4.jpg" alt=" " /></a>
-											<a href="#" target="_blank"><img src="images/productslide-5.jpg" alt=" " /></a>
-											<a href="#" target="_blank"><img src="images/productslide-6.jpg" alt=" " /></a>
+											@foreach($productImage as $value)
+												@foreach($value->product_images as $item)
+											<a href="#"><img src="{{$item->path}}" alt="" /></a></a>
+												@endforeach
+											@endforeach
+											
 										</div>
 										<ul class="pagination">
-											<li><a href="#"><img src="images/thumbnailslide-1.jpg" alt=" " /></a></li>
-											<li><a href="#"><img src="images/thumbnailslide-2.jpg" alt=" " /></a></li>
-											<li><a href="#"><img src="images/thumbnailslide-3.jpg" alt=" " /></a></li>
-											<li><a href="#"><img src="images/thumbnailslide-4.jpg" alt=" " /></a></li>
-											<li><a href="#"><img src="images/thumbnailslide-5.jpg" alt=" " /></a></li>
-											<li><a href="#"><img src="images/thumbnailslide-6.jpg" alt=" " /></a></li>
+											@foreach($productImage as $value)
+												@foreach($value->product_images as $item)
+											<li>
+												<a href="#"><img src="{{$item->path}}" alt="" /></a>
+											</li>
+												@endforeach
+											@endforeach
 										</ul>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="desc span_3_of_2">
-							<h2>Lorem Ipsum is simply dummy text </h2>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>					
-							<div class="price">
-								<p>Price: <span>$500</span></p> <p>Promotion Price: <span>$400</span></p>
 
+							<h2>{{$product->name}}</h2>
+							<p>{{$product->description}}</p>					
+							<div class="price">
+								<p>Price: <span>${{$product->price}}</span></p> 
+								
+								<p>Promotion Price: 
+								@foreach($promotionPrice as $value)
+									@foreach($value->promotions as $item)
+									<span>${{$item->price}}</span>
+									@endforeach
+								@endforeach
+								</p>
+							
 							</div>
+							
 							<div class="available">
-								<p>Available Options :</p>
+								<p>Available Options : </p>
 								<ul>
-									<li>Color:
-										<select>
-											<option>Silver</option>
-											<option>Black</option>
-											<option>Dark Black</option>
-											<option>Red</option>
-										</select></li>
-										<li>Quality:<select>
-											<option>1</option>
-											<option>2</option>
-											<option>3</option>
-											<option>4</option>
-											<option>5</option>
-										</select></li>
-									</ul>
-								</div>
-								<div class="share-desc">
+									<li>Quality:<select>
+										<option>1</option>
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+										<option>5</option>
+									</select></li>
+								</ul>
+							</div>
+							 <div class="button"><span><a href="#">Add to Cart</a></span></div>	
+								<!-- <div class="share-desc">
 									<div class="share">
 										<p>Share Product :</p>
 										<ul>
 											<li><a href="#"><img src="images/facebook.png" alt="" /></a></li>
 											<li><a href="#"><img src="images/twitter.png" alt="" /></a></li>					    
 										</ul>
-									</div>
+									</div> --><!-- 
 									<div class="button"><span><a href="#">Add to Cart</a></span></div>					
 									<div class="clear"></div>
-								</div>
-								<div class="wish-list">
+								</div> -->
+								<!-- <div class="wish-list">
 									<ul>
 										<li class="wish"><a href="#">Add to Wishlist</a></li>
 										<li class="compare"><a href="#">Add to Compare</a></li>
 									</ul>
-								</div>
+								</div> -->
 							</div>
 							<div class="clear"></div>
 						</div>
+
 						<div class="product_desc">	
 							<div id="horizontalTab">
 								<ul class="resp-tabs-list">
@@ -119,9 +125,9 @@
 										<div class="review">
 											<h4>Lorem ipsum Review by <a href="#">Finibus Bonorum</a></h4>
 											<ul>
-												<li>Price :<a href="#"><img src="images/price-rating.png" alt="" /></a></li>
-												<li>Value :<a href="#"><img src="images/value-rating.png" alt="" /></a></li>
-												<li>Quality :<a href="#"><img src="images/quality-rating.png" alt="" /></a></li>
+												<li>Price :<a href="#"><img src="{{asset('images/price-rating.png')}}" alt="" /></a></li>
+												<li>Value :<a href="#"><img src="{{asset('images/value-rating.png')}}" alt="" /></a></li>
+												<li>Quality :<a href="#"><img src="{{asset('images/quality-rating.png')}}" alt="" /></a></li>
 											</ul>
 											<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
 											<div class="your-review">
@@ -168,7 +174,7 @@ fit: true   // 100% fit in a container
 							</div>
 							<div class="section group">
 								<div class="grid_1_of_4 images_1_of_4">
-									<a href="#"><img src="images/new-pic1.jpg" alt=""></a>					
+									<a href="#"><img src="{{asset('images/new-pic1.jpg')}}" alt=""></a>					
 									<div class="price" style="border:none">
 										<div class="add-cart" style="float:none">								
 											<h4><a href="#">Add to Cart</a></h4>
@@ -177,7 +183,7 @@ fit: true   // 100% fit in a container
 									</div>
 								</div>
 								<div class="grid_1_of_4 images_1_of_4">
-									<a href="#"><img src="images/new-pic2.jpg" alt=""></a>
+									<a href="#"><img src="{{asset('images/new-pic2.jpg')}}" alt=""></a>
 									<div class="price" style="border:none">
 										<div class="add-cart" style="float:none">								
 											<h4><a href="#">Add to Cart</a></h4>
@@ -186,7 +192,7 @@ fit: true   // 100% fit in a container
 									</div>
 								</div>
 								<div class="grid_1_of_4 images_1_of_4">
-									<a href="#"><img src="images/new-pic4.jpg" alt=""></a>
+									<a href="#"><img src="{{asset('images/new-pic4.jpg')}}" alt=""></a>
 									<div class="price" style="border:none">
 										<div class="add-cart" style="float:none">								
 											<h4><a href="#">Add to Cart</a></h4>
@@ -195,7 +201,7 @@ fit: true   // 100% fit in a container
 									</div>
 								</div>
 								<div class="grid_1_of_4 images_1_of_4">
-									<img src="images/new-pic3.jpg" alt="">
+									<img src="{{asset('images/new-pic3.jpg')}}" alt="">
 									<div class="price" style="border:none">
 										<div class="add-cart" style="float:none">								
 											<h4><a href="#">Add to Cart</a></h4>
@@ -271,4 +277,4 @@ fit: true   // 100% fit in a container
 		</div>
 	</div>
 	@include('user.footer')
-	@endsection
+	@endsection`

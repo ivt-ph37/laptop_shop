@@ -16,13 +16,19 @@
 // });
 
 
-Route::get('/index', function () {
-    return view('user.index');
-});
+Route::get('/home', 'User\ProductController@index')->name('home');
+Route::get('/product', 'User\ProductController@getAllProduct')->name('list-product');
+Route::get('/preview/{id}', 'User\ProductController@show')->name('preview');
+Route::get('/register', 'User\UserController@index')->name('register');
+Route::post('/register', 'User\UserController@store');
+Route::get('/login', 'User\UserController@getLogin')->name('login');
+Route::post('/login', 'User\UserController@setLogin');
+Route::get('/my-account/{id}', 'User\UserController@show')->name('user');
+Route::get('/my-account/account-information/{id}', 'User\UserController@edit')->name('information-user');
+Route::put('/my-account/account-information/{id}/account-update/', 'User\UserController@update')->name('update-user');
+Route::get('logout', 'User\UserController@logOut')->name('logout');
 
-Route::get('/product_detail', function(){
-	return view('user.product_detail');
-});
+
 Route::get('/text', function(){
 	return view('admin.cate.list');
 });
@@ -33,3 +39,7 @@ Route::group(['prefix'=>'admin'],function (){
 
 
 });
+
+// Auth::routes();
+
+

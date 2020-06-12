@@ -5,18 +5,26 @@
 			</div>
 			<div class="account_desc">
 				<ul>
-					<li><a href="#">Register</a></li>
-					<li><a href="#">Login</a></li>
-					<li><a href="#">Delivery</a></li>
-					<li><a href="#">Checkout</a></li>
-					<li><a href="#">My Account</a></li>
+					@if(Auth::check())
+						<li><a href="{{route('user', Auth::user()->id)}}">Xin chào {{Auth::user()->fullname}}</a></li>
+						<li><a href="#">Delivery</a></li>
+						<li><a href="#">Checkout</a></li>
+						<!-- <li><a href="#">My Account</a></li> -->
+						<li><a href="#" id="btn_logout">Logout</a></li>
+					@else
+						<li><a href="{{route('register')}}">Register</a></li>
+						<li><a href="{{route('login')}}">Login</a></li>
+						<li><a href="#">Delivery</a></li>
+						<li><a href="#">Checkout</a></li>
+						<!-- <li><a href="#">My Account</a></li> -->
+					@endif
 				</ul>
 			</div>
 			<div class="clear"></div>
 		</div>
 		<div class="header_top">
 			<div class="logo">
-				<a href="index.html"><img src="images/logo.png" alt="" /></a>
+				<a href="{{route('home')}}"><img src="{{asset('images/logo.png')}}" alt="" /></a>
 			</div>
 			  <div class="cart">
 			  	   <p>Welcome to our Online Store! <span>Cart:</span><div id="dd" class="wrapper-dropdown-2"> 0 item(s) - $0.00
@@ -57,7 +65,7 @@
 	<div class="header_bottom">
 	     	<div class="menu">
 	     		<ul>
-			    	<li class="active"><a href="index.html">Home</a></li>
+			    	<li class="active"><a href="{{route('home')}}">Home</a></li>
 			    	<li><a href="about.html">About</a></li>
 			    	<li><a href="delivery.html">Delivery</a></li>
 			    	<li><a href="news.html">News</a></li>

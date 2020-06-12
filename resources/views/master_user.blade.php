@@ -12,6 +12,7 @@
 	<script type="text/javascript" src="{{asset('js/user/startstop-slider.js')}}"></script>
 	<script src="{{asset('js/user/easyResponsiveTabs.js')}}" type="text/javascript"></script>
 	<script src="{{asset('js/user/slides.min.jquery.js')}}"></script>
+	<script src="{{asset('js/user/ajax.js')}}"></script>
 </head>
 <body>
 	@yield('content')
