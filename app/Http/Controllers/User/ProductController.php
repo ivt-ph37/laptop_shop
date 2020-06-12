@@ -61,7 +61,6 @@ class ProductController extends Controller
     {
         $product = Products::where('id', $id)->first();
         $promotionPrice = Products::with('promotions')->where('id', $id)->take(1)->orderBy('created_at', 'ASC')->get();
-
         // dd($promotionPrice, $product);/
         $productImage = Products::with('product_images')->where('id', $id)->get();
        // dd($productImage);
@@ -70,6 +69,7 @@ class ProductController extends Controller
         //     $image = explode(',', $key);
         // }
         return view('user.product_detail', compact('product','promotionPrice','productImage'));
+        return view('user.product_detail', compact('product','productImage'));
     }
 
     /**

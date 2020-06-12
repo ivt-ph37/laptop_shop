@@ -49,7 +49,10 @@
 							</div>
 						</div>
 						<div class="desc span_3_of_2">
-
+							<h2>{{$product->name}}</h2>
+							<p>{{$product->description}}</p>					
+							<div class="price">
+								<p>Price: <span>${{$product->price}}</span></p> <p>Promotion Price: <span>$400</span></p>
 							<h2>{{$product->name}}</h2>
 							<p>{{$product->description}}</p>					
 							<div class="price">
@@ -79,6 +82,23 @@
 							</div>
 							 <div class="button"><span><a href="#">Add to Cart</a></span></div>	
 								<!-- <div class="share-desc">
+									<!-- <li>Color:
+										<select>
+											<option>Silver</option>
+											<option>Black</option>
+											<option>Dark Black</option>
+											<option>Red</option>
+										</select></li> -->
+										<li>Quality:<select>
+											<option>1</option>
+											<option>2</option>
+											<option>3</option>
+											<option>4</option>
+											<option>5</option>
+										</select></li>
+									</ul>
+								</div>
+								<div class="share-desc">
 									<div class="share">
 										<p>Share Product :</p>
 										<ul>

@@ -29,6 +29,8 @@ Route::put('/my-account/account-information/{id}/account-update/', 'User\UserCon
 Route::get('logout', 'User\UserController@logOut')->name('logout');
 
 
+// Route::get('/preview', 'User\ProductController');
+
 Route::get('/text', function(){
 	return view('admin.cate.list');
 });
@@ -40,6 +42,8 @@ Route::group(['prefix'=>'admin'],function (){
 
 });
 
+
 // Auth::routes();
+
 
 
