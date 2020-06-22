@@ -61,6 +61,7 @@
 <?php $c=0; ?>
 <?php $d=0; ?>
         @foreach($order_detail as $item)
+        @if($item->orders->deliver_status == 0)
         <h1 style="color: blue">{{$item->products->name}}</h1>
                 <?php $a=0; ?>
                          @foreach($promotion as $value)
@@ -69,12 +70,12 @@
                         
                             @if($value->quantity < $item->quantity)
                                 <span>VAN CON IT</span><br>
-                                <span>Gia sap pham dk khuyen mai : {{$value->quantity}} * {{$value->price}} / 100 = {{ $b1=  $value->quantity * $value->price /100}}</span><br>
+                                <span>Gia sap pham dk khuyen mai : {{$value->quantity}} * {{$item->price}} *{{$value->price}} / 100 = {{ $b1=  $value->quantity * $item->price *  ($value->price /100)}}</span><br>
               
                                 <span>Het khuyen mai qua so luong : {{$item->quantity-$value->quantity}} * {{$item->price}} = {{ $b2=    ($item->quantity-$value->quantity) * $item->price }}</span><br>
-                                            @else
+                            @else
                                 <span>CON NHIEU</span><br>
-                                <span>Sap pham khuyen mai:{{$item->quantity}} * {{$value->price}} / 100 =  {{ $b2= $item->quantity * $value->price /100}}</span><br>
+                                <span>Sap pham khuyen mai : {{$item->quantity}} * {{$item->price}} * {{$value->price}} / 100 =  {{ $b2= $item->quantity * $item->price * $value->price /100}}</span><br>
                     
                             @endif          
                         @endif
@@ -84,7 +85,7 @@
                             <?php $a++ ?>
                             
                                 <span>Ma khuyen mai: Het Han</span><br>
-                                        <span>San pham khong duoc khuyen mai: {{$item->quantity}} * {{$item->price}} = {{ $c= $item->quantity * $item->price }}</span><br>  
+                                        <span>San pham khong duoc khuyen mai : {{$item->quantity}} * {{$item->price}} = {{ $c= $item->quantity * $item->price }}</span><br>  
                               
                             @endif
                     @endforeach
@@ -96,7 +97,71 @@
 
                 @endif
     
+        @endif
+        @endforeach
+        {{$b1}}
+        {{$b2}}
+        {{$c}}
+        {{$d}}
+        <span>TOTAL:{{$b1+$b2+$c+$d}}</span>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <?php $b1=0;$b2=0 ?>
+<?php $c=0; ?>
+<?php $d=0; ?>
+        @foreach($order_detail as $item)
+        @if($item->orders->deliver_status != 0)
+        <h1 style="color: blue">{{$item->products->name}}</h1>
+                <?php $a=0; ?>
+                         @foreach($promotion as $value)
+                        @if($value->products->name == $item->products->name && $value->status == 0)
+                        <?php $a++ ?>
+                        
+                            @if($value->quantity < $item->quantity)
+                                <span>VAN CON IT</span><br>
+                                <span>Gia sap pham dk khuyen mai : {{$value->quantity}} * {{$item->price}} *{{$value->price}} / 100 = {{ $b1=  $value->quantity * $item->price *  ($value->price /100)}}</span><br>
+              
+                                <span>Het khuyen mai qua so luong : {{$item->quantity-$value->quantity}} * {{$item->price}} = {{ $b2=    ($item->quantity-$value->quantity) * $item->price }}</span><br>
+                            @else
+                                <span>CON NHIEU</span><br>
+                                <span>Sap pham khuyen mai : {{$item->quantity}} * {{$item->price}} * {{$value->price}} / 100 =  {{ $b2= $item->quantity * $item->price * $value->price /100}}</span><br>
+                    
+                            @endif          
+                        @endif
+                    @endforeach
+                 @foreach($promotion1 as $value)
+                            @if($value->products->name == $item->products->name && $a == 0)
+                            <?php $a++ ?>
+                            
+                                <span>Ma khuyen mai: Het Han</span><br>
+                                        <span>San pham khong duoc khuyen mai : {{$item->quantity}} * {{$item->price}} = {{ $c= $item->quantity * $item->price }}</span><br>  
+                              
+                            @endif
+                    @endforeach
+                @if($a == 0)
+                
+                    <span>Ma khuyen mai: Khong co</span><br>
+                    <span>San pham khong duoc khuyen mai : {{$item->quantity}} * {{$item->price}} ={{ $d= $item->quantity * $item->price }}</span><br>
+               
+
+                @endif
+    
+        @endif
         @endforeach
         {{$b1}}
         {{$b2}}

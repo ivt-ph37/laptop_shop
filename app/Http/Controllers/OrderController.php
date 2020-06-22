@@ -105,10 +105,8 @@ class OrderController extends Controller
         $order_details = Order_Detail::where('order_id',$id)->get();
         $promotion1 = Promotions::where('status',1)->orWhere('quantity',0)->get();
         $promotion = Promotions::where('status',0)->get();
-        // dd($promotion1,$promotion);
-        // $promo = Promotions::get();
-        // dd($promo);
-        // dd($order_detail);
+        $promotion35 = Promotions::get();
+
         foreach ($order_detail as $it) {
             // $promotion = Promotions::where('product_id',$it->product_id)->where('status',0)->get();
             // $promotion = Promotions::get();
@@ -153,8 +151,8 @@ class OrderController extends Controller
             // return view('admin.order.detailr', compact('user','order_detail','promotions','a'));
              } 
          }
-         // dd($promotion);
-        return view('admin.order.detailr', compact('user','order_detail','promotion','promotion1'));
+         // dd($promotion35);
+        return view('admin.order.detailr', compact('user','order_detail','promotion','promotion1','promotion35'));
         }
         // dd($order_detail);
         // dd($promo);
