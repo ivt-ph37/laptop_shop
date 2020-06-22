@@ -63,10 +63,10 @@ class CheckoutController extends Controller
         $order->deliver_status = 0;
         $order->save();
 
-        $order_detail = [];
-       
+        $order_details = [];
+    
         foreach ($cart as $key => $value) {
-            $order_detail = new Order_Detail();
+           
             $order_detail['order_id'] = $order->id;
             $order_detail['product_id'] = $value->id;
             $order_detail['quantity'] = $value->qty;
@@ -76,11 +76,17 @@ class CheckoutController extends Controller
             $product['quantity'] = $product['quantity']-$value->qty;
 
             $product->save();
+            
 
-            $order_detail->save();
+            // $order_details[$key] =  $order_detail->save();
+             $order_details[$key] = Order_Detail::create($order_detail);
+            // dd($order_details);
         }
-        $order_detail[$key] = $order_detail->save();
-        Mail::to($order->email)->send(new ShoppingMail($order, $order_detail));
+
+       
+        // $order_details[$key] = $order_detail->save();
+        // dd($order_details);
+        Mail::to($order->email)->send(new ShoppingMail($order, $order_details));
         Session::forget('cart');
         return redirect()->back()->with('success','success');
     }

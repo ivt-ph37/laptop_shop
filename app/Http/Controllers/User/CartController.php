@@ -114,6 +114,7 @@ class CartController extends Controller
         
         $quantity = (int)$request->quantity;
         $qty = $product['quantity'] - $quantity;
+        $quantityProducts = $product['quantity'];
         if($qty<0 || $qty=0)
         {
             return redirect()->back()->with('thongbao', 'Sản phẩm không đủ số lượng');

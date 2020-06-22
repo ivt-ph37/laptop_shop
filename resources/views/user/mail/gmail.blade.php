@@ -61,7 +61,7 @@
                                     </td>
                                 </tr>
 
-                                @foreach($order_detail as $value)
+                                @foreach($order_details as $o)
                                     <tr>
                                         <td align="left" valign="top" style="width:120px;padding-left:15px">
                                             <a href="#_" style="border:0"> 
@@ -78,7 +78,7 @@
                                                         <td align="left" valign="top" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#666666;line-height:20px;padding-bottom:5px">:</td>
                                                         <td align="left" valign="top" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#666666;line-height:20px;padding-left:10px;padding-bottom:5px">
                                                              <a href="#" style="color:#115fff;text-decoration:none" target="_blank">
-                                                              
+                                                            {{$o->products->name}}
                                                             </a>
                                                         </td>
                                                     </tr>
