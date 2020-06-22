@@ -21,6 +21,7 @@ class CreateTableSuggestsTable extends Migration
             $table->string('telephone');
             $table->string('name_product');
             $table->integer('quantity');
+            $table->integer('status');
             $table->text('content');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
