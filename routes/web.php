@@ -51,11 +51,10 @@ Route::get('/text', function(){
 Route::group(['prefix'=>'admin'],function (){
 
 
-<<<<<<< HEAD
-});
+
 
 // Auth::routes();
-=======
+
 	Route::resource('dashboard','DashboardController');
 
 	Route::get('category/search', 'CategoryController@search')->name('search-category');
@@ -109,7 +108,5 @@ Route::group(['prefix'=>'admin'],function (){
 
 
 
-
->>>>>>> 7fc0e8b... dung
 
 
