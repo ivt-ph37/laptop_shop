@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Khóa Học Lập Trình Laravel Framework 5.x Tại Khoa Phạm">
     <meta name="author" content="">
-    <title>Admin - Khoa Phạm</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Admin</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ url('admin/bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -25,6 +26,7 @@
 
     <!-- DataTables Responsive CSS -->
     <link href="{{ url('admin/bower_components/datatables-responsive/css/dataTables.responsive.css') }}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 </head>
 
 <body>
@@ -40,7 +42,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Admin Area - Khoa Phạm</a>
+                <a class="navbar-brand" href="index.html">Admin </a>
             </div>
             <!-- /.navbar-header -->
 
@@ -68,52 +70,46 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
-                            </div>
-                            <!-- /input-group -->
+                        <li>
+                            <a href="{{route('dashboard.index')}}"><i class="fa fa-home" aria-hidden="true"></i> Dashboard<span class="fa arrow"></span></a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Category<span class="fa arrow"></span></a>
+                            <a href="{{route('category.index')}}"><i class="fa fa-bar-chart-o fa-fw"></i> Category<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">List Category</a>
-                                </li>
-                                <li>
-                                    <a href="#">Add Category</a>
+                                    <a href="{{route('category.create')}}">Add Category</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-cube fa-fw"></i> Product<span class="fa arrow"></span></a>
+                            <a href="{{route('product.index')}}"><i class="fa fa-cube fa-fw"></i> Product<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">List Product</a>
-                                </li>
-                                <li>
-                                    <a href="#">Add Product</a>
+                                    <a href="{{route('product.create')}}">Add Product</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-users fa-fw"></i> User<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
+                            <a href="{{route('user.index')}}"><i class="fa fa-users fa-fw"></i> User<span class="fa arrow"></span></a>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="{{route('order.index')}}"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Order<span class="fa arrow"></span></a>
+
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="{{route('suggest.index')}}"><i class="fa fa-comments" aria-hidden="true"></i> Suggests<span class="fa arrow"></span></a>
+
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="{{route('promotion.index')}}"><i class="fa fa-bullhorn" aria-hidden="true"></i> Promotions<span class="fa arrow"></span></a>
+                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">List User</a>
-                                </li>
-                                <li>
-                                    <a href="#">Add User</a>
+                                    <a href="{{route('promotion.create')}}">Add Promotion</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -129,11 +125,6 @@
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">Category
-                            <small>Add</small>
-                        </h1>
-                    </div>
                     <!-- /.col-lg-12 -->
                     @yield('content')
                 </div>
@@ -164,12 +155,14 @@
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-                responsive: true
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
         });
-    });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js" type="text/javascript" charset="utf-8" async defer></script>
+    @yield('sr')
 </body>
 
 </html>

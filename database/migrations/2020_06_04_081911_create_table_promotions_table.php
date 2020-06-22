@@ -19,8 +19,9 @@ class CreateTablePromotionsTable extends Migration
             $table->unsignedBigInteger('product_id');
             $table->float('price');
             $table->integer('quantity');
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->integer('status');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();

@@ -1,42 +1,224 @@
 @extends('admin.master_admin')
 @section('content')
+<div class="col-lg-12">
+                        <h1 class="page-header">User
+                            <small>List</small>
+                        </h1>
+                    </div>
+
+<form action="" method="get" id="form-search">
+        @csrf
+    <div class="input-group custom-search-form" style="width: 40%;">
+        <input type="text" class="form-control" id="search" name="search" placeholder="Search...">
+        <span class="input-group-btn">
+            <button class="btn btn-default" id="butsearch" type="submit"  >
+                <i class="fa fa-search"></i>
+            </button>
+        </span>
+    </div>
+    <div ></div>
+</form>
+<div class="alert alert-success" id="mess" role="alert">
+    </div>
                     <!-- /.col-lg-12 -->
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
                             <tr align="center">
                                 <th>ID</th>
-                                <th>Username</th>
+                                <th>fullname</th>
+                                <th>Email</th>
                                 <th>Level</th>
-                                <th>Status</th>
-                                <th>Delete</th>
-                                <th>Edit</th>
+                                <th>Sex</th>
+                                <th></th>
+                                <th colspan="2">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="bodydd">
+                            @foreach($users as $item)
                             <tr class="odd gradeX" align="center">
-                                <td>1</td>
-                                <td>quoctuan</td>
-                                <td>Superadmin</td>
-                                <td>Hiện</td>
-                                <td class="center"><i class="fa fa-trash-o  fa-fw"></i><a href="#"> Delete</a></td>
-                                <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="#">Edit</a></td>
+                                <td>{{$item->id}}</td>
+                                <td>{{$item->fullname}}</td>
+                                <td id="email">{{$item->email}}</td>
+                                <td id="level">
+                                    @if($item->level == 0)
+                                    {{"Admin"}}
+                                    @else
+                                        {{"User"}}
+                                    @endif
+                                </td>
+                                <td id="sex">
+                                    @if($item->sex == 0)
+                                    {{"Nam"}}
+                                    @else
+                                        {{"Nữ"}}
+                                    @endif
+                                </td>
+                                <td><a href="{{route('user.show',$item->id)}}">Show</a></td>
+                                <td class="center">
+                <button data-url="{{route('user.edit',$item->id)}}" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button>
+            </td>
+            <td class="center">
+                <button data-url="{{ route('user.destroy',$item->id) }}"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button>
+            </td>
+                                
                             </tr>
-                            <tr class="even gradeC" align="center">
-                                <td>2</td>
-                                <td>kutun</td>
-                                <td>Admin</td>
-                                <td>Ẩn</td>
-                                <td class="center"><i class="fa fa-trash-o  fa-fw"></i><a href="#"> Delete</a></td>
-                                <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="#">Edit</a></td>
-                            </tr>
-                            <tr class="odd gradeX" align="center">
-                                <td>3</td>
-                                <td>kuteo</td>
-                                <td>Member</td>
-                                <td>Hiện</td>
-                                <td class="center"><i class="fa fa-trash-o  fa-fw"></i><a href="#"> Delete</a></td>
-                                <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="#">Edit</a></td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
+                    {{$users->links()}}
+
+@include('admin.user.edit')
+
+@endsection
+
+@section('sr')
+
+<script>
+$(document).ready(function () {
+    $('#mess').hide();
+
+    $('.pagination a').unbind('click').on('click', function(e) {
+        e.preventDefault();
+        // $('#wrapper').hide();
+
+        var page= $(this).attr('href').split('page=')[1];
+        fetch_data(page);
+    }) 
+    function fetch_data(page){
+        $.ajax({
+            type:"get",
+            url: '?page='+page,
+            
+            success:function($resuld){
+                $('body').html($resuld);
+                
+            }
+        })
+    }
+
+
+
+          $('#form-search').submit(function(e){
+                        e.preventDefault();
+                        // console.log(url);
+                        $.ajax({
+                            type: 'get',
+                            url: 'user/search',
+                        data: {
+                            'search': $('#search').val(),  //biến phải trùng vs tên REQUEST 
+                        },
+                        success: function(ab) {
+                            $('#bodydd').html(ab);
+                var html ='';
+                    $.each(ab.data,function($key,$value){
+                        if ($value['level'] == 0) {
+                            $a = 'Admin';
+                        } else {
+                            $a = 'User';
+                        }
+                        if ($value['sex'] == 0) {
+                            $b = 'Nam';
+                        } else {
+                            $b = 'Nữ';
+                        }
+
+
+                html +='<tr><td>'+$value['id']+'</td><td>'+$value['fullname']+'</td><td>'+$value['email']+'</td><td>'+$a+'</td><td>'+$b+'</td><td><a href="http://127.0.0.1/admin/user/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/user/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/user/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
+                        html += '</tr>';
+                    });
+                $('#bodydd').html(html);
+                            }
+
+                        })
+                    })
+
+
+
+    $('.btn-delete').click(function(){
+        var url = $(this).attr('data-url');
+        var _this = $(this);
+        if (confirm('Ban co chac muon xoa khong?')) {
+            $.ajax({
+                headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+                type: 'delete',
+                url: url,
+                success: function(response) {
+                    alert('Xoa thanh cong');
+                    _this.parent().parent().remove();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    //xử lý lỗi tại đây
+                }
+            })
+        }
+    })
+    $('.btn-edit').click(function(e){
+
+        var url = $(this).attr('data-url');
+
+        e.preventDefault();
+
+        $.ajax({
+                //phương thức get
+                type: 'get',
+                url: url,
+                success: function (response) {
+                    //đưa dữ liệu controller gửi về điền vào input trong form edit.
+                    $('.tittle').text(response.data.username);
+                    $('#username-edit').val(response.data.username);
+                    $('#email-edit').val(response.data.email);
+                    if(response.data.level == 0){
+                        $('#gridRadios1').attr('checked','checked');
+                    }else{
+                        $('#gridRadios2').attr('checked','checked');
+                    }
+                     $('#form-edit').attr('data-url','{{ asset('admin/user/') }}/'+response.data.id)
+
+                },
+                error: function (error) {
+                    
+                }
+            })
+        })
+    $('#form-edit').submit(function(e){
+                        e.preventDefault();
+                        var url=$(this).attr('data-url');
+                // console.log(url);
+                        $.ajax({
+                            type: "PUT",
+                            url: url,
+
+                        data: {
+                            'username': $('#username-edit').val(),
+                            'email': $('#email-edit').val(),
+                            'level': ($(".leveledit").prop("checked") ? 0 : 1),
+                            '_method':'put',
+
+                        },                       
+                        success: function($resuld) {
+
+                            $('#edit').modal('hide');
+                            $('#email').text($resuld.data.email);
+                            $('#level').text($resuld.data.level);
+                            $('#mess').show();
+                            $('#mess').html($resuld.message,{timeOut:5000});
+                            toastr.success($resuld.data.message);
+                            window.location.reload();
+                        },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                //xử lý lỗi tại đây
+                            }
+                        })
+                    })
+
+
+
+
+
+
+})
+   
+</script>
 @endsection

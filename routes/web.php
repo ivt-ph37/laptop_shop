@@ -47,12 +47,69 @@ Route::get('/text', function(){
 });
 // ADMIN
 
-
+// Route::get('/admin','AdminController@index');
 Route::group(['prefix'=>'admin'],function (){
+
+
+<<<<<<< HEAD
+});
+
+// Auth::routes();
+=======
+	Route::resource('dashboard','DashboardController');
+
+	Route::get('category/search', 'CategoryController@search')->name('search-category');
+	Route::get('/','CategoryController@fetch_data');
+	Route::resource('category','CategoryController');
+	
+	// Route::get('/category/search', 'CategoryController@search')->name('search-button');
+	Route::get('/','ProductController@fetch_data');
+	Route::get('product/search', 'ProductController@search');
+	Route::get('product/sort-remains', 'ProductController@remains');
+	Route::get('product/sort-almost', 'ProductController@almost');
+	Route::get('product/sort-out', 'ProductController@out');
+
+	
+	Route::resource('product','ProductController');
+
+	Route::post('product/{id}', 'ProductController@image')->name('post.image');
+	Route::resource('image','ProductsImageController');
+
+
+
+
+
+	Route::get('/','UserController@fetch_data');
+	Route::get('user/search', 'UserController@search');
+	Route::resource('user','UserController');
+
+	Route::get('/','OrderController@fetch_data');
+	Route::get('order/search', 'OrderController@search');
+	Route::get('order/old', 'OrderController@old');
+	Route::get('order/new', 'OrderController@new');
+	Route::get('order/statu', 'OrderController@status_c');
+	Route::get('order/status', 'OrderController@status_d');
+	Route::get('order/statuss', 'OrderController@status_h');
+	Route::resource('order','OrderController');
+
+
+	Route::get('/','SuggestController@fetch_data');
+	Route::get('suggest/search', 'SuggestController@search')->name('search-suggest');
+	Route::resource('suggest','SuggestController');
+
+
+
+	Route::get('/','PromotionController@fetch_data');
+	Route::get('promotion/ajax/{idSup}','PromotionController@ajax');
+	Route::resource('promotion','PromotionController');
+
 
 
 });
 
-// Auth::routes();
+
+
+
+>>>>>>> 7fc0e8b... dung
 
 

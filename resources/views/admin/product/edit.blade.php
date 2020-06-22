@@ -1,47 +1,96 @@
-@extends('admin.master_admin')
-@section('content')
-                    <!-- /.col-lg-12 -->
-                    <div class="col-lg-7" style="padding-bottom:120px">
-                        <form action="" method="POST">
-                            <div class="form-group">
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa <span class="tittle"></span></h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin: 5px">
+                        <div class="col-lg-12">
+                            <form action="" id="form-edit" method="POST" role="form">
+                                @csrf
+                        <div class="form-group">
                                 <label>Name</label>
-                                <input class="form-control" name="txtName" placeholder="Please Enter Username" />
+                                <input class="form-control" name="name" id="name-edit" />
+                                <div class="error1" style="color: red;"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>Quantity</label>
+                                <input class="form-control" name="quantity" id="quantity-edit"/>
+                                <div class="error2" style="color: red;"></div>
                             </div>
                             <div class="form-group">
                                 <label>Price</label>
-                                <input class="form-control" name="txtPrice" placeholder="Please Enter Password" />
+                                <input class="form-control" name="price" id="price-edit"/>
+                                <div class="error3" style="color: red;"></div>
                             </div>
                             <div class="form-group">
-                                <label>Intro</label>
-                                <textarea class="form-control" rows="3" name="txtIntro"></textarea>
+                                <label>Supplier_Name</label>
+                                <select class="form-group idSupplier" name="supplier_id" id="supplier_id-edit">
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label>Content</label>
-                                <textarea class="form-control" rows="3" name="txtContent"></textarea>
+                                <label>Category_Name</label>
+                                <select class="form-group idCategory" name="category_id" id="category_id-edit">
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label>Images</label>
-                                <input type="file" name="fImages">
+                                <label>RAM</label>
+                                <input class="form-control" name="RAM" id="ram-edit"/> 
+                                <div class="error4" style="color: red;"></div>
                             </div>
                             <div class="form-group">
-                                <label>Product Keywords</label>
-                                <input class="form-control" name="txtOrder" placeholder="Please Enter Category Keywords" />
+                                <label>VGA</label>
+                                <input class="form-control" name="VGA" id="vga-edit"/>
+                                <div class="error5" style="color: red;"></div>
                             </div>
                             <div class="form-group">
-                                <label>Product Description</label>
-                                <textarea class="form-control" rows="3"></textarea>
+                                <label>Operating_System</label>
+                                <input class="form-control" name="operating_system" id="operating_system-edit"/>
+                                <div class="error6" style="color: red;"></div>
                             </div>
                             <div class="form-group">
-                                <label>Product Status</label>
-                                <label class="radio-inline">
-                                    <input name="rdoStatus" value="1" checked="" type="radio">Visible
-                                </label>
-                                <label class="radio-inline">
-                                    <input name="rdoStatus" value="2" type="radio">Invisible
-                                </label>
+                                <label>CPU</label>
+                                <input class="form-control" name="CPU" id="cpu-edit"/>
+                                <div class="error7" style="color: red;"></div>
                             </div>
-                            <button type="submit" class="btn btn-default">Product Edit</button>
-                            <button type="reset" class="btn btn-default">Reset</button>
-                        <form>
+                            <div class="form-group">
+                                <label>Guarantee</label>
+                                <input class="form-control" name="guarantee" id="guarantee-edit"/>
+                                <div class="error8" style="color: red;"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>Note</label>
+                                <textarea class="form-control" rows="3" name="note" id="note-edit"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea class="form-control" rows="3" name="description" id="description-edit"></textarea>
+                                <div class="error9" style="color: red;"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>Sales_Volume</label>
+                                <input class="form-control" name="sales_volume" id="sales_volume-edit"/>
+                                <div class="error10" style="color: red;"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>Image</label>
+                            <div class="idImage">
+                                
+                            </div>
+                            </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Update</button>
+
+                                </div>
+                            </form>
+                        </div>
                     </div>
-@endsection
+                </div>
+            </div>
+        </div>
+    </div>
