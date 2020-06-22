@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-
-	<link href="{{asset('css/user/style.css')}}" rel="stylesheet" type="text/css" media="all"/>
-	<link href="{{asset('css/user/main.css')}}" rel="stylesheet" type="text/css" media="all"/>
-	<link href="{{asset('css/user/bootstrap.min.css')}}" rel="stylesheet" type="text/css" media="all"/>
-
-</head>
-<body>
+@extends('master_user')
+@section('content')
 	<div class="wrap">
 		<div class="header">
 			<div class="headertop_desc">
@@ -20,14 +11,14 @@
 						@if(Auth::check())
 							<li><a href="#">Xin chào {{Auth::user()->fullname}}</a></li>
 							<li><a href="#">Delivery</a></li>
-							<li><a href="#">Checkout</a></li>
+							<!-- <li><a href="#">Checkout</a></li> -->
 							<li><a href="{{route('logout')}}" id="btn_logout">Logout</a></li>
 							<!-- <li><a href="#">My Account</a></li> -->
 						@else
 							<li><a href="{{route('register')}}">Register</a></li>
 							<li><a href="{{route('login')}}">Login</a></li>
 							<li><a href="#">Delivery</a></li>
-							<li><a href="#">Checkout</a></li>
+							<!-- <li><a href="#">Checkout</a></li> -->
 							<!-- <li><a href="#">My Account</a></li> -->
 						@endif
 					</ul>
@@ -121,6 +112,5 @@
 
 	</div> <!-- End content Area class -->
 	</div>
-	@include('user.footer')
-</body>
-</html>
+	@include('user.footer.footer')
+@endsection

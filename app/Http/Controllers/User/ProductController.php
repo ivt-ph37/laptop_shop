@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Model\Products;
 use App\Model\Promotions;
 use App\Model\Product_Image;
+use App\Model\Categoies;
 
 class ProductController extends Controller
 {
@@ -15,7 +16,7 @@ class ProductController extends Controller
     public function getAllProduct()
     {
         $products = Products::with('product_images')->paginate(8);
-        return view('user.product', ['products'=>$products]);
+        return view('user.product.product', ['products'=>$products]);
     }   
     /**
      * Display a listing of the resource.
@@ -26,7 +27,7 @@ class ProductController extends Controller
     {
        
         $products = Products::with('product_images')->take(4)->orderBy('created_at', 'DESC')->get();
-        // dd($product);
+        // dd($products);
         return view('user.index', compact('products'));
     }
 
@@ -39,6 +40,19 @@ class ProductController extends Controller
     {
         //
     }
+    public function checkAvailable(Request $request, $id)
+    {
+            // return response()->json(['available' => 1],200);
+
+        $product= Products::where('quantity', '>=', $request->qty)->find($id);
+        if($product)
+        {
+            return response()->json(['available' => 1],200);
+
+        }
+        return response()->json(['error'=>'not availables'],404);
+    }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -60,18 +74,22 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Products::where('id', $id)->first();
-        $promotionPrice = Products::with('promotions')->where('id', $id)->take(1)->orderBy('created_at', 'ASC')->get();
-
-        // dd($promotionPrice, $product);/
+        $promotionPrice = Promotions::where('product_id', $id)->where('end_date', '<', GETDATE())->take(1)->orderBy('created_at', 'ASC')->get();
+       
+         // dd($promotionPrice);
+       
         $productImage = Products::with('product_images')->where('id', $id)->get();
-       // dd($productImage);
-        // foreach ($product as $key) {
         
-        //     $image = explode(',', $key);
-        // }
-        return view('user.product_detail', compact('product','promotionPrice','productImage'));
+        $productSuggests = $this->getProductSuggests($id);
+        // dd($productSuggests);
+        return view('user.product.product_detail', compact('product','promotionPrice','productImage', 'productSuggests'));
     }
 
+    private function getProductSuggests($id)
+    {
+        $product = Products::with('categoies')->where('category_id', $id)->take(4)->get();
+        return $product;
+    }
     /**
      * Show the form for editing the specified resource.
      *

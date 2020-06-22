@@ -19,13 +19,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('user.register');
+        return view('user.user.register');
 
     }
 
     public function getLogin()
     {
-        return view('user.login');
+        return view('user.user.login');
     }
 
     /**
@@ -53,7 +53,7 @@ class UserController extends Controller
                 'username' => 'required|max:16|unique:users,username',
                 'password' => 'required|min:6|max:25',
                 'confirm_password' => 'required|same:password',
-                'telephone' => 'required|integer|max:10|unique:users,telephone'
+                'telephone' => 'required|unique:users,telephone'
             ],
             [
                 'email.required' => 'Please enter your email',
@@ -102,8 +102,14 @@ class UserController extends Controller
         );
 
         if(Auth::attempt($credentials)){
+        
+            if(Auth::user()->level == '3'){
+                return view('user.user.abc');
+            }
+
             return redirect()->home()->with(['flag'=>'success', 'message'=>'Logged successfully']);
         }
+
         else 
             return redirect()->back()->with(['flag'=>'danger', 'message'=>'Login unsuccessful']);
     }
@@ -124,7 +130,7 @@ class UserController extends Controller
         $user = User::where('id', $id)->first();
 
         // dd($user);
-        return view('user.my_account', compact('user'));
+        return view('user.user.my_account', compact('user'));
     }
 
     /**
@@ -136,7 +142,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::where('id', $id)->first();
-        return view('user.account_information', compact('user'));
+        return view('user.user.account_information', compact('user'));
     }
 
     /**

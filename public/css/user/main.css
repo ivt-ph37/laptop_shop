@@ -8,9 +8,9 @@
         font-family: sans-serif monospace;
 
     }
-    .content-area{
+   /* .content-area{
         margin: 4% 0% 4% 0%;
-    }
+    }*/
 
     .col-md-offset-2 {
         margin-left: 12% !important;
@@ -1153,3 +1153,41 @@ label.error {
     color: gray !important;
 }
 /***Styles for chekout page ***/
+
+.minh-cart{
+    width: 100% !important;
+}
+
+.minh-checkout{
+    width: 88% !important;
+    margin-left: 0% !important;
+}
+
+.minh-checkout .control-label{
+    width: 20% !important;
+}
+
+.minh-form-ck{
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    padding: 10px !important;
+}
+.minh-form-ck .minh-form-ck-group{
+    width: 60%;
+}
+.minh-form-ck .minh-form-ck-group .form-group{
+    width: 90%;
+}
+.minh-form-ck .minh-form-ck-group .control-label{
+    width: 25% !important;
+}
+.minh-form-ck .table{
+    width: 45%;
+}
+.minh-form-ck .table .pull-left{
+    float: none !important;
+}
+ .table>tbody>tr>td{
+    vertical-align: middle !important;
+}
