@@ -14,3 +14,44 @@ $(document).on('click', '#btn_logout', (event) => {
         }
     });
 }); 
+
+$(document).ready(function(){
+    $(".remove_item_cart").click(function(){
+        var url = $(this).attr('data-url');
+        var _this = $(this);
+        if(confirm('Do you want remove?')){
+            $.ajax({
+            type: 'get',
+            url : url,
+            
+            success:function(data){
+                window.location.reload();
+                // alert(123);
+            }
+        });
+        }
+        
+        
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
