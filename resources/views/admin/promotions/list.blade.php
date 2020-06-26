@@ -22,22 +22,21 @@
 
                         <thead>
                             <tr align="center">
-                                <th>ID</th>
+                                <th>STT</th>
                                 <th>Name Product</th>
-                                <th>Promotion</th>
+                                <th>Promotion (%)</th>
                                 <th>Quantity</th>
                                 <th>End Date</th>
                                 <th>Status</th>
-                                <th></th>
                                 <th colspan="2">Action</th>
                             </tr>
                         </thead>
                         <tbody id="bodydd">
-                            @foreach($promotions as $item)
+                            @foreach($promotions as $key=>$item)
                             <tr class="odd gradeX" align="center">
-                                <td>{{$item->id}}</td>
+                                <td>{{$key++}}</td>
                                 <td id="product_id">{{$item->products->name}}</td>
-                                <td id="price">{{$item->price}}</td>
+                                <td id="price">{{$item->price}}%</td>
                                 <td id="start_date">{{$item->quantity}}</td>
                                 <td id="end_date">{{$item->end_date}}</td>
                                 <td id="status">
@@ -45,7 +44,6 @@
                                     @else {{"Hết khuyến mãi"}}
                                     @endif
                                 </td>
-                                <td><a href="{{route('promotion.show',$item->id)}}">Show</a></td>
                                 <td class="center">
                 <button data-url="{{route('promotion.edit',$item->id)}}" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button>
             </td>

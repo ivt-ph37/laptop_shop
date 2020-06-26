@@ -24,13 +24,13 @@
 </form> 
         </div>
         <div class="btn-group">
-  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 166px;">
     Sort product
   </button>
-  <div class="dropdown-menu dropdown-menu-right" style="left: none;">
-    <button class="dropdown-item st1" type="button">Product remains</button>
-    <button class="dropdown-item st2" type="button">Products are almost out</button>
-    <button class="dropdown-item st3" type="button">out of products</button>
+  <div class="dropdown-menu dropdown-menu-right">
+    <button class="dropdown-item st1" type="button" style="width: 100%;">Product remains</button>
+    <button class="dropdown-item st2" type="button" style="width: 100%;">Products are almost out</button>
+    <button class="dropdown-item st3" type="button" style="width: 100%;">out of products</button>
   </div>
 </div>
     </div>
@@ -46,7 +46,7 @@
 
                         <thead>
                             <tr align="center">
-                                <th>ID</th>
+                                <th>STT</th>
                                 <th>Name</th>
                                 <th>Category_Name</th>
                                 <th>Quantity</th>
@@ -56,9 +56,9 @@
                             </tr>
                         </thead>
                         <tbody id="bodydd">
-                            @foreach($products as $item)
+                            @foreach($products as $key=>$item)
                             <tr class="odd gradeX" align="center">
-                                <td>{{$item->id}}</td>
+                                <td>{{$key++}}</td>
                                 <td id="name">{{$item->name}}</td>
                                 <td id="category_id">{{$item->categoies->name}}</td>
                                 <td id="quantity">{{$item->quantity}}</td>
@@ -95,6 +95,7 @@
 
 <script>
 $(document).ready(function () {
+    
     $('#mess').hide();
 
 
@@ -268,6 +269,7 @@ $('.st2').click(function(e){
             $.ajax({
                 type: 'delete',
                 url: url,
+                data: { _token: '{{csrf_token()}}' },
                 success: function(response) {
                     alert('Xoa thanh cong');
                     _this.parent().parent().remove();

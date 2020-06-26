@@ -38,7 +38,7 @@
 
         <thead>
             <tr align="center">
-                <th>ID</th>
+                <th>STT</th>
                 <th>Name</th>
                 <th class="ab">Parent_Categoy</th>
                 <th>Desription</th>
@@ -47,9 +47,9 @@
             </tr>
         </thead>
         <tbody id="bodydd">
-            @foreach($categoies as $item)
+            @foreach($categoies as $key=>$item)
             <tr class="odd gradeX" align="center">
-                <td>{{$item->id}}</td>
+                <td>{{$key++}}</td>
                 <td id="name">{{$item->name}}</td>
                 <td id="parent_id" class="ab">
                     @if($item->parent_id == 0)
@@ -94,7 +94,9 @@
 @section('sr')
 
 <script>
+
 $(document).ready(function () {
+
     $('#mess').hide();
 
     $('.pagination a').unbind('click').on('click', function(e) {
@@ -130,6 +132,8 @@ $(document).ready(function () {
                             $('#bodydd').html(ab);
                 var html ='';
                     $.each(ab.data,function($key,$value){
+                        console.log($key);
+
                         var $a='';
                         if ($value['parent_id'] == 0) {
                                 $a = 'None';
@@ -164,7 +168,7 @@ $(document).ready(function () {
                                      }); 
                                  }
                         
-                html +='<tr><td>'+$value['id']+'</td><td>'+$value['name']+'</td><td>'+$a+'</td><td>'+$value['desription']+'</td><td><a href="http://127.0.0.1/admin/category/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/category/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/category/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
+                html +='<tr><td>'+$key+'</td><td>'+$value['name']+'</td><td>'+$a+'</td><td>'+$value['desription']+'</td><td><a href="http://127.0.0.1/admin/category/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/category/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/category/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
                         html += '</tr>';
                     });
                 $('#bodydd').html(html);
@@ -189,6 +193,7 @@ $(document).ready(function () {
             $.ajax({
                 type: 'delete',
                 url: url,
+                data: { _token: '{{csrf_token()}}' },
                 success: function(response) {
                     // toastr.success('Delete category success!')
                     alert('Xoa thanh cong');

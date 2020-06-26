@@ -25,17 +25,13 @@ class AddCateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:categories,name|min:3|max:255',
-            'desription' => 'required'
+            'name' => 'required|unique:categories,name'
         ];
     }
     public function messages(){
         return [
             'name.required' => 'Please Enter Name Category',
-            'name.min' => 'Attribute length of 3-255 characters ',
-            'name.max' => 'Attribute length of 3-255 characters ',
             'name.unique' => 'Category Name Is Exist ',
-            'desription.required' =>'Please Enter Name Desription',
         ];
     }
 }

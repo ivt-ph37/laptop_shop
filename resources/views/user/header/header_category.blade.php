@@ -10,19 +10,18 @@
 <body>
 	<div class="minh">
 		<div class="cd-dropdown-wrapper">
-			<a class="cd-dropdown-trigger" href="#0">Categories</a>
+			<a class="cd-dropdown-trigger" href="#0">Category</a>
 			<nav class="cd-dropdown">
 				<ul class="cd-dropdown-content">
-					@foreach($categories as $value)
+					@foreach ($categorys as $category) 
 					<li class="has-children">
-						<a href="">{{$value->name}}</a>
+						<a href="#">{{$category->name}}</a>
 						<ul class="cd-secondary-dropdown is-hidden">
-							@foreach($value->childrenCategories as $item)
+							@foreach ($category->childrenCategories as $childCategory)
+
 							<li class="has-children">
-								<a href="">{{$item->name}}</a>
-								<ul class="is-hidden">
-									@include('user.product.children_categories', ['minh'=>$item])
-								</ul>
+								@include('user.product.children_categories', ['child_category' => $childCategory])
+									
 							</li>
 							@endforeach
 						</ul> <!-- .cd-secondary-dropdown -->

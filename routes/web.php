@@ -18,6 +18,9 @@
 
 Route::get('/', 'User\ProductController@index')->name('home');
 Route::get('/product', 'User\ProductController@getAllProduct')->name('list-product');
+Route::get('/feature', 'User\ProductController@getFeature')->name('list-feature');
+Route::get('/category/{id}', 'User\CategoryController@index')->name('list-category');
+Route::post('search', 'User\ProductController@search')->name('search-product');
 Route::get('/preview/{id}', 'User\ProductController@show')->name('preview');
 Route::get('/register', 'User\UserController@index')->name('register');
 Route::post('/register', 'User\UserController@store');
@@ -42,13 +45,13 @@ Route::group(['prefix'=>'card'], function(){
 
 
 
-Route::get('/text', function(){
-	return view('admin.cate.list');
-});
+// Route::get('/text', function(){
+// 	return view('admin.cate.list');
+// });
 // ADMIN
 
 // Route::get('/admin','AdminController@index');
-Route::group(['prefix'=>'admin'],function (){
+Route::group(['prefix'=>'admin','middleware'=>'adminMiddleware'],function (){
 
 
 
@@ -59,6 +62,7 @@ Route::group(['prefix'=>'admin'],function (){
 
 	Route::get('category/search', 'CategoryController@search')->name('search-category');
 	Route::get('/','CategoryController@fetch_data');
+	// Route::get('category/chirdren/{id}','CategoryController@update_chirdren');
 	Route::resource('category','CategoryController');
 	
 	// Route::get('/category/search', 'CategoryController@search')->name('search-button');
@@ -81,6 +85,7 @@ Route::group(['prefix'=>'admin'],function (){
 	Route::get('/','UserController@fetch_data');
 	Route::get('user/search', 'UserController@search');
 	Route::resource('user','UserController');
+
 
 	Route::get('/','OrderController@fetch_data');
 	Route::get('order/search', 'OrderController@search');

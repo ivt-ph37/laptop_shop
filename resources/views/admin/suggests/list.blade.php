@@ -17,12 +17,13 @@
     </div>
     <div ></div>
 </form>
+
                     <!-- /.col-lg-12 -->
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 
                         <thead>
                             <tr align="center">
-                                <th>ID</th>
+                                <th>STT</th>
                                 <th>Username</th>
                                 <th>Email</th>
                                 <th>Status</th>
@@ -31,9 +32,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($suggets as $item)
+                            @foreach($suggets as $key=>$item)
                             <tr class="odd gradeX" align="center">
-                                <td>{{$item->id}}</td>
+                                <td>{{$key++}}</td>
                                 <td>{{$item->username}}</td>
                                 <td>{{$item->email}}</td>
                                 <td>

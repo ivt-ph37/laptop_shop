@@ -2,6 +2,10 @@
 @section('content')
 <div class="col-lg-12">
     <div>
+        <a href="{{route('product.index')}}"><button type="button" class="btn btn-primary" style="padding: 2%;margin-bottom: 2%;
+    margin-top: 4%;">BACK</button></a>
+    </div>
+        <div>
                         <form action="{{ route('post.image',$id) }}" method="POST" role="form" enctype="multipart/form-data">
                             @csrf
                                    <div class="form-group">
@@ -11,6 +15,8 @@
                              <button type="submit" class="btn btn-default">Upload</button>
                     </form>
                     </div>
+                    
+
     @foreach($products as $item)
                         <h1 class="page-header">Product Detailr Of
                             <small style="font-size: 40px;color: red;">{{$item->name}}</small>
@@ -43,7 +49,7 @@
 
                             <tr class="odd gradeX" align="center">
                                 <td >{{$item->quantity}}</td>
-                                <td >{{$item->price}}</td>
+                                <td >{{$item->price}}$</td>
                                 <td >{{$item->RAM}}</td>
                                 <td >{{$item->VGA}}</td>
                                 <td >{{$item->operating_system}}</td>

@@ -72,7 +72,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $products = Products::where('category_id',$id)->paginate(5);
+        $products = Products::where('category_id',$id)->paginate(10);
+        // dd($categoies);
         return view('admin.product.list', compact('products'));
 
 
@@ -117,12 +118,42 @@ class CategoryController extends Controller
         $categoies->name = $request->name;
         if ($request->parent_id != 0) {
             $categoies->parent_id = $request->parent_id;
+                    }
+        else {
+            $categoies->parent_id = 0;
+
         }
-        $categoies->parent_id = 0;
+        
         $categoies->desription = $request->desription;
         $categoies->save();
         return response()->json(['data'=>$categoies,'message'=>'Update category successfully'],200);
     }
+    // public function update_chirdren(Request $request, $id)
+    // {
+    //     $validator = Validator::make($request->all(),
+    //         [
+    //             'name' => 'required|min:3|max:255',
+    //             'desription' => 'required'
+    //         ],
+    //     [
+    //         'name.required' => 'Please Enter Name Category',
+    //         'name.min' => 'Attribute length of 3-255 characters ',
+    //         'name.max' => 'Attribute length of 3-255 characters ',
+    //         'desription.required' =>'Please Enter Name Desription',
+    //     ]);
+    //     if ($validator->fails()) {
+    //         return response()->json(['error'=>'true','mess'=>$validator->errors()],200);
+    //     }
+    //     $categoies= Categoies::find($id);
+    //     $categoies->name = $request->name;
+    //     // if ($request->parent_id != 0) {
+    //         $categoies->parent_id = $request->parent_id;
+    //     // }
+    //     // $categoies->parent_id = 0;
+    //     $categoies->desription = $request->desription;
+    //     $categoies->save();
+    //     return response()->json(['data'=>$categoies,'message'=>'Update category successfully'],200);
+    // }
 
     /**
      * Remove the specified resource from storage.

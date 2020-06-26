@@ -615,7 +615,7 @@ Main Components
   }
   .cd-dropdown-content .cd-dropdown-icons > li, .cd-dropdown-content .cd-secondary-dropdown > li {
     width: 50%;
-    float: left;
+  /*  float: left;*/
   }
   .cd-dropdown-content .cd-secondary-dropdown {
     overflow: hidden;
@@ -654,11 +654,11 @@ Main Components
   }
   .cd-dropdown-content .cd-secondary-dropdown > li {
     margin: 20px 0;
-    border-right-width: 1px;
+   /* border-right-width: 1px;*/
     border-color: #ebebeb;
     border-style: solid;
     padding: 0 30px;
-    height: 250px;
+    height: 5%;
   }
   .cd-dropdown-content .cd-secondary-dropdown > li:nth-of-type(2n) {
     border-right-width: 0;

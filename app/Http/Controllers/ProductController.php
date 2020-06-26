@@ -92,7 +92,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Categoies::get();
+        $categories = Categoies::where('parent_id','>',0)->get();
         $suppliers = Suppliers::get();
         return view('admin.product.add',compact('categories','suppliers'));
     }

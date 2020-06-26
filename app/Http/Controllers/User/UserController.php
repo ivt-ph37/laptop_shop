@@ -103,8 +103,8 @@ class UserController extends Controller
 
         if(Auth::attempt($credentials)){
         
-            if(Auth::user()->level == '3'){
-                return view('user.user.abc');
+            if(Auth::user()->level != 0){
+                return redirect()->route('dashboard.index');
             }
 
             return redirect()->home()->with(['flag'=>'success', 'message'=>'Logged successfully']);
