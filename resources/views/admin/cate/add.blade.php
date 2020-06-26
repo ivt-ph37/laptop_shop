@@ -41,7 +41,6 @@
             <label >Desription *</label>
             <textarea class="form-control" rows="3" name="desription">{!! old('desription') !!}</textarea>
             
-            <div class="p-3 mb-2 bg-danger text-white" style="color: red;">{!! $errors->first('desription')!!}</div>
         </div>
         <button type="submit" class="btn btn-default">Category Add</button>
         <button type="reset" class="btn btn-default">Reset</button>

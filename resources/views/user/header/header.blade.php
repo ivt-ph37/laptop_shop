@@ -87,8 +87,10 @@
      			</ul>
 	     	</div>
 	     	<div class="search_box">
-	     		<form>
-	     			<input type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}"><input type="submit" value="">
+	     		<form action="{{route('search-product')}}" method="post">
+	     			@csrf
+	     			<input type="text" name="search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">
+	     			<input type="submit" value="">
 	     		</form>
 	     	</div>
 	     	<div class="clear"></div>

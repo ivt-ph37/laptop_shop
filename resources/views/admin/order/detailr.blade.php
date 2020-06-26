@@ -2,6 +2,7 @@
 @section('content')
 <div class="col-lg-12">
                     </div>
+
                     <!-- /.col-lg-12 -->
                         <h2 class="page-header" style="color: blue;text-align: center;"> 
                             Customer Infomation
@@ -40,8 +41,6 @@
                                 <th>Name Product</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
-                                <th>Total</th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -50,32 +49,34 @@
                                 <td>{{$key=$key+1}}</td>
                                 <td>{{$item->products->name}}</td>
                                 <td>{{$item->quantity}}</td>
-                                <td>{{$item->price}}</td>
-                                <td>{{$item->quantity * $item->price}}</td>
-                             
+                                <td>{{$item->price}}$</td>
                             </tr>
                              @endforeach
                         </tbody>
                     </table>
-        <?php $b1=0;$b2=0 ?>
-<?php $c=0; ?>
-<?php $d=0; ?>
+        <?php $b1=0;$b2=0;$c=0;$d=0; ?>
+
         @foreach($order_detail as $item)
+
         @if($item->orders->deliver_status == 0)
-        <h1 style="color: blue">{{$item->products->name}}</h1>
+
+
+        <span style="color: blue;font-size: 25px;">Name Product: </span><span style="font-size: 25px;">{{$item->products->name}}</span><br>
                 <?php $a=0; ?>
                          @foreach($promotion as $value)
-                        @if($value->products->name == $item->products->name && $value->status == 0)
+                        @if($value->products->name == $item->products->name && $value->status == 0 && $item->orders->order_date >= $value->start_date && $item->orders->order_date <= $value->end_date)
                         <?php $a++ ?>
                         
                             @if($value->quantity < $item->quantity)
-                                <span>VAN CON IT</span><br>
-                                <span>Gia sap pham dk khuyen mai : {{$value->quantity}} * {{$item->price}} *{{$value->price}} / 100 = {{ $b1=  $value->quantity * $item->price *  ($value->price /100)}}</span><br>
+                                <span>Promotion: Cuối cùng</span><br>
+
+                                <span>Giá sản phẩm được khuyến mãi : {{$value->quantity}} * {{$item->price}}$ * {{$value->price}}%  = {{ $b1=  $value->quantity * $item->price * $value->price /100}}$</span><br>
               
-                                <span>Het khuyen mai qua so luong : {{$item->quantity-$value->quantity}} * {{$item->price}} = {{ $b2=    ($item->quantity-$value->quantity) * $item->price }}</span><br>
+                                <span>Giá sản phẩm còn lại : {{$item->quantity-$value->quantity}} * {{$item->price}}$ = {{ $b2=    ($item->quantity-$value->quantity) * $item->price }}$</span><br>
                             @else
-                                <span>CON NHIEU</span><br>
-                                <span>Sap pham khuyen mai : {{$item->quantity}} * {{$item->price}} * {{$value->price}} / 100 =  {{ $b2= $item->quantity * $item->price * $value->price /100}}</span><br>
+                                <span>Promotuon: Còn nhiều </span><br>
+                                <span>Giá khuyến mãi : {{$item->quantity}} * {{$item->price}}$ * {{$value->price}}% =  {{ $b2= $item->quantity * $item->price * $value->price /100}}$</span><br>
+
                     
                             @endif          
                         @endif
@@ -84,112 +85,176 @@
                             @if($value->products->name == $item->products->name && $a == 0)
                             <?php $a++ ?>
                             
-                                <span>Ma khuyen mai: Het Han</span><br>
-                                        <span>San pham khong duoc khuyen mai : {{$item->quantity}} * {{$item->price}} = {{ $c= $item->quantity * $item->price }}</span><br>  
+                                <span>Promotion: Hết khuyến mãi</span><br>
+
+                                        <span>Giá sản phẩm hiện tại : {{$item->quantity}} * {{$item->price}}$ = {{ $c= $item->quantity * $item->price }}$</span><br>  
+
+ 
+
                               
                             @endif
                     @endforeach
                 @if($a == 0)
                 
-                    <span>Ma khuyen mai: Khong co</span><br>
-                    <span>San pham khong duoc khuyen mai : {{$item->quantity}} * {{$item->price}} ={{ $d= $item->quantity * $item->price }}</span><br>
+                    <span>Promotion: Không có</span><br>
+                    <span>Giá sản phẩm hiện tại : {{$item->quantity}} * {{$item->price}}$ ={{ $d= $item->quantity * $item->price }}$</span><br>
                
 
                 @endif
+        
+
+
     
-        @endif
-        @endforeach
-        {{$b1}}
-        {{$b2}}
-        {{$c}}
-        {{$d}}
-        <span>TOTAL:{{$b1+$b2+$c+$d}}</span>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                <?php $b1=0;$b2=0 ?>
-<?php $c=0; ?>
-<?php $d=0; ?>
-        @foreach($order_detail as $item)
-        @if($item->orders->deliver_status != 0)
-        <h1 style="color: blue">{{$item->products->name}}</h1>
-                <?php $a=0; ?>
-                         @foreach($promotion as $value)
-                        @if($value->products->name == $item->products->name && $value->status == 0)
-                        <?php $a++ ?>
-                        
-                            @if($value->quantity < $item->quantity)
-                                <span>VAN CON IT</span><br>
-                                <span>Gia sap pham dk khuyen mai : {{$value->quantity}} * {{$item->price}} *{{$value->price}} / 100 = {{ $b1=  $value->quantity * $item->price *  ($value->price /100)}}</span><br>
-              
-                                <span>Het khuyen mai qua so luong : {{$item->quantity-$value->quantity}} * {{$item->price}} = {{ $b2=    ($item->quantity-$value->quantity) * $item->price }}</span><br>
-                            @else
-                                <span>CON NHIEU</span><br>
-                                <span>Sap pham khuyen mai : {{$item->quantity}} * {{$item->price}} * {{$value->price}} / 100 =  {{ $b2= $item->quantity * $item->price * $value->price /100}}</span><br>
-                    
-                            @endif          
+        @else
+                 <?php $a2=0; ?>
+                     @foreach($promotion35 as $value35)
+                        @if($value35->products->name == $item->products->name)
+                            @if($item->orders->order_date >= $value35->start_date && $item->orders->order_date <= $value35->end_date)
+                            <?php $a2++ ?>
+                                <span style="color: blue;font-size: 25px;">Name Product: </span><span style="font-size: 25px;">{{$item->products->name}}</span><br>
+                                    <span>Promotion : {{$item->quantity}} * {{$item->price}}$ * {{$value35->price}}% =  {{ $b2= $item->quantity * $item->price * $value35->price /100}}$</span><br>        
+                            @endif
                         @endif
                     @endforeach
-                 @foreach($promotion1 as $value)
-                            @if($value->products->name == $item->products->name && $a == 0)
-                            <?php $a++ ?>
-                            
-                                <span>Ma khuyen mai: Het Han</span><br>
-                                        <span>San pham khong duoc khuyen mai : {{$item->quantity}} * {{$item->price}} = {{ $c= $item->quantity * $item->price }}</span><br>  
-                              
-                            @endif
-                    @endforeach
-                @if($a == 0)
-                
-                    <span>Ma khuyen mai: Khong co</span><br>
-                    <span>San pham khong duoc khuyen mai : {{$item->quantity}} * {{$item->price}} ={{ $d= $item->quantity * $item->price }}</span><br>
+
+                @if($a2 == 0)
+                        <span style="color: blue;font-size: 25px;">Name Product:  </span><span style="font-size: 25px;">{{$item->products->name}}</span><br>
+                    <span>Promotion: Không có</span><br>
+                    <span>Giá sản phẩm hiện tại : {{$item->quantity}} * {{$item->price}}$ ={{ $b1= $item->quantity * $item->price }}$</span><br>
                
 
                 @endif
-    
         @endif
         @endforeach
-        {{$b1}}
-        {{$b2}}
-        {{$c}}
-        {{$d}}
-        <span>TOTAL:{{$b1+$b2+$c+$d}}</span>
 
+        <span style="color: red;font-size: 37px;">Tổng tiền thanh toán : {{$b1+$b2+$c+$d}}$</span><br>
+        @if($order_status->deliver_status == 0)
+            
+            <span style="color: blue;font-size: 25px;">Deliver_Status :</span><button data-url="{{route('order.edit',$order_status->id)}}" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button">{{"Chờ xử lý"}} </button><br>
+        @elseif($order_status->deliver_status == 1)
+            
+            <span style="color: blue;font-size: 25px;">Deliver_Status :</span><button data-url="{{route('order.edit',$order_status->id)}}" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button">{{"Đang giao hàng"}} </button><br>
+        @else 
+            
+            <span style="color: blue;font-size: 25px;">Deliver_Status :</span><button data-url="{{route('order.edit',$order_status->id)}}" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button">{{"Hoàn thành"}}</button><br>
+        @endif
+            
+
+
+
+
+
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa <span class="tittle"></span></h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin: 5px">
+                        <div class="col-lg-12">
+                            <form action="" id="form-edit" method="POST" role="form">
+                                <div class="form-group">
+                                <label>Deliver_Status</label>
+                                <select class="form-group" name="deliver_status" id="deliver_status-edit">
+                                    <option value="0" id="option0">Chờ xử lý</option>
+                                    <option value="1" id="option1">Đang giao hàng</option>
+                                    <option value="2" id="option2">Hoàn thành</option>
+                                </select>
+                            </div>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Update</button>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 
 @endsection
 
 
 
-                   <!--  <?php $b = 0;$a=0 ?> -->
-                        
-<!--                         @if($item->product_id != $value->product_id)
-                            <span>Ma khuyen mai: Khong co</span><br>
-                            <span>San pham khong duoc khuyen mai:{{$item->quantity}} * {{$item->price}} ={{ $a=$a+ $item->quantity * $item->price }}</span><br>
-                        @elseif ($item->product_id == $value->product_id  && $value->status == 1 || $value->quantity ==0)
-                            <span>Ma khuyen mai: Het Han</span><br>
-                            <span>San pham khong duoc khuyen mai123:{{$item->quantity}} * {{$item->price}} = {{ $a=$a+ $item->quantity * $item->price }}</span><br>
-                        @elseif ($item->product_id == $value->product_id  && $value->status == 0 && $value->quantity < $item->quantity)
-                            <span>Ma khuyen mai: Van con it</span><br>
-                            <span>Gia sap pham dk khuyen mai:{{$value->quantity}} * {{$value->price}} / 100 = {{ $a=$value->quantity * $value->price /100}}</span><br>
-                            <span>Het khuyen mai qua so luong:{{$item->quantity-$value->quantity}} * {{$item->price}} = {{ $a=$a+ ($item->quantity-$value->quantity) * $item->price }}</span><br>
-                        @else
-                            <span>Ma khuyen mai: CON NHIEU</span><br>
-                            <span>Sap pham khuyen mai:{{$item->quantity}} * {{$value->price}} / 100 =  {{ $a=$a+ $item->quantity * $value->price /100}}</span><br>  
-                        @endif -->
 
 
-            <!-- {{$a=$a}} -->
+@section('sr')
+
+<script>
+$(document).ready(function () {
+
+ $('.btn-edit').click(function(e){
+
+        var url = $(this).attr('data-url');
+
+        e.preventDefault();
+
+        $.ajax({
+                //phương thức get
+                type: 'get',
+                url: url,
+                success: function (response) {
+                    $('.tittle').text(response.data.username);
+                    if(response.data.deliver_status == 0){
+                        $('#option0').attr('selected','selected');
+                    }else if(response.data.deliver_status == 1){
+                        $('#option1').attr('selected','selected');
+                    }
+                    else{
+                        $('#option2').attr('selected','selected');
+                    }
+                     $('#form-edit').attr('data-url','{{ asset('admin/order/') }}/'+response.data.id)
+
+                },
+                error: function (error) {
+                    
+                }
+            })
+        })
+    $('#form-edit').submit(function(e){
+                        e.preventDefault();
+                        var url=$(this).attr('data-url');
+                        $.ajax({
+                            type: "PUT",
+                            url: url,
+
+                        data: {
+                            'deliver_status': $('#deliver_status-edit').val(),
+                            '_method':'put',
+
+                        },                       
+                        success: function($resuld) {
+                            $('#deliver_status').text($resuld.data.deliver_status);
+                            // $('#mess').show();
+                            // $('#mess').html($resuld.message,{timeOut:5000});
+                            toastr.success($resuld.message);
+                            window.location.reload();
+
+                        },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                //xử lý lỗi tại đây
+                            }
+                        })
+                    })
+
+
+
+
+
+
+})
+   
+</script>
+@endsection
+
+

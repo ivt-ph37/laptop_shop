@@ -24,7 +24,7 @@
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
                             <tr align="center">
-                                <th>ID</th>
+                                <th>STT</th>
                                 <th>fullname</th>
                                 <th>Email</th>
                                 <th>Level</th>
@@ -34,23 +34,23 @@
                             </tr>
                         </thead>
                         <tbody id="bodydd">
-                            @foreach($users as $item)
+                            @foreach($users as $key=>$item)
                             <tr class="odd gradeX" align="center">
-                                <td>{{$item->id}}</td>
+                                <td>{{$key++}}</td>
                                 <td>{{$item->fullname}}</td>
                                 <td id="email">{{$item->email}}</td>
                                 <td id="level">
-                                    @if($item->level == 0)
+                                    @if($item->level == 1)
                                     {{"Admin"}}
                                     @else
                                         {{"User"}}
                                     @endif
                                 </td>
                                 <td id="sex">
-                                    @if($item->sex == 0)
-                                    {{"Nam"}}
+                                    @if($item->sex == 1)
+                                    {{"Nữ"}}
                                     @else
-                                        {{"Nữ"}}
+                                        {{"Nam"}}
                                     @endif
                                 </td>
                                 <td><a href="{{route('user.show',$item->id)}}">Show</a></td>
@@ -111,15 +111,15 @@ $(document).ready(function () {
                             $('#bodydd').html(ab);
                 var html ='';
                     $.each(ab.data,function($key,$value){
-                        if ($value['level'] == 0) {
+                        if ($value['level'] == 1) {
                             $a = 'Admin';
                         } else {
                             $a = 'User';
                         }
-                        if ($value['sex'] == 0) {
-                            $b = 'Nam';
-                        } else {
+                        if ($value['sex'] == 1) {
                             $b = 'Nữ';
+                        } else {
+                            $b = 'Nam';
                         }
 
 
@@ -169,7 +169,7 @@ $(document).ready(function () {
                     $('.tittle').text(response.data.username);
                     $('#username-edit').val(response.data.username);
                     $('#email-edit').val(response.data.email);
-                    if(response.data.level == 0){
+                    if(response.data.level == 1){
                         $('#gridRadios1').attr('checked','checked');
                     }else{
                         $('#gridRadios2').attr('checked','checked');
@@ -193,7 +193,7 @@ $(document).ready(function () {
                         data: {
                             'username': $('#username-edit').val(),
                             'email': $('#email-edit').val(),
-                            'level': ($(".leveledit").prop("checked") ? 0 : 1),
+                            'level': ($(".leveledit").prop("checked") ? 1 : 0),
                             '_method':'put',
 
                         },                       

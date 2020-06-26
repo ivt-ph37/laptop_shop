@@ -18,11 +18,10 @@
 				@foreach($products as $value)
 				<div class="grid_1_of_4 images_1_of_4">
 					<a href="{{route('preview', $value->id)}}">
-						<!-- @if(count($value->product_images))
-						<img src="{{$value->product_images[0]->path}}" alt="" /></a>
+						@if(count($value->product_images))
+						<img src="/uploads/{{$value->product_images[0]->path}}" alt="" width="100%" /></a>
 
-						@endif -->
-						<img src="images/new-pic2.jpg" alt="" /></a>	
+						@endif
 					<h2>{{$value->name}}</h2>
 					<div class="price-details">
 						<div class="price-number">

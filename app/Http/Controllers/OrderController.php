@@ -102,33 +102,45 @@ class OrderController extends Controller
     {
         $user = Orders::with('users')->where('id',$id)->get();
         $order_detail = Order_Detail::where('order_id',$id)->get();
-        $order_details = Order_Detail::where('order_id',$id)->get();
+        // $order_details = Order_Detail::where('order_id',$id)->get();
         $promotion1 = Promotions::where('status',1)->orWhere('quantity',0)->get();
-        $promotion = Promotions::where('status',0)->get();
+        $promotion= Promotions::where('status',0)->get();
         $promotion35 = Promotions::get();
+        $order_status = Orders::where('id',$id)->first();
+        // dd($order_status);
 
-        foreach ($order_detail as $it) {
+        // dd($promotion1,$promotion);
+        // $promo = Promotions::get();
+        // dd($promo);
+        // dd($order_detail);
+foreach ($order_detail as $value) {
+    if ($value->orders->deliver_status == 0) {
+    $products = Products::where('id',$value->product_id)->first();
+                // dd($products);
+                    $products->quantity = $products->quantity - $value->quantity;
+                    $products->sales_volume = $products->sales_volume + $value->quantity;
+                    $products->save();
+                }
+}
+        foreach ($order_detail as $value) {
             // $promotion = Promotions::where('product_id',$it->product_id)->where('status',0)->get();
             // $promotion = Promotions::get();
+            
 
-
-
-
-            foreach ($order_details as $value) {
+            // foreach ($order_details as $value) {
             // dd($value->orders->deliver_status); //0
             // $promotions = Promotions::where('product_id',$value->product_id)->get();
             // $a = 0;
             
             if ($value->orders->deliver_status == 0) {
                $promotions = Promotions::where('product_id',$value->product_id)->get();
-            
-                
+
                         if ($promotions != NULL) {
                             // dd($order_details);
                         
                         foreach ($promotions as $item) {
                             // dd($item->products->name);
-                           if ($item->status == 0 ) {  //neu bien ko rong
+                           if ($item->status == 0  && $value->orders->order_date >= $item->start_date && $value->orders->order_date <= $item->end_date) {  //neu bien ko rong
                             // dd($promotions);
                                 // dd($item->id);
                                 $promotionss = Promotions::where('id',$item->id)->first();
@@ -149,14 +161,16 @@ class OrderController extends Controller
 
                         }
             // return view('admin.order.detailr', compact('user','order_detail','promotions','a'));
-             } 
+             // } 
          }
+
+
          // dd($promotion35);
-        return view('admin.order.detailr', compact('user','order_detail','promotion','promotion1','promotion35'));
-        }
+        return view('admin.order.detailr', compact('user','order_detail','promotion','promotion1','promotion35','order_status'));
+       }
         // dd($order_detail);
         // dd($promo);
-        return view('admin.order.detailr', compact('user','order_detail'));
+        // return view('admin.order.detailr', compact('user','order_detail'));
     }
 
     /**
@@ -183,6 +197,12 @@ class OrderController extends Controller
 
         $orders= Orders::find($id);
         $orders->update($request->all());
+        return response()->json(['data'=>$orders,'message'=>'Update order successfully'],200);
+    }
+    public function detailr(Request $request,$id){
+        $orders= Orders::find($id);
+        $orders->deliver_status = $request->deliver_status;
+        $orders->save();
         return response()->json(['data'=>$orders,'message'=>'Update order successfully'],200);
     }
 

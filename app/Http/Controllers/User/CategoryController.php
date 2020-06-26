@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Categoies;
+use App\Model\Products;
 
 class CategoryController extends Controller
 {
@@ -13,9 +14,11 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-      //
+      $products = Products::where('category_id',$id)->paginate(8);
+        $categorys = Categoies::with('childrenCategories')->where('parent_id',0)->get();
+        return view('user.product.product', compact('products','categorys'));
     }
 
     /**

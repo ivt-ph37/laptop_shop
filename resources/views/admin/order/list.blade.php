@@ -19,22 +19,22 @@
 </form>
         </div>
         <div class="btn-group">
-  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 166px;">
     Sort orders
   </button>
   <div class="dropdown-menu dropdown-menu-right">
-    <button class="dropdown-item oldorder" type="button">Old orders</button>
-    <button class="dropdown-item neworder" type="button" >New orders</button>
+    <button class="dropdown-item oldorder" type="button" style="width: 100%;">Old orders</button>
+    <button class="dropdown-item neworder" type="button" style="width: 100%;">New orders</button>
   </div>
 </div>
 <div class="btn-group" style="margin-left: 7%;">
-  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 166px;">
     Sort Status
   </button>
   <div class="dropdown-menu dropdown-menu-right">
-    <button class="dropdown-item st1" type="button">Chờ xử lý</button>
-    <button class="dropdown-item st2" type="button">Đang giao hàng</button>
-    <button class="dropdown-item st3" type="button">Hoàn thành</button>
+    <button class="dropdown-item st1" type="button" style="width: 100%;">Chờ xử lý</button>
+    <button class="dropdown-item st2" type="button" style="width: 100%;">Đang giao hàng</button>
+    <button class="dropdown-item st3" type="button" style="width: 100%;">Hoàn thành</button>
   </div>
 </div>
     </div>
@@ -48,7 +48,7 @@
 
                         <thead>
                             <tr align="center">
-                                <th>ID</th>
+                                <th>STT</th>
                                 <th>Username</th>
                                 <th>Email</th>
                                 <th>Order_Date</th>
@@ -59,9 +59,9 @@
                             </tr>
                         </thead>
                         <tbody id="bodydd">
-                            @foreach($orders as $item)
+                            @foreach($orders as $key=>$item)
                             <tr class="odd gradeX" align="center">
-                                <td>{{$item->id}}</td>
+                                <td>{{$key++}}</td>
                                 <td>{{$item->username}}</td>
                                 <td>{{$item->email}}</td>
                                 <td>{{$item->order_date}}</td>

@@ -3267,7 +3267,7 @@ tbody.collapse.in {
 }
 .dropdown-menu-right {
   right: 0;
-  left: auto;
+  left: 0;
 }
 .dropdown-menu-left {
   right: auto;

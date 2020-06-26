@@ -5,7 +5,7 @@
 	@include('user.header.header')
 	<script>
 		$(function(){
-			$('#products').slides({
+			$('#productss').slides({
 				preload: true,
 				preloadImage: 'img/loading.gif',
 				effect: 'slide, fade',
@@ -31,20 +31,29 @@
 						<div class="grid images_3_of_2">
 							<div id="container">
 								<div id="products_example">
-									<div id="products">
+									<div id="productss">
 										<div class="slides_container">
 											@foreach($productImage as $value)
-											@foreach($value->product_images as $item)
-											<a href="#"><img src="{{$item->path}}" alt="" /></a></a>
-											@endforeach
+											@foreach($value->product_images as $key=>$item)
+				                       
+				                                    @if($key == 0)
+				                                    <img src="/uploads/{{$item->path}}" alt="" width="100%"></img>
+				                       
+				                                    @endif
+				                                    @endforeach
 											@endforeach
 
 										</div>
 										<ul class="pagination">
 											@foreach($productImage as $value)
-											@foreach($value->product_images as $item)
+											@foreach($value->product_images as $key=>$item)
 											<li>
-												<a href="#"><img src="{{$item->path}}" alt="" /></a>
+												@if($key != 0)
+												<a href="#{{$key++}}"> 
+				                                    <img src="/uploads/{{$item->path}}" alt="" width="100%"></img>
+				                       
+				                                   </a>
+				                                    @endif
 											</li>
 											@endforeach
 											@endforeach
@@ -60,14 +69,34 @@
 								<h2>{{$product->name}}</h2>
 								<p>{{$product->description}}</p>					
 								<div class="price">
-									<p>Price: <span>{{$product->price}}$</span></p> 
-
-									<p>Promotion Price: 
-										@foreach($promotionPrice as $item)
-										<span>{{$item->price}}$</span>
-										@endforeach
-									</p>
+									@if($product->quantity > 0 && $product->quantity / 2 >= $product->sales_volume)
+										@if ($promotion != NULL)
+										<p>Promotion Price: 
+											<span>Giảm: </span><span>{{$promotion->price}}%</span><br>
+											<p>Giá cũ: <span style="text-decoration: line-through;">{{$product->price}}$</span></p>
+											<p>Còn:<span> {{$promotion->products->price * $promotion->price / 100}}$</span></p>
+										</p>
+										@else
+										<p>Price: <span>{{$product->price}}$</span></p>
+										@endif
+									@elseif($product->quantity > 0 && $product->quantity / 2 < $product->sales_volume)
+										@if ($promotion != NULL)
+										<p>Promotion Price: 
+											<span>Giảm: </span><span>{{$promotion->price}}%</span><br>
+											<p>Giá cũ: <span style="text-decoration: line-through;">{{$product->price}}$</span></p>
+											<p>Còn:<span> {{$promotion->products->price * $promotion->price / 100}}$</span></p>
+											<p style="color: #5f00ff;">Sản phầm gần hết</p>
+										</p>
+										@else
+										<p>Price: <span>{{$product->price}}$</span></p>
+										<p style="color: #5f00ff;">Sản phầm gần hết</p>
+										@endif
+									@else	
+										<p><span> Sản phẩm đã hết</span></p>								
+									@endif
+										
 								</div>
+								@if($product->quantity != 0)
 
 								<input type="hidden" name="price" value="{{$product->price}}">
 								@foreach($promotionPrice as $item)
@@ -84,6 +113,7 @@
 									@endif
 								
 								<button class="button" type="submit" id="btn_add_cart">Add to Cart</button>	
+								@endif
 							</form>
 						</div>
 						<div class="clear"></div>
@@ -172,7 +202,13 @@
 						<div class="section group">
 							@foreach($productSuggests as $item)
 							<div class="grid_1_of_4 images_1_of_4">
-								<a href="#"><img src="{{$item->path}}" alt=""></a>		
+								@foreach($item->product_images as $key=>$value)
+				                       
+                                @if($key == 0)
+                               <a href=""><img src="/uploads/{{$value->path}}" alt="" width="25%"></img></a> 
+                   
+                                @endif
+                                @endforeach	
 								<div>{{$item->name}}</div>			
 								<div class="price" style="border:none">
 									<div class="add-cart" style="float:none">								

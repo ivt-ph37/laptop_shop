@@ -125,6 +125,7 @@ class CartController extends Controller
         }
 
         $cart = Cart::add(array('id'=>(int)$id, 'qty' => $qty, 'name'=> $product->name, 'price'=> $price, 'options' => ['img'=>$productImage->path] ));
+        // dd($cart);
         return back()->with('message', 'Mua' .$product->name. 'thành công' );
     }
 
