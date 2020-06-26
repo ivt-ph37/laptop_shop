@@ -95,6 +95,7 @@ class CartController extends Controller
     public function addCart(Request $request, $id)
     {
         $product = Products::find($id);
+        // dd($product);
         $productImage = Product_Image::with('products')->first();
         $promotionPrice = Promotions::where('product_id', $id)->where('end_date', '<', GETDATE())->take(1)->orderBy('created_at', 'ASC')->get();
 
@@ -115,16 +116,28 @@ class CartController extends Controller
         $quantity = (int)$request->quantity;
         $qty = $product['quantity'] - $quantity;
         $quantityProducts = $product['quantity'];
+
         if($qty<0 || $qty=0)
         {
             return redirect()->back()->with('thongbao', 'Sản phẩm không đủ số lượng');
         }
+
         else
         {
             $qty = $quantity;   
         }
+        //kiem tra so luong san pham khi add cart 
+        $cartContent = Cart::content();
+        
+        foreach($cartContent as $value){
+            
+            if(($value->qty + $qty) > $quantityProducts){
+                return redirect()->back()->with('thongbao', 'Sản phẩm không đủ số lượng nha');
+            }
+        }
 
         $cart = Cart::add(array('id'=>(int)$id, 'qty' => $qty, 'name'=> $product->name, 'price'=> $price, 'options' => ['img'=>$productImage->path] ));
+       
         return back()->with('message', 'Mua' .$product->name. 'thành công' );
     }
 
