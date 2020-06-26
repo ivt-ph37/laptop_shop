@@ -1964,3 +1964,8 @@ ul.pagination {
 ul.pagination li{
 	padding: 10px 1%;
 }
+
+#list_start .rating_active{
+	color: #ff9705;
+}
+
