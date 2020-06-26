@@ -38,7 +38,10 @@
 				  	   			title="Bạn đã mua {{Cart::count()}}">Cart:
 				  	   		</a>
 				  	   	</span>
-				  	   	<div id="dd" class="wrapper-dropdown-2"> {{Cart::count()}} item(s) - {{Cart::total()}}$
+				  	   	<div id="dd" class="wrapper-dropdown-2">
+				  	   		{{Cart::count()}} item(s) - {{Cart::total()}}$
+
+				  	   		
 				  	   		<ul class="dropdown">
 								<li>you have @if(Cart::count()<0) {{no}} @else {{Cart::count()}} @endif items in your Shopping cart</li>
 							</ul>

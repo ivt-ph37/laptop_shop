@@ -16,8 +16,7 @@ class Categoies extends Model
     	return $this->hasMany('App\Model\Products','category_id','id');
     }
 
-
-    public function categories()
+	public function categories()
 	{
 		return $this->hasMany(Categoies::class,'parent_id','id');
 	}

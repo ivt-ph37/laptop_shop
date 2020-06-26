@@ -42,6 +42,9 @@ Route::group(['prefix'=>'card'], function(){
 	Route::post('/checkout', 'User\CheckoutController@store')->name('add-order');
 });
 
+Route::group(['prefix'=>'ajax'], function(){
+	Route::post('/rating/{id}', 'User\RatingController@saveRating')->name('save-rating');
+});
 
 
 
@@ -52,8 +55,6 @@ Route::group(['prefix'=>'card'], function(){
 
 // Route::get('/admin','AdminController@index');
 Route::group(['prefix'=>'admin','middleware'=>'adminMiddleware'],function (){
-
-
 
 
 // Auth::routes();
