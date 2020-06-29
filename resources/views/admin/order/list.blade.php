@@ -20,21 +20,21 @@
         </div>
         <div class="btn-group">
   <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 166px;">
-    Sort orders
+    Đơn hàng
   </button>
   <div class="dropdown-menu dropdown-menu-right">
-    <button class="dropdown-item oldorder" type="button" style="width: 100%;">Old orders</button>
-    <button class="dropdown-item neworder" type="button" style="width: 100%;">New orders</button>
+    <button class="dropdown-item oldorder" type="button" style="width: 100%;" value="0">Mới</button>
+    <button class="dropdown-item neworder" type="button" style="width: 100%;" value="1">Cũ</button>
   </div>
 </div>
 <div class="btn-group" style="margin-left: 7%;">
   <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 166px;">
-    Sort Status
+    Trạng thái
   </button>
   <div class="dropdown-menu dropdown-menu-right">
-    <button class="dropdown-item st1" type="button" style="width: 100%;">Chờ xử lý</button>
-    <button class="dropdown-item st2" type="button" style="width: 100%;">Đang giao hàng</button>
-    <button class="dropdown-item st3" type="button" style="width: 100%;">Hoàn thành</button>
+    <button class="dropdown-item st1" type="button" style="width: 100%;" value="1">Chờ xử lý</button>
+    <button class="dropdown-item st2" type="button" style="width: 100%;" value="2">Đang giao hàng</button>
+    <button class="dropdown-item st3" type="button" style="width: 100%;" value="3">Hoàn thành</button>
   </div>
 </div>
     </div>
@@ -61,11 +61,11 @@
                         <tbody id="bodydd">
                             @foreach($orders as $key=>$item)
                             <tr class="odd gradeX" align="center">
-                                <td>{{$key++}}</td>
+                                <td>{{$item->id}}</td>
                                 <td>{{$item->username}}</td>
                                 <td>{{$item->email}}</td>
                                 <td>{{$item->order_date}}</td>
-                                <td>{{$item->delivery_date}}</td>
+                                <td id="delivery_date">{{$item->delivery_date}}</td>
                                 <td id="deliver_status">
                                     @if($item->deliver_status == 0)
                                         {{"Chờ xử lý"}}
@@ -119,6 +119,7 @@ $('.pagination a').unbind('click').on('click', function(e) {
 
 
      $('#form-search').submit(function(e){
+        $('.pagination').hide();
                         e.preventDefault();
                         // console.log(url);
                         $.ajax({
@@ -137,7 +138,10 @@ $('.pagination a').unbind('click').on('click', function(e) {
                             $a = 'Đang giao hàng';
                         } else {
                             $a = 'Hoàn thành';
-                        } 
+                        }
+                if ($value['delivery_date'] == null) {
+                    $value['delivery_date'] ='';
+                } 
                         
                 html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value['email']+'</td><td>'+$value['order_date']+'</td><td>'+$value['delivery_date']+'</td><td>'+$a+'</td><td><a href="http://127.0.0.1/admin/order/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
                         html += '</tr>';
@@ -148,11 +152,14 @@ $('.pagination a').unbind('click').on('click', function(e) {
                         })
                     })
 
-    $('.neworder').click(function(e){
+
+        $(document).on('click', '.neworder', function(e){
+            $('.pagination').hide();
+            var id= $(this).attr('value');
         e.preventDefault();
         $.ajax({
             type:'get',
-            url: 'order/new',
+            url: 'order/sort/'+id,
             
             success:function(ab){
                 // console.log(ab.data);
@@ -168,7 +175,9 @@ $('.pagination a').unbind('click').on('click', function(e) {
                         } else {
                             $a = 'Hoàn thành';
                         } 
-                        
+                     if ($value['delivery_date'] == null) {
+                    $value['delivery_date'] ='';
+                }    
                 html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value['email']+'</td><td>'+$value['order_date']+'</td><td>'+$value['delivery_date']+'</td><td>'+$a+'</td><td><a href="http://127.0.0.1/admin/order/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
                         html += '</tr>';
                     });
@@ -176,11 +185,13 @@ $('.pagination a').unbind('click').on('click', function(e) {
             }
         })
     })
-     $('.oldorder').click(function(e){
+         $(document).on('click', '.oldorder', function(e){
+            $('.pagination').hide();
+            var id= $(this).attr('value');
         e.preventDefault();
         $.ajax({
             type:'get',
-            url: 'order/old',
+           url: 'order/sort/'+id,
             
             success:function(ab){
                 // console.log(ab.data);
@@ -196,7 +207,9 @@ $('.pagination a').unbind('click').on('click', function(e) {
                         } else {
                             $a = 'Hoàn thành';
                         } 
-                        
+                   if ($value['delivery_date'] == null) {
+                    $value['delivery_date'] ='';
+                }      
             html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value['email']+'</td><td>'+$value['order_date']+'</td><td>'+$value['delivery_date']+'</td><td>'+$a+'</td><td><a href="http://127.0.0.1/admin/order/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
                         html += '</tr>';
                     });
@@ -204,11 +217,14 @@ $('.pagination a').unbind('click').on('click', function(e) {
             }
         })
     })
-     $('.st1').click(function(e){
+
+        $(document).on('click', '.st1', function(e){
+            $('.pagination').hide();
+            var id= $(this).attr('value');
         e.preventDefault();
         $.ajax({
             type:'get',
-            url: 'order/statu',
+            url: 'order/status/'+id,
             
             success:function(ab){
                 // console.log(ab.data);
@@ -224,7 +240,9 @@ $('.pagination a').unbind('click').on('click', function(e) {
                         } else {
                             $a = 'Hoàn thành';
                         } 
-                        
+                        if ($value['delivery_date'] == null) {
+                    $value['delivery_date'] ='';
+                } 
 html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value['email']+'</td><td>'+$value['order_date']+'</td><td>'+$value['delivery_date']+'</td><td>'+$a+'</td><td><a href="http://127.0.0.1/admin/order/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
                         html += '</tr>';
                     });
@@ -232,11 +250,13 @@ html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value
             }
         })
     })
-     $('.st2').click(function(e){
+     $(document).on('click', '.st2', function(e){
+        $('.pagination').hide();
+        var id= $(this).attr('value');
         e.preventDefault();
         $.ajax({
             type:'get',
-            url: 'order/status',
+            url: 'order/status/'+id,
             
             success:function(ab){
                 // console.log(ab.data);
@@ -252,7 +272,9 @@ html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value
                         } else {
                             $a = 'Hoàn thành';
                         } 
-                        
+                        if ($value['delivery_date'] == null) {
+                    $value['delivery_date'] ='';
+                } 
 html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value['email']+'</td><td>'+$value['order_date']+'</td><td>'+$value['delivery_date']+'</td><td>'+$a+'</td><td><a href="http://127.0.0.1/admin/order/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
                         html += '</tr>';
                     });
@@ -260,11 +282,13 @@ html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value
             }
         })
     })
-     $('.st3').click(function(e){
+      $(document).on('click', '.st3', function(e){
+        $('.pagination').hide();
+        var id= $(this).attr('value');
         e.preventDefault();
         $.ajax({
             type:'get',
-            url: 'order/statuss',
+            url: 'order/status/'+id,
             
             success:function(ab){
                 // console.log(ab.data);
@@ -280,7 +304,9 @@ html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value
                         } else {
                             $a = 'Hoàn thành';
                         } 
-                        
+                      if ($value['delivery_date'] == null) {
+                    $value['delivery_date'] ='';
+                }   
 html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value['email']+'</td><td>'+$value['order_date']+'</td><td>'+$value['delivery_date']+'</td><td>'+$a+'</td><td><a href="http://127.0.0.1/admin/order/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
                         html += '</tr>';
                     });
@@ -293,16 +319,14 @@ html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value
 
 
 
-    $('.btn-delete').click(function(){
+    $(document).on('click', '.btn-delete', function(e){
         var url = $(this).attr('data-url');
         var _this = $(this);
         if (confirm('Ban co chac muon xoa khong?')) {
             $.ajax({
-                headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          },
                 type: 'delete',
                 url: url,
+                data: { _token: '{{csrf_token()}}' },
                 success: function(response) {
                     alert('Xoa thanh cong');
                     _this.parent().parent().remove();
@@ -313,7 +337,7 @@ html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value
             })
         }
     })
-    $('.btn-edit').click(function(e){
+    $(document).on('click', '.btn-edit', function(e){
 
         var url = $(this).attr('data-url');
 
@@ -343,7 +367,9 @@ html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value
                 }
             })
         })
-    $('#form-edit').submit(function(e){
+
+ 
+        $(document).on('submit', '#form-edit', function(e){
                         e.preventDefault();
                         var url=$(this).attr('data-url');
                         $.ajax({
@@ -351,12 +377,14 @@ html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value
                             url: url,
 
                         data: {
+                            _token: '{{csrf_token()}}',
                             'deliver_status': $('#deliver_status-edit').val(),
                             '_method':'put',
 
                         },                       
                         success: function($resuld) {
                             $('#deliver_status').text($resuld.data.deliver_status);
+                            $('#delivery_date').text($resuld.data.delivery_date);
                             $('#mess').show();
                             $('#mess').html($resuld.message,{timeOut:5000});
                             toastr.success($resuld.message);

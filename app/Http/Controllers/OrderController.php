@@ -7,6 +7,7 @@ use App\Model\Orders;
 use App\Model\Order_Detail;
 use App\Model\Promotions;
 use App\Model\Products;
+use Carbon\Carbon;
 class OrderController extends Controller
 {
     /**
@@ -34,41 +35,37 @@ class OrderController extends Controller
     }
 
 
-    public function new(Request $request)
+    public function sort(Request $request,$id)
     {
         if ($request->ajax() || 'NULL') {
-            $orders= Orders::orderBy('id','desc')->get();
+            if ($id == 0) {
+                $orders= Orders::orderBy('order_date','desc')->get();
             return response()->json(['data'=>$orders],200);
+            }
+            else {
+                $orders= Orders::orderBy('order_date','asc')->get();
+            return response()->json(['data'=>$orders],200);
+            }
+            
         }
     }
-    public function old(Request $request)
-    {
-        if ($request->ajax() || 'NULL') {
-            $orders= Orders::orderBy('id','asc')->get();
-            return response()->json(['data'=>$orders],200);
-        }
-    }
-    public function status_c(Request $request)
-    {
-         if ($request->ajax() || 'NULL') {
-            $orders= Orders::where('deliver_status',0)->get();
-            return response()->json(['data'=>$orders],200);
-        }
-    }
-    public function status_d(Request $request)
+    public function status(Request $request,$id)
     {
          if ($request->ajax() || 'NULL') {
-            $orders= Orders::where('deliver_status',1)->get();
+            if ($id == 1) {
+                $orders= Orders::where('deliver_status',0)->get();
             return response()->json(['data'=>$orders],200);
+            }else if ($id == 2) {
+                $orders= Orders::where('deliver_status',1)->get();
+            return response()->json(['data'=>$orders],200);
+            } else{
+                $orders= Orders::where('deliver_status',2)->get();
+            return response()->json(['data'=>$orders],200);
+            }
+            
         }
     }
-    public function status_h(Request $request)
-    {
-         if ($request->ajax() || 'NULL') {
-            $orders= Orders::where('deliver_status',2)->get();
-            return response()->json(['data'=>$orders],200);
-        }
-    }
+
 
  
     /**
@@ -102,75 +99,13 @@ class OrderController extends Controller
     {
         $user = Orders::with('users')->where('id',$id)->get();
         $order_detail = Order_Detail::where('order_id',$id)->get();
-        // $order_details = Order_Detail::where('order_id',$id)->get();
-        $promotion1 = Promotions::where('status',1)->orWhere('quantity',0)->get();
-        $promotion= Promotions::where('status',0)->get();
-        $promotion35 = Promotions::get();
         $order_status = Orders::where('id',$id)->first();
-        // dd($order_status);
-
-        // dd($promotion1,$promotion);
-        // $promo = Promotions::get();
-        // dd($promo);
-        // dd($order_detail);
-foreach ($order_detail as $value) {
-    if ($value->orders->deliver_status == 0) {
-    $products = Products::where('id',$value->product_id)->first();
-                // dd($products);
-                    $products->quantity = $products->quantity - $value->quantity;
-                    $products->sales_volume = $products->sales_volume + $value->quantity;
-                    $products->save();
-                }
-}
-        foreach ($order_detail as $value) {
-            // $promotion = Promotions::where('product_id',$it->product_id)->where('status',0)->get();
-            // $promotion = Promotions::get();
-            
-
-            // foreach ($order_details as $value) {
-            // dd($value->orders->deliver_status); //0
-            // $promotions = Promotions::where('product_id',$value->product_id)->get();
-            // $a = 0;
-            
-            if ($value->orders->deliver_status == 0) {
-               $promotions = Promotions::where('product_id',$value->product_id)->get();
-
-                        if ($promotions != NULL) {
-                            // dd($order_details);
-                        
-                        foreach ($promotions as $item) {
-                            // dd($item->products->name);
-                           if ($item->status == 0  && $value->orders->order_date >= $item->start_date && $value->orders->order_date <= $item->end_date) {  //neu bien ko rong
-                            // dd($promotions);
-                                // dd($item->id);
-                                $promotionss = Promotions::where('id',$item->id)->first();
-                                // dd($promotionss);
-                                if ($item->quantity < $value->quantity) {
-                                    $promotionss->quantity = 0;
-                                    // dd($promotions->quantity);
-                                    $promotionss->save();
-                                }
-                                else {
-                                     $promotionss->quantity = $item->quantity - $value->quantity;
-                                    $promotionss->save();
-                                }
+        $promotions = Promotions::get();
+        // dd($promotions);
 
 
-                            } 
-                        }
+        return view('admin.order.detailr', compact('user','order_detail','order_status','promotions'));
 
-                        }
-            // return view('admin.order.detailr', compact('user','order_detail','promotions','a'));
-             // } 
-         }
-
-
-         // dd($promotion35);
-        return view('admin.order.detailr', compact('user','order_detail','promotion','promotion1','promotion35','order_status'));
-       }
-        // dd($order_detail);
-        // dd($promo);
-        // return view('admin.order.detailr', compact('user','order_detail'));
     }
 
     /**
@@ -196,7 +131,17 @@ foreach ($order_detail as $value) {
     {
 
         $orders= Orders::find($id);
-        $orders->update($request->all());
+        if ($request->deliver_status == 0 || $request->deliver_status == 1) {
+            $orders->delivery_date = NULL;
+            $orders->deliver_status = $request->deliver_status;
+            $orders->save();
+        }
+        else {
+            $orders->delivery_date = Carbon::now();
+            $orders->deliver_status = 2;
+            $orders->save();
+        }
+        
         return response()->json(['data'=>$orders,'message'=>'Update order successfully'],200);
     }
     public function detailr(Request $request,$id){

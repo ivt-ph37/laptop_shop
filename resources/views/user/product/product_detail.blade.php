@@ -61,7 +61,7 @@
 							<form action="{{route('add-cart',['id'=>$product->id])}}" method="get">
 								@csrf
 								<h2>{{$product->name}}</h2>
-								<p>{{$product->description}}</p>					
+								<p>{!!$product->description!!}</p>					
 								<div class="price">
 									@if($product->quantity > 0 && $product->quantity / 2 >= $product->sales_volume)
 										@if ($promotion != NULL)

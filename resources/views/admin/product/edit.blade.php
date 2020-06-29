@@ -40,27 +40,27 @@
                             <div class="form-group">
                                 <label>RAM</label>
                                 <input class="form-control" name="RAM" id="ram-edit"/> 
-                                <div class="error4" style="color: red;"></div>
+                               
                             </div>
                             <div class="form-group">
                                 <label>VGA</label>
                                 <input class="form-control" name="VGA" id="vga-edit"/>
-                                <div class="error5" style="color: red;"></div>
+                            
                             </div>
                             <div class="form-group">
                                 <label>Operating_System</label>
                                 <input class="form-control" name="operating_system" id="operating_system-edit"/>
-                                <div class="error6" style="color: red;"></div>
+                          
                             </div>
                             <div class="form-group">
                                 <label>CPU</label>
                                 <input class="form-control" name="CPU" id="cpu-edit"/>
-                                <div class="error7" style="color: red;"></div>
+                                
                             </div>
                             <div class="form-group">
                                 <label>Guarantee</label>
                                 <input class="form-control" name="guarantee" id="guarantee-edit"/>
-                                <div class="error8" style="color: red;"></div>
+                       
                             </div>
                             <div class="form-group">
                                 <label>Note</label>
@@ -69,12 +69,12 @@
                             <div class="form-group">
                                 <label>Description</label>
                                 <textarea class="form-control" rows="3" name="description" id="description-edit"></textarea>
-                                <div class="error9" style="color: red;"></div>
+                       
                             </div>
                             <div class="form-group">
                                 <label>Sales_Volume</label>
                                 <input class="form-control" name="sales_volume" id="sales_volume-edit"/>
-                                <div class="error10" style="color: red;"></div>
+                          
                             </div>
                             <div class="form-group">
                                 <label>Image</label>

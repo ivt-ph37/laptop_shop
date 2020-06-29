@@ -29,7 +29,6 @@
 					<a href="{{route('preview', $value->id)}}">
 						@if(count($value->product_images))
 						<img src="/uploads/{{$value->product_images[0]->path}}" alt="" /></a>
-
 						@endif
 					<h2>{{$value->name}}</h2>
 					</div>

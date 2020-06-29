@@ -102,14 +102,12 @@ class CategoryController extends Controller
     {
         $validator = Validator::make($request->all(),
             [
-                'name' => 'required|min:3|max:255',
-                'desription' => 'required'
+                'name' => 'required|min:3|max:255'
             ],
         [
             'name.required' => 'Please Enter Name Category',
             'name.min' => 'Attribute length of 3-255 characters ',
             'name.max' => 'Attribute length of 3-255 characters ',
-            'desription.required' =>'Please Enter Name Desription',
         ]);
         if ($validator->fails()) {
             return response()->json(['error'=>'true','mess'=>$validator->errors()],200);

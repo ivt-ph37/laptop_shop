@@ -2,8 +2,10 @@
 @section('content')
 <div class="col-lg-12">
     <div>
-        <a href="{{route('product.index')}}"><button type="button" class="btn btn-primary" style="padding: 2%;margin-bottom: 2%;
-    margin-top: 4%;">BACK</button></a>
+        @foreach($products as $item)
+                        <h3 class="page-header">Chi tiết sản phẩm:
+                            <span style="color: #6b00ff;">{{$item->name}}</span>
+                        </h3>
     </div>
         <div>
                         <form action="{{ route('post.image',$id) }}" method="POST" role="form" enctype="multipart/form-data">
@@ -14,13 +16,10 @@
                             </div>
                              <button type="submit" class="btn btn-default">Upload</button>
                     </form>
-                    </div>
+                    </div><br>
                     
 
-    @foreach($products as $item)
-                        <h1 class="page-header">Product Detailr Of
-                            <small style="font-size: 40px;color: red;">{{$item->name}}</small>
-                        </h1>
+    
                         @if(session('thongbao'))
     <div class="alert alert-success" role="alert">
         {{session('thongbao')}}
@@ -56,7 +55,7 @@
                                 <td >{{$item->CPU}}</td>
                                 <td >{{$item->guarantee}}</td>
                                 <td >{{$item->note}}</td>
-                                <td >{{$item->description}}</td>
+                                <td >{!!$item->description!!}</td>
                                 <td>{{$item->sales_volume}}</td>
 
                             </tr>

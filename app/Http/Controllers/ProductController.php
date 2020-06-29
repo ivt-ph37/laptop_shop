@@ -34,7 +34,7 @@ class ProductController extends Controller
                     $product_image = new Product_Image;
                     if (isset($file)) {
                     $product_image->product_id=$id;
-                    $product_image->path = rand(0,1000).'.'.$file->getClientOriginalName();
+                    $product_image->path = rand(0,100000).'.'.$file->getClientOriginalName();
                     
                     $file->move( public_path() . '/uploads/', $product_image->path); 
                     $product_image->save();
@@ -60,28 +60,25 @@ class ProductController extends Controller
         }
     }
 
-    public function out(Request $request)
+    public function sort(Request $request,$id)
     {
         if ($request->ajax() || 'NULL') {
-            $products= Products::with('product_images')->where('quantity',0)->get();
+            if ($id == 1) {
+                $products= Products::with('product_images')->where('quantity','>',5)->get();
+              $categories = Categoies::get();
+             return response()->json(['data'=>$products,'categories'=>$categories],200); 
+            }
+            else if ($id == 2) {
+               $products= Products::with('product_images')->where('quantity','>',0)->where('quantity','<=',5)->get();
             $categories = Categoies::get();
             return response()->json(['data'=>$products,'categories'=>$categories],200);
-        }
-    }
-    public function remains(Request $request)
-    {
-        if ($request->ajax() || 'NULL') {
-            $products= Products::with('product_images')->where('quantity','>',5)->get();
+            }
+            else {
+                $products= Products::with('product_images')->where('quantity',0)->get();
             $categories = Categoies::get();
             return response()->json(['data'=>$products,'categories'=>$categories],200);
-        }
-    }
-    public function almost(Request $request)
-    {
-        if ($request->ajax() || 'NULL') {
-            $products= Products::with('product_images')->where('quantity','>',0)->where('quantity','<=',5)->get();
-            $categories = Categoies::get();
-            return response()->json(['data'=>$products,'categories'=>$categories],200);
+            }
+            
         }
     }
 
@@ -116,7 +113,7 @@ class ProductController extends Controller
                     $product_image = new Product_Image;
                     if (isset($file)) {
                     $product_image->product_id=$products_id;
-                    $product_image->path = rand(0,1000).'.'.$file->getClientOriginalName();
+                    $product_image->path = rand(0,100000).'.'.$file->getClientOriginalName();
                     
                     $file->move( public_path() . '/uploads/', $product_image->path); 
                     $product_image->save();
@@ -170,26 +167,13 @@ class ProductController extends Controller
             [
                 'name' => 'required',
                 'quantity' => 'required',
-                'price' => 'required',
-                'RAM' => 'required',
-                'VGA' => 'required',
-                'operating_system' => 'required',
-                'CPU' => 'required',
-                'guarantee' => 'required',
-                'description' => 'required',
-                'sales_volume' => 'required'
+                'price' => 'required'
             ],
         [
             'name.required' => 'Please Enter Name Product',
             'quantity.required' =>'Please Enter Name Quantity',
             'price.required' =>'Please Enter Name Price',
-            'RAM.required' =>'Please Enter Name RAM',
-            'VGA.required' =>'Please Enter Name VGA',
-            'operating_system.required' =>'Please Enter Name Operating_System',
-            'CPU.required' =>'Please Enter Name CPU',
-            'guarantee.required' =>'Please Enter Name Guarantee',
-            'description.required' =>'Please Enter Name Desription',
-            'sales_volume.required' =>'Please Enter Name Sales_volume',
+
         ]);
         if ($validator->fails()) {
             return response()->json(['error'=>'true','mess'=>$validator->errors()],200);

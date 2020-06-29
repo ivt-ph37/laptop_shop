@@ -14,14 +14,6 @@
     <form action="{{route('promotion.store')}}" method="POST">
         @csrf
         <div class="form-group">
-            <label>Name User *</label>
-            <select class="form-group" name="user_id" >
-                @foreach ($users as $item) 
-                    <option value="{{$item->id}}">{{$item->fullname}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group">
             <label>Name Suppliers *</label>
             <select class="form-group" name="sup_id" id="idSupp" >
                 @foreach ($suppliers as $item) 
@@ -40,12 +32,7 @@
             
             <div class="p-3 mb-2 bg-danger text-white" style="color: red;">{!! $errors->first('price')!!}</div>
         </div>
-        <div class="form-group">
-            <label >Quantity *</label>
-            <input class="form-control" name="quantity" value="{!! old('quantity') !!}" />
-            
-            <div class="p-3 mb-2 bg-danger text-white" style="color: red;">{!! $errors->first('quantity')!!}</div>
-        </div>
+
         <div class="form-group">
             <label >Start Date *</label>
             <input class="form-control" name="start_date" type="date" value="{!! old('start_date') !!}" />
