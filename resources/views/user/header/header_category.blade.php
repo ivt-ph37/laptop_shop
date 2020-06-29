@@ -10,7 +10,7 @@
 <body>
 	<div class="minh">
 		<div class="cd-dropdown-wrapper">
-			<a class="cd-dropdown-trigger" href="#0">Category</a>
+			<a class="cd-dropdown-trigger" href="#0">Danh mục</a>
 			<nav class="cd-dropdown">
 				<ul class="cd-dropdown-content">
 					@foreach ($categorys as $category) 
@@ -19,10 +19,10 @@
 						<ul class="cd-secondary-dropdown is-hidden">
 							@foreach ($category->childrenCategories as $childCategory)
 
-							<li class="has-children">
+							
 								@include('user.product.children_categories', ['child_category' => $childCategory])
-									
-							</li>
+						
+							
 							@endforeach
 						</ul> <!-- .cd-secondary-dropdown -->
 					</li> <!-- .has-children -->

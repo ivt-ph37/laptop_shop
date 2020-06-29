@@ -15,8 +15,8 @@
 							<li><a href="{{route('logout')}}" id="btn_logout">Logout</a></li>
 							<!-- <li><a href="#">My Account</a></li> -->
 						@else
-							<li><a href="{{route('register')}}">Register</a></li>
-							<li><a href="{{route('login')}}">Login</a></li>
+							<li><a href="{{route('register')}}">Đăng ký</a></li>
+							<li><a href="{{route('login')}}">Đăng nhập</a></li>
 							<li><a href="#">Delivery</a></li>
 							<!-- <li><a href="#">Checkout</a></li> -->
 							<!-- <li><a href="#">My Account</a></li> -->
@@ -51,15 +51,15 @@
 						</ul>
 					</div>
 					<div class="col-sm-9">
-						<h2>Account Control Panel</h2>
+						<h2>Thông Tin Tài Khoản</h2>
 						<strong>Hello {{$user->fullname}}</strong><br />
 						<p>From your account control panel, you can access all of your recent activites, orders, save products and you can edit your personal information and other details.</p>
 						<div class="row">
 							<div class="col-md-6 col-sm-6">
 								<div class="well">
-									<h3>Contact Information</h3>
-									<p>Name : {{$user->fullname}}</p>
-									<p>Email : {{$user->email}}</p>
+									<h3>Thông Tin Liên Hệ</h3>
+									<p>Họ và tên : {{$user->fullname}}</p>
+									<p>Địa chỉ Email : {{$user->email}}</p>
 									<p><a href="account_change_email.html">Change Email</a> | <a href="account_change_password.html">Change Password</a></p>
 									<p class="pull-right"><a href="{{route('information-user', $user->id)}}"><i class="fa fa-edit"></i> Edit</a></p>
 									<div class="clearfix"></div>

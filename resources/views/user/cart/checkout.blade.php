@@ -14,8 +14,8 @@
 					<!-- <li><a href="{{route('checkout')}}">Checkout</a></li> -->
 					<!-- <li><a href="#">My Account</a></li> -->
 					@else
-					<li><a href="{{route('register')}}">Register</a></li>
-					<li><a href="{{route('login')}}">Login</a></li>
+					<li><a href="{{route('register')}}">Đăng ký</a></li>
+					<li><a href="{{route('login')}}">Đăng nhập</a></li>
 					<li><a href="#">Delivery</a></li>
 					<!-- <li><a href="{{route('checkout')}}">Checkout</a></li> -->
 					<!-- <li><a href="#">My Account</a></li> -->
@@ -42,14 +42,14 @@
 					<div class="alert alert-success">{{Session::get('success')}}</div>
 					@endif
 					<div class="col-md-8 col-md-offset-2 minh-checkout">
-						<h2 class="text-center">Shipping Address Informations</h2>
+						<h2 class="text-center">Thông Tin Giao Hàng</h2>
 
 						<form method="post" class="cmxform minh-form-ck" action="{{route('add-order')}}" id="checkoutForm">
 							<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 							<div class="minh-form-ck-group">
 							
 								<div class="form-group">
-									<label class="control-label col-sm-2" for="fullname">Shipping Name: *</label>
+									<label class="control-label col-sm-2" for="fullname">Tên Khách Hàng: *</label>
 									<div class="col-sm-10">
 										<input type="text" class="form-control inputs" id="fullname" name="fullname" value="{{Auth::user()->fullname}}" placeholder="Enter Your Shipping Name"  required/> 
 										<input type="hidden" name="id" value="{{Auth::user()->id}}">
@@ -58,21 +58,21 @@
 								</div>
 
 								<div class="form-group">
-									<label for="email" class="col-sm-2 control-label">Email: *</label>
+									<label for="email" class="col-sm-2 control-label">Địa Chỉ Email: *</label>
 									<div class="col-sm-10">
 										<input type="email" name="email" class="form-control inputs" id="email" value="{{Auth::user()->email}}" placeholder="Enter Email Shipping Name" required />
 									</div>
 								</div>
 
 								<div class="form-group">
-									<label class="control-label col-sm-2" for="telephone">Shipping Contact: *</label>
+									<label class="control-label col-sm-2" for="telephone">Số Điện Thoại: *</label>
 									<div class="col-sm-10">
 										<input type="text" class="form-control inputs" value="{{Auth::user()->telephone}}" id="shipping_contact" name="telephone" placeholder="Enter Your Shipping Contact No"  required/> 
 									</div>
 								</div>
 
 								<div class="form-group">
-									<label class="control-label col-sm-2" for="delivery_address">Shipping  Address: *</label>
+									<label class="control-label col-sm-2" for="delivery_address">Địa Chỉ Giao Hàng: *</label>
 									<div class="col-sm-10">
 										<input type="text" class="form-control inputs" name="delivery_address" id="shipping_primary_address" placeholder="Enter Your Shipping primary Address" required/>
 									</div>
@@ -81,7 +81,7 @@
 								<div class="form-group">
 									<div class="col-sm-10 col-sm-offset-2">
 										<a href=""><input type="submit" class="btn btn-info pull-right  margin-top-20 checkbtn2" name="submit_check2" value="Submit..."/></a>
-										<a href=""><input type="submit" class="btn btn-danger pull-right  margin-top-20 margin-right-20 backToCheck1" name="backToCheck1" value="Back"/></a>
+										<a href="{{route('cart-index')}}" class="btn btn-danger pull-right  margin-top-20 margin-right-20">Back</a>
 										<div class="clearfix"></div> 
 									</div>
 								</div>
@@ -140,7 +140,7 @@
 
 								<tr>
 									<td></td>
-									<td colspan="1" id=""><strong>Total:</strong></td>
+									<td colspan="1" id=""><strong>Tổng tiền:</strong></td>
 									<td></td>
 									<td>
 										<p><span class="total_product_sum" id="sum_total_cart">{{$total}}$</span></p>
@@ -157,14 +157,14 @@
 					</div>
 					@else
 						<div class="col-md-8 col-md-offset-2 minh-checkout">
-						<h2 class="text-center">Shipping Address Informations</h2>
+						<h2 class="text-center">Thông Tin Giao Hàng</h2>
 
 						<form method="post" class="cmxform minh-form-ck" action="{{route('add-order')}}" id="checkoutForm">
 							<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 							<div class="minh-form-ck-group">
 							
 								<div class="form-group">
-									<label class="control-label col-sm-2" for="fullname">Shipping Name: *</label>
+									<label class="control-label col-sm-2" for="fullname">Tên Khách Hàng: *</label>
 									<div class="col-sm-10">
 										<input type="text" class="form-control inputs" id="fullname" name="fullname" value="" placeholder="Enter Your Shipping Name"  required/> 
 										<input type="hidden" name="id" value="">
@@ -173,21 +173,21 @@
 								</div>
 
 								<div class="form-group">
-									<label for="email" class="col-sm-2 control-label">Email: *</label>
+									<label for="email" class="col-sm-2 control-label">Địa Chỉ Email: *</label>
 									<div class="col-sm-10">
 										<input type="email" name="email" class="form-control inputs" id="email" value="" placeholder="Enter Email Shipping Name" required />
 									</div>
 								</div>
 
 								<div class="form-group">
-									<label class="control-label col-sm-2" for="telephone">Shipping Contact: *</label>
+									<label class="control-label col-sm-2" for="telephone">Số Điện Thoại: *</label>
 									<div class="col-sm-10">
 										<input type="text" class="form-control inputs" value="" id="shipping_contact" name="telephone" placeholder="Enter Your Shipping Contact No"  required/> 
 									</div>
 								</div>
 
 								<div class="form-group">
-									<label class="control-label col-sm-2" for="delivery_address">Shipping  Address: *</label>
+									<label class="control-label col-sm-2" for="delivery_address">Địa Chỉ Giao Hàng: *</label>
 									<div class="col-sm-10">
 										<input type="text" class="form-control inputs" name="delivery_address" id="shipping_primary_address" placeholder="Enter Your Shipping primary Address" required/>
 									</div>
@@ -196,7 +196,7 @@
 								<div class="form-group">
 									<div class="col-sm-10 col-sm-offset-2">
 										<a href=""><input type="submit" class="btn btn-info pull-right  margin-top-20 checkbtn2" name="submit_check2" value="Submit..."/></a>
-										<a href=""><input type="submit" class="btn btn-danger pull-right  margin-top-20 margin-right-20 backToCheck1" name="backToCheck1" value="Back"/></a>
+										<a href="{{route('cart-index')}}" class="btn btn-danger pull-right  margin-top-20 margin-right-20">Back</a>
 										<div class="clearfix"></div> 
 									</div>
 								</div>
@@ -255,7 +255,7 @@
 
 								<tr>
 									<td></td>
-									<td colspan="1" id=""><strong>Total:</strong></td>
+									<td colspan="1" id=""><strong>Tổng tiền:</strong></td>
 									<td></td>
 									<td>
 										<p><span class="total_product_sum" id="sum_total_cart">{{$total}}$</span></p>

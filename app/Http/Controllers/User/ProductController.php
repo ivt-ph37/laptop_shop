@@ -14,15 +14,22 @@ use Cookie;
 
 class ProductController extends Controller
 {
-
     public function getAllProduct()
     {
         $products = Products::with('product_images')->paginate(8);
         $categorys = Categoies::with('childrenCategories')->where('parent_id',0)->get();
         return view('user.product.product', compact('products','categorys'));
     }  
+    
     public function getFeature(){
-        $products = Products::where('sales_volume','>','quantity')->paginate(8);
+        $products = Products::with('product_images')->where('sales_volume', '>=', '10')->orderBy('sales_volume', 'DESC')->paginate(8);
+        $categorys = Categoies::with('childrenCategories')->where('parent_id',0)->get();
+        // dd($products);
+        return view('user.product.product', compact('products','categorys'));
+    } 
+
+    public function getHighlight(){
+        $products = Products::where('note','=','1')->paginate(8);
         $categorys = Categoies::with('childrenCategories')->where('parent_id',0)->get();
         // dd($products);
         return view('user.product.product', compact('products','categorys'));
@@ -35,15 +42,17 @@ class ProductController extends Controller
     public function index(Request $request)
     {
        
-        $products = Products::with('product_images')->take(4)->orderBy('created_at', 'DESC')->get();
+        $products = Products::with('product_images')->orderBy('created_at', 'DESC')->limit(4)->get();
         // dd($products);
-       $categorys = Categoies::with('childrenCategories')->where('parent_id',0)->get();
+        $categorys = Categoies::with('childrenCategories')->where('parent_id',0)->get();
+        $promotionPrice = Products::with('promotions')->take(1)->get();
+        // dd($promotionPrice);
         // dd($categories);
         // dd(Cookie::get('BuiTu'));
                  // $value = $request->cookie('BuiTu');
       // dd($value);
       
-        return view('user.index', compact('products','categorys'));
+        return view('user.index', compact('products','categorys','promotionPrice'));
     }
 
     /**
@@ -109,7 +118,7 @@ class ProductController extends Controller
 
 
 
-         Cookie('nam','12323',true,2);
+        
          // dd(Cookie('nam'));
 
         // $response = new Response('abc');  
@@ -129,7 +138,7 @@ class ProductController extends Controller
 
     private function getProductSuggests($id)
     {
-        $product = Products::with('categoies')->where('category_id', $id)->take(4)->get();
+        $product = Products::with('childrenCategories')->where('category_id', $id)->take(4)->get();
         return $product;
     }
     /**

@@ -16,13 +16,23 @@
 			</div> -->
 			<div class="section group">
 				@foreach($products as $value)
+					
 				<div class="grid_1_of_4 images_1_of_4">
+					@if($value->quantity == 0)
+					<div class="data_value_none">Hết hàng</div>
+					@elseif($value->quantity <= 10)
+					<div class="data_value_none">Gần hết</div>
+					@else
+					<div class="data_value_none">Còn hàng</div>
+					@endif
+					<div>
 					<a href="{{route('preview', $value->id)}}">
 						@if(count($value->product_images))
-						<img src="/uploads/{{$value->product_images[0]->path}}" alt="" width="100%" /></a>
+						<img src="/uploads/{{$value->product_images[0]->path}}" alt="" /></a>
 
 						@endif
 					<h2>{{$value->name}}</h2>
+					</div>
 					<div class="price-details">
 						<div class="price-number">
 							<p><span class="rupees">${{$value->price}}</span></p>

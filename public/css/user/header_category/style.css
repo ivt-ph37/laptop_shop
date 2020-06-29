@@ -80,8 +80,12 @@ Main Components
   border-radius: 3px;
 }
 .no-touch .cd-dropdown-trigger:hover {
-  background-color: #171b46;
+  background-color: #B81D22;
 }
+.minh .cd-dropdown-trigger{
+  color: #fff !important;
+  text-decoration: none;
+} 
 .cd-dropdown-trigger::before, .cd-dropdown-trigger::after {
   /* this is the arrow inside the dropdown trigger*/
   content: '';
