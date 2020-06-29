@@ -42,6 +42,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
        
+
         $products = Products::with('product_images')->orderBy('created_at', 'DESC')->limit(4)->get();
 
         $categorys = Categoies::with('childrenCategories')->where('parent_id',0)->get();
@@ -131,7 +132,10 @@ class ProductController extends Controller
         // dd($productImage);   
         $productSuggests = $this->getProductSuggests($id);
 
+
         Session::push('products_vieww',$product);
+
+
 
         return view('user.product.product_detail', compact('product','categorys','promotionPrice','productImage', 'productSuggests','promotion'));
     }

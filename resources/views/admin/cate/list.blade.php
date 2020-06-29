@@ -49,7 +49,7 @@
         <tbody id="bodydd">
             @foreach($categoies as $key=>$item)
             <tr class="odd gradeX" align="center">
-                <td>{{$key++}}</td>
+                <td>{{$item->id}}</td>
                 <td id="name">{{$item->name}}</td>
                 <td id="parent_id" class="ab">
                     @if($item->parent_id == 0)
@@ -69,7 +69,7 @@
                         @endforeach          
                     @endif
                 </td>
-                <td id="desription">{{$item->desription}}</td>
+                <td id="desription">{!!$item->desription!!}</td>
                 <td><a href="{{route('category.show',$item->id)}}">Show</a></td>
                 <td class="center">
                     <button data-url="{{route('category.edit',$item->id)}}" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button>
@@ -118,7 +118,7 @@ $(document).ready(function () {
         })
     }
      $('#form-search').submit(function(e){
-        // $('.ab').hide();
+        $('.pagination').hide();
                         e.preventDefault();
                         // console.log(url);
                         $.ajax({
@@ -132,7 +132,7 @@ $(document).ready(function () {
                             $('#bodydd').html(ab);
                 var html ='';
                     $.each(ab.data,function($key,$value){
-                        console.log($key);
+                        // console.log($key);
 
                         var $a='';
                         if ($value['parent_id'] == 0) {
@@ -167,8 +167,11 @@ $(document).ready(function () {
                                                }
                                      }); 
                                  }
+                        if ($value['desription'] == null) {
+                            $value['desription'] = '';
+                        }
                         
-                html +='<tr><td>'+$key+'</td><td>'+$value['name']+'</td><td>'+$a+'</td><td>'+$value['desription']+'</td><td><a href="http://127.0.0.1/admin/category/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/category/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/category/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
+                html +='<tr><td>'+$value['id']+'</td><td>'+$value['name']+'</td><td>'+$a+'</td><td>'+$value['desription']+'</td><td><a href="http://127.0.0.1/admin/category/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/category/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/category/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
                         html += '</tr>';
                     });
                 $('#bodydd').html(html);
@@ -186,7 +189,7 @@ $(document).ready(function () {
 
 
 
-    $('.btn-delete').click(function(){
+        $(document).on('click', '.btn-delete', function(e){
         var url = $(this).attr('data-url');
         var _this = $(this);
         if (confirm('Ban co chac muon xoa khong?')) {
@@ -206,9 +209,8 @@ $(document).ready(function () {
         }
     })
 
-    $('.btn-edit').click(function(e){
+   $(document).on('click', '.btn-edit', function(e){
         $('.error').hide();
-    $('.errorss').hide();
         var url = $(this).attr('data-url');
 
         e.preventDefault();
@@ -223,7 +225,7 @@ $(document).ready(function () {
                     $('.tittle').text(response.data.name);
                     $('#name-edit').val(response.data.name);
                     $('#parent-edit').val(response.data.parent_id);
-                    $('#desription-edit').val(response.data.desription);
+                    CKEDITOR.instances['desription-edit'].setData(response.data.desription);
                     //thêm data-url chứa route sửa todo đã được chỉ định vào form sửa.
                     $('#form-edit').attr('data-url','{{ asset('admin/category/') }}/'+response.data.id)
                 },
@@ -240,9 +242,10 @@ $(document).ready(function () {
                             type: "PUT",
                             url: url,
                         data: {
+                            _token: '{{csrf_token()}}' ,
                             'name': $('#name-edit').val(),  //biến phải trùng vs tên REQUEST 
                             'parent_id': $('#parent-edit').val(),
-                            'desription': $('#desription-edit').val(),
+                            'desription': CKEDITOR.instances['desription-edit'].getData(),
                             '_method':'put',
 
                         },
@@ -253,15 +256,10 @@ $(document).ready(function () {
                                     $('.error').show();
                                     $('.error').text($resuld.mess.name[0]);//tạo 1 thẻ class dươi input đê xuất lỗi.  Còn mess.name thì name tương ứng vs validator của nó
                                 }else{$('.error').hide()};
-                                if ($resuld.mess.desription) {
-                                    $('.errorss').show();
-                                $('.errorss').text($resuld.mess.desription);                                    
-                                }else{
-                                    $('.errorss').hide();
-                                }
+                               
             
                             }else{
-                            $('#edit').modal('hide');
+                            $('#edit').hide();
                             $('#name').text($resuld.data.name);
                             $('#parent_id').text($resuld.data.parent_id);
                             $('#desription').text($resuld.data.desription);

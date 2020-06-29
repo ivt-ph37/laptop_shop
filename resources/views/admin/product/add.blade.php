@@ -44,27 +44,27 @@
                             <div class="form-group">
                                 <label>RAM *</label>
                                 <input class="form-control" name="RAM" value="{!! old('RAM') !!}"/>
-                                <div class="p-3 mb-2 bg-danger text-white" style="color: red;">{!! $errors->first('RAM')!!}</div>
+                                
                             </div>
                             <div class="form-group">
                                 <label>VGA *</label>
                                 <input class="form-control" name="VGA" value="{!! old('VGA') !!}"/>
-                                <div class="p-3 mb-2 bg-danger text-white" style="color: red;">{!! $errors->first('VGA')!!}</div>
+                               
                             </div>
                             <div class="form-group">
                                 <label>Operating_System *</label>
                                 <input class="form-control" name="operating_system" value="{!! old('operating_system') !!}"/>
-                                <div class="p-3 mb-2 bg-danger text-white" style="color: red;">{!! $errors->first('operating_system')!!}</div>
+                                
                             </div>
                             <div class="form-group">
                                 <label>CPU *</label>
                                 <input class="form-control" name="CPU" value="{!! old('CPU') !!}"/>
-                                <div class="p-3 mb-2 bg-danger text-white" style="color: red;">{!! $errors->first('CPU')!!}</div>
+                              
                             </div>
                             <div class="form-group">
                                 <label>Guarantee *</label>
                                 <input class="form-control" name="guarantee" value="{!! old('guarantee') !!}"/>
-                                <div class="p-3 mb-2 bg-danger text-white" style="color: red;">{!! $errors->first('guarantee')!!}</div>
+                            
                             </div>
                             <div class="form-group">
                                 <label>Note *</label>
@@ -73,13 +73,13 @@
                             </div>
                             <div class="form-group">
                                 <label>Description *</label>
-                                <textarea class="form-control" rows="3" name="description" >{!! old('description') !!}</textarea>
-                                <div class="p-3 mb-2 bg-danger text-white" style="color: red;">{!! $errors->first('description')!!}</div>
+                                <textarea class="form-control" id="demo" rows="3" name="description" >{!! old('description') !!}</textarea>
+                               
                             </div>
                             <div class="form-group">
                                 <label>Sales_Volume *</label>
                                 <input class="form-control" name="sales_volume" value="{!! old('sales_volume') !!}"/>
-                                <div class="p-3 mb-2 bg-danger text-white" style="color: red;">{!! $errors->first('sales_volume')!!}</div>
+            
                             </div>
            <div class="form-group">
         <label>Image *</label>

@@ -28,11 +28,6 @@
                                         <div class="error1" style="color: red;"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label >Quantity</label>
-                                        <input class="form-control" name="quantity" id="quantity-edit" />
-                                        <div class="error2" style="color: red;"></div>
-                                    </div>
-                                    <div class="form-group">
                                         <label >Start Date</label>
                                         <input class="form-control" name="start_date" type="date" id="start_date-edit" />
                                     </div>

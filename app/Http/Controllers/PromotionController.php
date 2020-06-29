@@ -19,16 +19,17 @@ class PromotionController extends Controller
      */
     public function index()
     {
-        $promotions = Promotions::paginate(5);
+        $promotions = Promotions::paginate(1);
         $dt = Carbon::today();
         foreach ($promotions as $item) {
-            if ($item->end_date < $dt->toDateString() || $item->quantity == 0 ) {
-               $item->status = 1;
+            if ($item->end_date < $dt->toDateString() ) {
+               $item->status = 0;
            }else{
-                $item->status = 0;
+                $item->status = 1;
            }
 
         }
+        // dd($promotions);
         // $promotions->save();
         return view('admin.promotions.list',compact('promotions'));
     }
@@ -36,6 +37,39 @@ class PromotionController extends Controller
         if ($request->ajax() || 'NULL') {
             $promotions= Promotions::get();
             return view('admin.promotions.list',compact('promotions'))->render();
+        }
+    }
+    public function search(Request $request)
+    {
+        if ($request->ajax() || 'NULL') {
+            
+            // $promotions = Promotions::where('product_id',(select('id')Products::where('name', 'LIKE', '%' . $request->search . '%'))))->get();
+            $products = Products::where('name', 'LIKE', '%' . $request->search . '%')->get();
+            // dd($products);
+            foreach ($products as $value) {
+                $promotions = Promotions::where('product_id',$value->id)->get();
+                if ($promotions != NULL) {
+                    dd($promotions);
+                }
+
+            }
+            // 
+            
+            // dd($promotions);
+            return response()->json(['data'=>$promotions,'products'=>$products],200);
+        }
+    }
+    public function sort(Request $request,$id){
+        if ($request->ajax() || 'NULL') {
+            if ($id == 1) {
+                $products = Products::get();
+            $promotions = Promotions::where('status',1)->get();
+            return response()->json(['data'=>$promotions,'products'=>$products],200);
+            } else {
+                $products = Products::get();
+            $promotions = Promotions::where('status',0)->get();
+            return response()->json(['data'=>$promotions,'products'=>$products],200);
+            }
         }
     }
 
@@ -48,8 +82,7 @@ class PromotionController extends Controller
     {
         // dd(Carbon::today());
         $suppliers = Suppliers::get();
-        $users = User::get();
-        return view('admin.promotions.add',compact('suppliers','users'));
+        return view('admin.promotions.add',compact('suppliers'));
     }
     public function ajax($idSup){
         $products = Products::where('supplier_id',$idSup)->get();
@@ -72,14 +105,13 @@ class PromotionController extends Controller
             $promotions->user_id  = $request->user_id   ;
             $promotions->product_id  = $request->product_id   ;
             $promotions->price  = $request->price   ;
-            $promotions->quantity  = $request->quantity   ;
             $promotions->start_date  = $request->start_date   ;
             $promotions->end_date  = $request->end_date   ;
             // dd($request->end_date,$dt->toDateString() );
-           if ($request->end_date < $dt->toDateString() || $request->quantity == 0 ) {
-               $promotions->status = 1;
+           if ($request->end_date < $dt->toDateString() ) {
+               $promotions->status = 0;
            }else{
-                $promotions->status = 0;
+                $promotions->status = 1;
            }
            $promotions->save();
         return redirect()->route('promotion.index')->with('thongbao','Thêm thành công'); 
@@ -126,12 +158,10 @@ class PromotionController extends Controller
     {
         $validator = Validator::make($request->all(),
             [
-                'price' => 'required',
-            'quantity' => 'required'
+                'price' => 'required'
             ],
         [
             'price.required' => 'Please Enter Name Price',
-            'quantity.required' =>'Please Enter Name Quantity',
         ]);
         if ($validator->fails()) {
             return response()->json(['error'=>'true','mess'=>$validator->errors()],200);
@@ -139,10 +169,10 @@ class PromotionController extends Controller
         if ($request->end_date >= $request->start_date) {
             $dt = Carbon::today();
         $promotions= Promotions::find($id);
-        if ($request->end_date < $dt->toDateString() || $request->quantity == 0 ) {
-               $promotions->status = 1;
+        if ($request->end_date < $dt->toDateString() ) {
+               $promotions->status = 0;
            }else{
-                $promotions->status = 0;
+                $promotions->status = 1;
            }
         $promotions->update($request->all());
         return response()->json(['data'=>$promotions,'message'=>'Update promotions successfully'],200);

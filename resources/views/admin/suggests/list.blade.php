@@ -34,7 +34,7 @@
                         <tbody>
                             @foreach($suggets as $key=>$item)
                             <tr class="odd gradeX" align="center">
-                                <td>{{$key++}}</td>
+                                <td>{{$item->id}}</td>
                                 <td>{{$item->username}}</td>
                                 <td>{{$item->email}}</td>
                                 <td>

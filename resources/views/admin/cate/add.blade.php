@@ -39,7 +39,7 @@
         </div>
         <div class="form-group">
             <label >Desription *</label>
-            <textarea class="form-control" rows="3" name="desription">{!! old('desription') !!}</textarea>
+            <textarea class="form-control"  id="demo" rows="3" name="desription">{!! old('desription') !!}</textarea>
             
         </div>
         <button type="submit" class="btn btn-default">Category Add</button>

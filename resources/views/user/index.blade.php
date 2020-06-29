@@ -6,7 +6,9 @@
 	
 	<div class="main">
 
-@if(Session::get('products_vieww') != NULL)
+
+
+	@if(Session::get('products_vieww') != NULL)
 	<div class="heading">
 					<h3>San pham da xem</h3>
 				</div>
@@ -66,12 +68,12 @@
 						@endforeach
 						<a href="{{route('preview', $value->id)}}">
 							@foreach($value->product_images as $key=>$item)
-	                                    @if($value->id == $item->product_id)
-	                                    @if($key == 0)
+	                            @if($value->id == $item->product_id)
+	                                @if($key == 0)
 	                                    <img src="/uploads/{{$item->path}}" alt=""></img>
-	                                    @endif
-	                                    @endif
-	                                    @endforeach
+	                                @endif
+	                            @endif
+	                        @endforeach
 						</a>	
 						<h2>{{$value->name}}</h2>
 					</div>
@@ -81,10 +83,12 @@
 						</div>
 						<div class="add-cart">								
 							<h4><a href="{{route('preview', $value->id)}}">Xem chi tiết</a></h4>
+
 						</div>
-						<div class="clear"></div>
 					</div>
+
 				</div>
+
 				@endforeach
 			</div>
 
@@ -102,15 +106,17 @@
 				@if($value->sales_volume >= 10)
 				<div class="grid_1_of_4 images_1_of_4">
 					<a href="{{route('preview', $value->id)}}">
-					@foreach($value->product_images as $key=>$item)
-                            @if($value->id == $item->product_id)
-                            @if($key == 0)
-                            <img src="/uploads/{{$item->path}}" alt=""></img>
-                            @endif
-                            @endif
-                            @endforeach
-                      </a>					
-					<h2>{{$value->name}} </h2>
+
+						@foreach($value->product_images as $key=>$item)
+                                    @if($value->id == $item->product_id)
+                                    @if($key == 0)
+                                    <img src="/uploads/{{$item->path}}" alt="" ></img>
+                                    @endif
+                                    @endif
+                                    @endforeach
+					</a>	
+					<h2>{{$value->name}}</h2>
+
 					<div class="price-details">
 						<div class="price-number">
 							<p><span class="rupees">${{$value->price}}</span></p>

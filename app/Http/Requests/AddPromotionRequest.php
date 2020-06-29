@@ -25,7 +25,6 @@ class AddPromotionRequest extends FormRequest
     {
         return [
             'price' => 'required',
-            'quantity' => 'required',
             'start_date' => 'required',
             'end_date' => 'required'
         ];
@@ -33,7 +32,6 @@ class AddPromotionRequest extends FormRequest
      public function messages(){
         return [
             'price.required' => 'Please Enter Name Price',
-            'quantity.required' =>'Please Enter Name Quantity',
             'start_date.required' =>'Please Enter Name Start_date',
             'end_date.required' =>'Please Enter Name End_date',
         ];

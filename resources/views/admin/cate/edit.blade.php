@@ -32,7 +32,6 @@
                                 <div class="form-group">
                                 <label>Desription</label>
                                 <input class="form-control" name="desription" id="desription-edit"/>
-                                <div class="errorss" style="color: red;"></div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

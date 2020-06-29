@@ -27,14 +27,6 @@ class AddProRequest extends FormRequest
             'name' => 'required|unique:categories,name',
             'quantity' => 'required',
             'price' => 'required',
-            'RAM' => 'required',
-            'VGA' => 'required',
-            'operating_system' => 'required',
-            'CPU' => 'required',
-            'guarantee' => 'required',
-            'description' => 'required',
-            'sales_volume' => 'required',
-            // 'image' => 'image'
         ];
     }
         public function messages(){
@@ -43,14 +35,7 @@ class AddProRequest extends FormRequest
             'name.unique' => 'Product Name Is Exist ',
             'quantity.required' =>'Please Enter Name Quantity',
             'price.required' =>'Please Enter Name Price',
-            'RAM.required' =>'Please Enter Name RAM',
-            'VGA.required' =>'Please Enter Name VGA',
-            'operating_system.required' =>'Please Enter Name Operating_System',
-            'CPU.required' =>'Please Enter Name CPU',
-            'guarantee.required' =>'Please Enter Name Guarantee',
-            'description.required' =>'Please Enter Name Desription',
-            'sales_volume.required' =>'Please Enter Name Sales_volume',
-            // 'image.image'=>'Please select images with .jpeg, .jpg, .png extensions',
+
         ];
     }
 }

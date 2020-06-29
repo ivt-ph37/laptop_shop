@@ -3,7 +3,7 @@
 <div class="col-lg-12">
     @foreach($users as $item)
                         <h1 class="page-header">User: 
-                            <small style="font-size: 40px;color: red;">{{$item->username}}</small>
+                            <small style="font-size: 40px;color: #6b00ff;">{{$item->username}}</small>
                         </h1>
                     </div>
                     <!-- /.col-lg-12 -->

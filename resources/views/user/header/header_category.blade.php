@@ -18,11 +18,7 @@
 						<a href="#">{{$category->name}}</a>
 						<ul class="cd-secondary-dropdown is-hidden">
 							@foreach ($category->childrenCategories as $childCategory)
-
-							
 								@include('user.product.children_categories', ['child_category' => $childCategory])
-						
-							
 							@endforeach
 						</ul> <!-- .cd-secondary-dropdown -->
 					</li> <!-- .has-children -->

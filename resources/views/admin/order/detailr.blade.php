@@ -39,98 +39,40 @@
                             <tr align="center">
                                 <th>STT</th>
                                 <th>Name Product</th>
+                                <th>Promotion</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
+                                <th>Total</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <?php $total=0; ?>
                             @foreach($order_detail as $key=>$item)
+                            
+                            <?php $promotion=0; ?>
                             <tr class="odd gradeX" align="center">
                                 <td>{{$key=$key+1}}</td>
                                 <td>{{$item->products->name}}</td>
+                                <td>
+                                @foreach($promotions as $value)
+                                    @if($value->product_id == $item->product_id && $item->orders->order_date >= $value->start_date && $item->orders->order_date <= $value->end_date)
+                                    {{"Đã áp dụng"}}
+                                    <?php $promotion = $value->price ?>
+                                    @endif
+                                @endforeach
+                                </td>
                                 <td>{{$item->quantity}}</td>
-                                <td>{{$item->price}}$</td>
+                                <td>{{$item->price - $promotion }}$</td>
+                                <td>{{($item->price - $promotion)*$item->quantity}}$</td>
+                                <?php $total +=($item->price - $promotion)*$item->quantity ?>
                             </tr>
+
+                            
                              @endforeach
                         </tbody>
                     </table>
-        <?php $b1=0;$b2=0;$c=0;$d=0; ?>
 
-        @foreach($order_detail as $item)
-
-        @if($item->orders->deliver_status == 0)
-
-
-        <span style="color: blue;font-size: 25px;">Name Product: </span><span style="font-size: 25px;">{{$item->products->name}}</span><br>
-                <?php $a=0; ?>
-                         @foreach($promotion as $value)
-                        @if($value->products->name == $item->products->name && $value->status == 0 && $item->orders->order_date >= $value->start_date && $item->orders->order_date <= $value->end_date)
-                        <?php $a++ ?>
-                        
-                            @if($value->quantity < $item->quantity)
-                                <span>Promotion: Cuối cùng</span><br>
-
-                                <span>Giá sản phẩm được khuyến mãi : {{$value->quantity}} * {{$item->price}}$ * {{$value->price}}%  = {{ $b1=  $value->quantity * $item->price * $value->price /100}}$</span><br>
-              
-                                <span>Giá sản phẩm còn lại : {{$item->quantity-$value->quantity}} * {{$item->price}}$ = {{ $b2=    ($item->quantity-$value->quantity) * $item->price }}$</span><br>
-                            @else
-                                <span>Promotuon: Còn nhiều </span><br>
-                                <span>Giá khuyến mãi : {{$item->quantity}} * {{$item->price}}$ * {{$value->price}}% =  {{ $b2= $item->quantity * $item->price * $value->price /100}}$</span><br>
-
-                    
-                            @endif          
-                        @endif
-                    @endforeach
-                 @foreach($promotion1 as $value)
-                            @if($value->products->name == $item->products->name && $a == 0)
-                            <?php $a++ ?>
-                            
-                                <span>Promotion: Hết khuyến mãi</span><br>
-
-                                        <span>Giá sản phẩm hiện tại : {{$item->quantity}} * {{$item->price}}$ = {{ $c= $item->quantity * $item->price }}$</span><br>  
-
- 
-
-                              
-                            @endif
-                    @endforeach
-                @if($a == 0)
-                
-                    <span>Promotion: Không có</span><br>
-                    <span>Giá sản phẩm hiện tại : {{$item->quantity}} * {{$item->price}}$ ={{ $d= $item->quantity * $item->price }}$</span><br>
-               
-
-                @endif
-        
-
-
-    
-
-
-
-        @else
-                 <?php $a2=0; ?>
-                     @foreach($promotion35 as $value35)
-                        @if($value35->products->name == $item->products->name)
-                            @if($item->orders->order_date >= $value35->start_date && $item->orders->order_date <= $value35->end_date)
-                            <?php $a2++ ?>
-                                <span style="color: blue;font-size: 25px;">Name Product: </span><span style="font-size: 25px;">{{$item->products->name}}</span><br>
-                                    <span>Promotion : {{$item->quantity}} * {{$item->price}}$ * {{$value35->price}}% =  {{ $b2= $item->quantity * $item->price * $value35->price /100}}$</span><br>        
-                            @endif
-                        @endif
-                    @endforeach
-
-                @if($a2 == 0)
-                        <span style="color: blue;font-size: 25px;">Name Product:  </span><span style="font-size: 25px;">{{$item->products->name}}</span><br>
-                    <span>Promotion: Không có</span><br>
-                    <span>Giá sản phẩm hiện tại : {{$item->quantity}} * {{$item->price}}$ ={{ $b1= $item->quantity * $item->price }}$</span><br>
-               
-
-                @endif
-        @endif
-        @endforeach
-
-        <span style="color: red;font-size: 37px;">Tổng tiền thanh toán : {{$b1+$b2+$c+$d}}$</span><br>
+        <span style="color: red;font-size: 37px;">Tổng tiền thanh toán :{{$total}}$</span><br>
         @if($order_status->deliver_status == 0)
             
             <span style="color: blue;font-size: 25px;">Deliver_Status :</span><button data-url="{{route('order.edit',$order_status->id)}}" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button">{{"Chờ xử lý"}} </button><br>

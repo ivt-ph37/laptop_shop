@@ -150,6 +150,12 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{{ url('admin/dist/js/sb-admin-2.js') }}"></script>
+    <script type="text/javascript" src="{{ url('admin/js/ckeditor/ckeditor.js') }}"></script>
+    <script type="text/javascript" >
+        CKEDITOR.replace('demo');
+         CKEDITOR.replace('desription-edit');
+         CKEDITOR.replace('description-edit');
+    </script>
 
     <!-- DataTables JavaScript -->
     <script src="{{ url('admin/bower_components/DataTables/media/js/jquery.dataTables.min.js') }}"></script>

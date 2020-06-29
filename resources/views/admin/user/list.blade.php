@@ -36,7 +36,7 @@
                         <tbody id="bodydd">
                             @foreach($users as $key=>$item)
                             <tr class="odd gradeX" align="center">
-                                <td>{{$key++}}</td>
+                                <td>{{$item->id}}</td>
                                 <td>{{$item->fullname}}</td>
                                 <td id="email">{{$item->email}}</td>
                                 <td id="level">
@@ -99,6 +99,7 @@ $(document).ready(function () {
 
 
           $('#form-search').submit(function(e){
+            $('.pagination').hide();
                         e.preventDefault();
                         // console.log(url);
                         $.ajax({
@@ -134,16 +135,14 @@ $(document).ready(function () {
 
 
 
-    $('.btn-delete').click(function(){
+    $(document).on('click', '.btn-delete', function(e){
         var url = $(this).attr('data-url');
         var _this = $(this);
         if (confirm('Ban co chac muon xoa khong?')) {
             $.ajax({
-                headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          },
                 type: 'delete',
                 url: url,
+                data: { _token: '{{csrf_token()}}' },
                 success: function(response) {
                     alert('Xoa thanh cong');
                     _this.parent().parent().remove();
@@ -154,7 +153,7 @@ $(document).ready(function () {
             })
         }
     })
-    $('.btn-edit').click(function(e){
+    $(document).on('click', '.btn-edit', function(e){
 
         var url = $(this).attr('data-url');
 

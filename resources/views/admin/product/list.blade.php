@@ -25,12 +25,12 @@
         </div>
         <div class="btn-group">
   <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 166px;">
-    Sort product
+    Sắp Xếp
   </button>
   <div class="dropdown-menu dropdown-menu-right">
-    <button class="dropdown-item st1" type="button" style="width: 100%;">Product remains</button>
-    <button class="dropdown-item st2" type="button" style="width: 100%;">Products are almost out</button>
-    <button class="dropdown-item st3" type="button" style="width: 100%;">out of products</button>
+    <button class="dropdown-item st1" type="button" style="width: 100%;" value="1">Tất cả</button>
+    <button class="dropdown-item st2" type="button" style="width: 100%;" value="2">Sắp Hết</button>
+    <button class="dropdown-item st3" type="button" style="width: 100%;" value="3">Đã hết</button>
   </div>
 </div>
     </div>
@@ -58,7 +58,7 @@
                         <tbody id="bodydd">
                             @foreach($products as $key=>$item)
                             <tr class="odd gradeX" align="center">
-                                <td>{{$key++}}</td>
+                                <td>{{$item->id}}</td>
                                 <td id="name">{{$item->name}}</td>
                                 <td id="category_id">{{$item->categoies->name}}</td>
                                 <td id="quantity">{{$item->quantity}}</td>
@@ -100,6 +100,7 @@ $(document).ready(function () {
 
 
          $('#form-search').submit(function(e){
+            $('.pagination').hide();
                         e.preventDefault();
                         // console.log(url);
                         $.ajax({
@@ -108,10 +109,14 @@ $(document).ready(function () {
                         data: {
                             'search': $('#search').val(),  //biến phải trùng vs tên REQUEST 
                         },
-                        success: function(ab) {
-                            $('#bodydd').html(ab);
-                var html ='';
+                       success:function(ab){
+                // console.log(ab.categories.id);
+                
+                $('#bodydd').html(ab);
+                // window.location.reload();
+               var html ='';
                     $.each(ab.data,function($key,$value){
+                        
                         $.each(ab.categories,function($keyy,$values){
                              if ($value['category_id' ] == $values['id']) {
                             $a = $values['name'];
@@ -123,19 +128,14 @@ $(document).ready(function () {
                             $b = $valuess['path'];
                             }
                         });
-                        // console.log(ab.data);
+                        
                 html +='<tr><td>'+$value['id']+'</td><td>'+$value['name']+'</td><td>'+$a+'</td><td>'+$value['quantity']+'</td><td><img src="/uploads/'+$b+'" width="33%"></img></td><td><a href="http://127.0.0.1/admin/product/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/product/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/product/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
                         html += '</tr>';
                     });
                 $('#bodydd').html(html);
-
-
-
-
-                            }
-
-                        })
-                    })
+            }
+        })
+    })
 
 
 
@@ -160,14 +160,18 @@ $(document).ready(function () {
         })
     }
 
-$('.st1').click(function(e){
+
+    $(document).on('click', '.st1', function(e){
+         $('.pagination').hide();
+         var id= $(this).attr('value');
         e.preventDefault();
         $.ajax({
             type:'get',
-            url: 'product/sort-remains',
+            url: 'product/sort/'+id,
             
             success:function(ab){
                 // console.log(ab.categories.id);
+                // console.log(ab.data);
                 
                 $('#bodydd').html(ab);
                 // window.location.reload();
@@ -192,11 +196,13 @@ $('.st1').click(function(e){
             }
         })
     })
-$('.st2').click(function(e){
+$(document).on('click', '.st2', function(e){
+     $('.pagination').hide();
+     var id= $(this).attr('value');
         e.preventDefault();
         $.ajax({
             type:'get',
-            url: 'product/sort-almost',
+            url: 'product/sort/'+id,
             
             success:function(ab){
                 // console.log(ab.categories.id);
@@ -225,11 +231,13 @@ $('.st2').click(function(e){
         })
     })
 
-  $('.st3').click(function(e){
+  $(document).on('click', '.st3', function(e){
+     $('.pagination').hide();
+     var id= $(this).attr('value');
         e.preventDefault();
         $.ajax({
             type:'get',
-            url: 'product/sort-out',
+            url: 'product/sort/'+id,
             
             success:function(ab){
                 // console.log(ab.categories.id);
@@ -262,7 +270,7 @@ $('.st2').click(function(e){
 
 
     
-    $('.btn-delete').click(function(){
+   $(document).on('click', '.btn-delete', function(e){
         var url = $(this).attr('data-url');
         var _this = $(this);
         if (confirm('Ban co chac muon xoa khong?')) {
@@ -280,25 +288,21 @@ $('.st2').click(function(e){
             })
         }
     })
-     $('.btn-edit').click(function(e){
+    $(document).on('click', '.btn-edit', function(e){
         $('.error1').hide();
         $('.error2').hide();
         $('.error3').hide();
-        $('.error4').hide();
-        $('.error5').hide();
-        $('.error6').hide();
-        $('.error7').hide();
-        $('.error8').hide();
-        $('.error9').hide();
-        $('.error10').hide();
+
 
         var url = $(this).attr('data-url');
         e.preventDefault();
 
         $.ajax({
+            
                 //phương thức get
                 type: 'get',
                 url: url,
+
                 success: function (response) {  //neu click thanh cong 
                     //đưa dữ liệu controller gửi về điền vào input trong form edit.
                     $('.tittle').text(response.data.name);
@@ -337,7 +341,7 @@ $('.st2').click(function(e){
                     $('#cpu-edit').val(response.data.CPU);
                     $('#guarantee-edit').val(response.data.guarantee);
                     $('#note-edit').val(response.data.note);
-                    $('#description-edit').val(response.data.description);
+                    CKEDITOR.instances['description-edit'].setData(response.data.description);
                     $('#sales_volume-edit').val(response.data.sales_volume);
                     // console.log(response.product_image);
                     $('.idSupplier').html(html);
@@ -374,7 +378,7 @@ $('.st2').click(function(e){
                             // processData: false,
                             // contentType: false,
                          data: {
-
+                             _token: '{{csrf_token()}}' ,
                             'name': $('#name-edit').val(),  //biến phải trùng vs tên REQUEST 
                             'quantity': $('#quantity-edit').val(),
                             'price': $('#price-edit').val(),
@@ -386,7 +390,7 @@ $('.st2').click(function(e){
                             'CPU': $('#cpu-edit').val(),
                             'guarantee': $('#guarantee-edit').val(),
                             'note': $('#note-edit').val(),
-                            'description': $('#description-edit').val(),
+                            'description': CKEDITOR.instances['description-edit'].getData(),
                             'sales_volume': $('#sales_volume-edit').val(),
 
                             '_method':'put',
@@ -411,50 +415,8 @@ $('.st2').click(function(e){
                                 } else {
                                     $('.error3').hide();
                                  }
-                                if ($resuld.mess.RAM) {
-                                   $('.error4').show();
-                                      $('.error4').text($resuld.mess.RAM);
-                                 } else {
-                                   $('.error4').hide();
-                                    }
-                                if ($resuld.mess.VGA) {
-                                     $('.error5').show();
-                                      $('.error5').text($resuld.mess.VGA);
-                                 } else {
-                                    $('.error5').hide();
-                                    }
-                                if ($resuld.mess.operating_system) {
-                                   $('.error6').show();
-                                    $('.error6').text($resuld.mess.operating_system);
-                                 } else {
-                                    $('.error6').hide();
-                                    }
-                                if ($resuld.mess.CPU) {
-                                    $('.error7').show();
-                                    $('.error7').text($resuld.mess.CPU);
-                                 } else {
-                                    $('.error7').hide();
-                                    }
-                                if ($resuld.mess.guarantee) {
-                                     $('.error8').show();
-                                    $('.error8').text($resuld.mess.guarantee);
-                                 } else {
-                                 $('.error8').hide();
-                                    }
-                                if ($resuld.mess.description) {
-                                      $('.error9').show();
-                                      $('.error9').text($resuld.mess.description);
-                                 } else {
-                                    $('.error9').hide();
-                                    }
-                                if ($resuld.mess.sales_volume) {
-                                       $('.error10').show();
-                                $('.error10').text($resuld.mess.sales_volume);
-                                 } else {
-                                    $('.error10').hide();
-                                    }
                             }else{
-                            $('#edit').modal('hide');
+                            $('#edit').hide();
                             $('#name').text($resuld.data.name);
                             $('#category_id').text($resuld.data.category_id);
                             $('#quantity').text($resuld.data.quantity);
