@@ -19,6 +19,7 @@
 Route::get('/', 'User\ProductController@index')->name('home');
 Route::get('/product', 'User\ProductController@getAllProduct')->name('list-product');
 Route::get('/feature', 'User\ProductController@getFeature')->name('list-feature');
+Route::get('/highlight', 'User\ProductController@getHighlight')->name('list-highlight');
 Route::get('/category/{id}', 'User\CategoryController@index')->name('list-category');
 Route::post('search', 'User\ProductController@search')->name('search-product');
 Route::get('/preview/{id}', 'User\ProductController@show')->name('preview');
@@ -56,12 +57,6 @@ Route::group(['prefix'=>'ajax'], function(){
 // Route::get('/admin','AdminController@index');
 Route::group(['prefix'=>'admin','middleware'=>'adminMiddleware'],function (){
 
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> finish
 // Auth::routes();
 
 	Route::resource('dashboard','DashboardController');
@@ -116,13 +111,4 @@ Route::group(['prefix'=>'admin','middleware'=>'adminMiddleware'],function (){
 
 
 });
-
-
-
-
-<<<<<<< HEAD
-=======
-
-
->>>>>>> finish
 

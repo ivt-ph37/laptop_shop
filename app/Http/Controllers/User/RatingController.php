@@ -19,7 +19,6 @@ class RatingController extends Controller
     		Ratings::insert([
     			'product_id'=>$id,
     			'number_rating'=>$request->number,
-    			'user_id'=>get_data_user('web')
     		]);
 
     		$product = Products::find($id);

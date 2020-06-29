@@ -14,8 +14,8 @@
 							<!-- <li><a href="#">Checkout</a></li> -->
 							<!-- <li><a href="#">My Account</a></li> -->
 						@else
-							<li><a href="{{route('register')}}">Register</a></li>
-							<li><a href="{{route('login')}}">Login</a></li>
+							<li><a href="{{route('register')}}">Đăng ký</a></li>
+							<li><a href="{{route('login')}}">Đăng nhập</a></li>
 							<li><a href="#">Delivery</a></li>
 							<!-- <li><a href="#">Checkout</a></li> -->
 							<!-- <li><a href="#">My Account</a></li> -->
@@ -46,10 +46,10 @@
 							<thead>
 								<tr>
 									<th width="5%">No.</th>
-									<th width="45%">Item</th> <!-- 50% -->
-									<th width="10%">Quantity</th> <!-- 10% -->
-									<th width="20%">Unit Price</th> <!-- 20% -->
-									<th width="20%">Total Price</th> <!-- 20% -->
+									<th width="45%">Sản phẩm</th> <!-- 50% -->
+									<th width="10%">Số lượng</th> <!-- 10% -->
+									<th width="20%">Giá tiền sản phẩm</th> <!-- 20% -->
+									<th width="20%">Tổng số tiền</th> <!-- 20% -->
 								</tr>
 							</thead>
 
@@ -99,9 +99,9 @@
 								</tr>
 								<tr>
 									<td colspan="5">
-										<a href="{{route('checkout')}}" class="btn btn-yellow btn-lg pull-right margin-bottom-20" > Continue to Check Out </a>
+										<a href="{{route('checkout')}}" class="btn btn-yellow btn-lg pull-right margin-bottom-20" > Tiếp tục thanh toán </a>
 										<a href="{{route('home')}}" class="btn btn-success btn-lg pull-right margin-right-20">
-											<i class="fa fa-plus"></i> Add More Products</a>
+											<i class="fa fa-plus"></i> Thêm sản phẩm</a>
 
 											<div class="clearfix"></div>
 										</td>

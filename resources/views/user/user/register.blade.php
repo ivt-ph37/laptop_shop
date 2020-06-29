@@ -14,8 +14,8 @@
 							<!-- <li><a href="#">Checkout</a></li> -->
 							<!-- <li><a href="#">My Account</a></li> -->
 						@else
-							<li><a href="{{route('register')}}">Register</a></li>
-							<li><a href="{{route('login')}}">Login</a></li>
+							<li><a href="{{route('register')}}">Đăng ký</a></li>
+							<li><a href="{{route('login')}}">Đăng nhập</a></li>
 							<li><a href="#">Delivery</a></li>
 							<!-- <li><a href="#">Checkout</a></li> -->
 							<!-- <li><a href="#">My Account</a></li> -->
@@ -49,11 +49,11 @@
 						@endif
 
 						<div class="col-md-8 col-md-offset-2">
-							<h2 class="text-center">Create Your Account</h2>
+							<h2 class="text-center">Tạo Tài Khoản</h2>
 							<form method="post" class="cmxform" action="{{route('register')}}" id="registerForm">
 								<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 								<div class="form-group row">
-									<label for="fullname" class="col-sm-2 form-control-label">Full Name:</label>
+									<label for="fullname" class="col-sm-2 form-control-label">Họ Và Tên:</label>
 									<div class="col-sm-8">
 										<input type="text" name="fullname" class="form-control" id="fullname" placeholder="Maniruzzaman" minlength="2" required>
 									</div>
@@ -67,28 +67,28 @@
 								</div>
 
 								<div class="form-group row">
-									<label for="username" class="col-sm-2 form-control-label">Username:</label>
+									<label for="username" class="col-sm-2 form-control-label">Tên Đăng Nhập:</label>
 									<div class="col-sm-8">
 										<input type="text" name="username" class="form-control" id="username" placeholder="akash90">
 									</div>
 								</div>
 
 								<div class="form-group row">
-									<label for="password" class="col-sm-2 form-control-label">Password:</label>
+									<label for="password" class="col-sm-2 form-control-label">Mật Khẩu:</label>
 									<div class="col-sm-8">
 										<input type="password" name="password" class="form-control" id="password" placeholder="Enter password">
 									</div>
 								</div>
 
 								<div class="form-group row">
-									<label for="confirm_password" class="col-sm-2 form-control-label">Confirm Password:</label>
+									<label for="confirm_password" class="col-sm-2 form-control-label">Xác Nhận Mật Khẩu:</label>
 									<div class="col-sm-8">
 										<input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Same password previously entered">
 									</div>
 								</div>
 
 								<div class="form-group row">
-									<label for="telephone" class="col-sm-2 form-control-label">Phone Number:</label>
+									<label for="telephone" class="col-sm-2 form-control-label">Số Điện Thoại:</label>
 									<div class="col-sm-8">
 										<input type="text" class="form-control" name="telephone" id="telephone" placeholder="Enter Phone Number" required>
 									</div>
@@ -96,7 +96,7 @@
 
 								<div class="form-group row">
 									<div class="col-sm-offset-2 col-sm-8">
-										<input type="submit" class="btn btn-danger btn-lg btn-block" id="submitForm" value="Sign Up Now" />
+										<input type="submit" class="btn btn-danger btn-lg btn-block" id="submitForm" value="Đăng Ký" />
 									</div>
 								</div>
 							</form>

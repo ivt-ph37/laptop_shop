@@ -74,7 +74,7 @@ class CheckoutController extends Controller
             //tru va cap nhat so luong quantity trong product khi dat mua
             $product = Products::find($value->id);
             $product['quantity'] = $product['quantity']-$value->qty;
-
+            $product['sales_volume'] =  $product['sales_volume']+$value->qty;
             $product->save();
             
 

@@ -7,12 +7,12 @@
 		$(function(){
 			$('#productss').slides({
 				preload: true,
-				preloadImage: 'img/loading.gif',
+				
 				effect: 'slide, fade',
 				crossfade: true,
 				slideSpeed: 350,
 				fadeSpeed: 500,
-				generateNextPrev: true,
+				generateNextPrev: false,
 				generatePagination: false,
 
 			});
@@ -34,12 +34,8 @@
 									<div id="productss">
 										<div class="slides_container">
 											@foreach($productImage as $value)
-											@foreach($value->product_images as $key=>$item)
-				                       
-				                                    @if($key == 0)
-				                                    <img src="/uploads/{{$item->path}}" alt="" width="100%"></img>
-				                       
-				                                    @endif
+												@foreach($value->product_images as $key=>$item)
+				                                    <img src="/uploads/{{$item->path}}" alt="" ></img>
 				                                    @endforeach
 											@endforeach
 
@@ -47,14 +43,12 @@
 										<ul class="pagination">
 											@foreach($productImage as $value)
 											@foreach($value->product_images as $key=>$item)
-											<li>
-												@if($key != 0)
-												<a href="#{{$key++}}"> 
-				                                    <img src="/uploads/{{$item->path}}" alt="" width="100%"></img>
-				                       
-				                                   </a>
-				                                    @endif
-											</li>
+												<li>
+													<a href="#{{$key++}}"> 
+														<img src="/uploads/{{$item->path}}" alt="" width="100%"></img>
+
+													</a>   
+												</li>
 											@endforeach
 											@endforeach
 										</ul>
@@ -74,7 +68,7 @@
 										<p>Promotion Price: 
 											<span>Giảm: </span><span>{{$promotion->price}}%</span><br>
 											<p>Giá cũ: <span style="text-decoration: line-through;">{{$product->price}}$</span></p>
-											<p>Còn:<span> {{$promotion->products->price * $promotion->price / 100}}$</span></p>
+											<p>Còn:<span> {{$promotion->products->price - $promotion->price}}$</span></p>
 										</p>
 										@else
 										<p>Price: <span>{{$product->price}}$</span></p>
@@ -82,26 +76,34 @@
 									@elseif($product->quantity > 0 && $product->quantity / 2 < $product->sales_volume)
 										@if ($promotion != NULL)
 										<p>Promotion Price: 
-											<span>Giảm: </span><span>{{$promotion->price}}%</span><br>
+											<span>Giảm: </span><span>{{$promotion->price}}$</span><br>
 											<p>Giá cũ: <span style="text-decoration: line-through;">{{$product->price}}$</span></p>
-											<p>Còn:<span> {{$promotion->products->price * $promotion->price / 100}}$</span></p>
-											<p style="color: #5f00ff;">Sản phầm gần hết</p>
+											<p>Còn:<span> {{$promotion->products->price - $promotion->price}}$</span></p>
+											<div class="alert alert-danger">
+												Sản phẩm gần hết!
+											</div>
 										</p>
 										@else
 										<p>Price: <span>{{$product->price}}$</span></p>
-										<p style="color: #5f00ff;">Sản phầm gần hết</p>
+										<div class="alert alert-danger">
+											Sản phẩm gần hết!
+										</div>
 										@endif
 									@else	
-										<p><span> Sản phẩm đã hết</span></p>								
+										<div class="alert alert-danger">
+											Sản phẩm đã hết!
+										</div>							
 									@endif
+								
+
 										
 								</div>
 								@if($product->quantity != 0)
 
 								<input type="hidden" name="price" value="{{$product->price}}">
-								@foreach($promotionPrice as $item)
-								<input type="hidden" name="promotionPrice"  value="{{$item->price}}">
-								@endforeach
+								@if ($promotion != NULL)
+								<input type="hidden" name="promotionPrice"  value="{{$promotion->products->price - $promotion->price}}">
+								@endif
 								
 								<div class="available">
 									<span>Quantity:</span>
@@ -112,7 +114,7 @@
 									<div>{{Session::get('thongbao')}}: <strong>Chỉ còn {{$product->quantity}} sản phẩm</strong></div>
 									@endif
 								
-								<button class="button" type="submit" id="btn_add_cart">Add to Cart</button>	
+								<button class="button" type="submit" id="btn_add_cart">Thêm vào giỏ hàng</button>	
 								@endif
 							</form>
 						</div>
@@ -122,29 +124,19 @@
 					<div class="product_desc">	
 						<div id="horizontalTab">
 							<ul class="resp-tabs-list">
-								<li>Product Details</li>
-								<li>product Tags</li>
-								<li>Product Reviews</li>
+								<li>Chi tiết sản phẩm</li>
+								<li>Đánh giá sản phẩm</li>
 								<div class="clear"></div>
 							</ul>
 							<div class="resp-tabs-container">
 								<div class="product-desc">
 									<p>Lorem Ipsum is simply dummy text of the <span>printing and typesetting industry</span>. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
 									<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, <span>when an unknown printer took a galley of type and scrambled</span> it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.<span> It has survived not only five centuries</span>, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-									<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>					</div>
-
-									<div class="product-tags">
-										<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-										<h4>Add Your Tags:</h4>
-										<div class="input-box">
-											<input type="text" value="">
-										</div>
-										<div class="button"><span><a href="#">Add Tags</a></span></div>
-									</div>	
+									<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>					</div>	
 
 									<div class="review">
 										<div style="margin-bottom:15px">
-											<h4>Review product <a href="#" style="">{{$product->name}}</a></h4>
+											<h4>Đánh giá sản phẩm <a href="#" style="">{{$product->name}}</a></h4>
 
 											<div class="review_rating_content" style="display:flex; justify-content:space-between; align-items: center; margin-top:15px">
 
@@ -175,20 +167,20 @@
 												</div>
 
 												<div class="" style="width:15%; border:1px solid #ff9705; background-color:#ff9705; padding:15px; text-align:center; border-radius:50%">
-													<a class="js_rating_action" style="color:#fff; text-decoration: none; cursor:pointer; opacity:0.7">Choose reviews</a>
+													<a class="js_rating_action" style="color:#fff; text-decoration: none; cursor:pointer; opacity:0.7">Đánh giá</a>
 												</div>
 											</div>
 
 											<div class="form_rating hide">
 												<div style="display:flex; justify-content:space-between; align-items:center" >
-													<p style="color:#CD1F25">Please choose review</p>
+													<p style="color:#CD1F25">Vui lòng đánh giá sự yêu thích của bạn về sản phẩm</p>
 													<span id="list_start">
 														@for($i=1; $i<=5; $i++)
 														<i class="fas fa-star" data-key="{{$i}}"></i>
 														@endfor
 													</span>
 													<input type="hidden" id="number_rating">
-													<a href="{{route('save-rating', $product->id)}}" class="js_rating_product">Send Reviews</a>
+													<a href="{{route('save-rating', $product->id)}}" class="js_rating_product">Gửi đánh giá</a>
 												</div>
 											</div>
 										</div>
@@ -208,10 +200,10 @@
 						
 						<div class="content_bottom">
 							<div class="heading">
-								<h3>Related Products</h3>
+								<h3>Sản phẩm liên quan</h3>
 							</div>
 							<div class="see">
-								<p><a href="#">See all Products</a></p>
+								<p><a href="#">Xem tất cả sản phẩm</a></p>
 							</div>
 							<div class="clear"></div>
 						</div>
@@ -221,7 +213,7 @@
 								@foreach($item->product_images as $key=>$value)
 				                       
                                 @if($key == 0)
-                               <a href=""><img src="/uploads/{{$value->path}}" alt="" width="25%"></img></a> 
+                               <a href=""><img src="/uploads/{{$value->path}}" alt=""></img></a> 
                    
                                 @endif
                                 @endforeach	

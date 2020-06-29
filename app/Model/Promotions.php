@@ -11,8 +11,6 @@ class Promotions extends Model
 
     protected $fillable = ['user_id','product_id','price','quantity','start_date','end_date','status'];
     
-    protected $fillable = ['user_id','product_id','price','quantity','start_date','end_date','status'];
-
     public function products(){
 
     	return $this->belongsTo('App\Model\Products','product_id','id');

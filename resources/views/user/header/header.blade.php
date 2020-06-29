@@ -10,10 +10,10 @@
 						<li><a href="#">Delivery</a></li>
 						<!-- <li><a href="{{route('checkout')}}">Checkout</a></li> -->
 						<!-- <li><a href="#">My Account</a></li> -->
-						<li><a href="#" id="btn_logout">Logout</a></li>
+						<li><a href="#" id="btn_logout">Đăng xuất</a></li>
 					@else
-						<li><a href="{{route('register')}}">Register</a></li>
-						<li><a href="{{route('login')}}">Login</a></li>
+						<li><a href="{{route('register')}}">Đăng ký</a></li>
+						<li><a href="{{route('login')}}">Đăng nhập</a></li>
 						<li><a href="#">Delivery</a></li>
 						<!-- <li><a href="{{route('checkout')}}">Checkout</a></li> -->
 						<!-- <li><a href="#">My Account</a></li> -->
@@ -27,7 +27,7 @@
 				<a href="{{route('home')}}"><img src="{{asset('images/logo.png')}}" alt="" /></a>
 			</div>
 			  <div class="cart">
-			  	   <p>Welcome to our Online Store! 
+			  	   <p>Chào mừng bạn đến với cửa hàng! 
 				  	   	<span>
 				  	   	<!-- 	<a 
 				  	   		@if(Auth::check()) href=" {{route('cart-index')}}"
@@ -39,11 +39,11 @@
 				  	   		</a>
 				  	   	</span>
 				  	   	<div id="dd" class="wrapper-dropdown-2">
-				  	   		{{Cart::count()}} item(s) - {{Cart::total()}}$
+				  	   		{{Cart::count()}} sản phẩm - {{Cart::total()}}$
 
 				  	   		
 				  	   		<ul class="dropdown">
-								<li>you have @if(Cart::count()<0) {{no}} @else {{Cart::count()}} @endif items in your Shopping cart</li>
+								<li>Bạn có @if(Cart::count()<0) {{no}} @else {{Cart::count()}} @endif sản phẩm trong giỏ hàng</li>
 							</ul>
 						</div>
 					</p>
@@ -81,11 +81,11 @@
 	<div class="header_bottom">
 	     	<div class="menu">
 	     		<ul>
-			    	<li class="active"><a href="{{route('home')}}">Home</a></li>
-			    	<li><a href="about.html">About</a></li>
-			    	<li><a href="delivery.html">Delivery</a></li>
-			    	<li><a href="news.html">News</a></li>
-			    	<li><a href="contact.html">Contact</a></li>
+			    	<li class="active"><a href="{{route('home')}}">Trang chủ</a></li>
+			    	<li><a href="about.html">Về chúng tôi</a></li>
+			    	<li><a href="delivery.html">Vận chuyển</a></li>
+			    	<li><a href="news.html">Tin tức</a></li>
+			    	<li><a href="contact.html">Liên hệ</a></li>
 			    	<div class="clear"></div>
      			</ul>
 	     	</div>
