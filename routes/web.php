@@ -56,12 +56,6 @@ Route::group(['prefix'=>'ajax'], function(){
 // Route::get('/admin','AdminController@index');
 Route::group(['prefix'=>'admin','middleware'=>'adminMiddleware'],function (){
 
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> finish
 // Auth::routes();
 
 	Route::resource('dashboard','DashboardController');
@@ -116,13 +110,4 @@ Route::group(['prefix'=>'admin','middleware'=>'adminMiddleware'],function (){
 
 
 });
-
-
-
-
-<<<<<<< HEAD
-=======
-
-
->>>>>>> finish
 
