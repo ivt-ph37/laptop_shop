@@ -43,16 +43,32 @@ class ProductController extends Controller
     {
        
         $products = Products::with('product_images')->orderBy('created_at', 'DESC')->limit(4)->get();
-        // dd($products);
+
         $categorys = Categoies::with('childrenCategories')->where('parent_id',0)->get();
         $promotionPrice = Products::with('promotions')->take(1)->get();
-        // dd($promotionPrice);
-        // dd($categories);
-        // dd(Cookie::get('BuiTu'));
-                 // $value = $request->cookie('BuiTu');
-      // dd($value);
-      
-        return view('user.index', compact('products','categorys','promotionPrice'));
+        $products_view=Session::get('products_vieww');
+        $key=0;
+        if ($products_view != NULL){
+            $products_views = array($key=>array('id'=>0));// ta tạo thêm một mảng bỏ nó vào mac dinh no la 0 ha thì mình pải tạo 1 cái đe mình foreach đk bén đo t xét vs khác 0 ok?? roi đe a xoa sesion tạo cái khác đa chứ lỗi rồi mà trc đó t pải tạo NULL vì mới vào làm gi mình sesion liền c
+           // dd($a);
+           foreach ($products_view as $value) { 
+                $b=0;
+               foreach ($products_views as $item) {
+                   if ($value->id == $item['id']) {
+                       $b++;
+                   }
+               }
+               if ($b == 0) {//có đang xem ko đó ko thây trả lời co
+                $key++;
+                   $products_views += array($key=>array('id'=>$value->id,'name'=>$value->name,'quantity'=>$value->quantity,'price'=>$value->price,'supplier_id'=>$value->supplier_id,'category_id'=>$value->category_id,'RAM'=>$value->RAM,'VGA'=>$value->VGA,'operating_system'=>$value->operating_system,'CPU'=>$value->CPU,'guarantee'=>$value->guarantee,'note'=>$value->note,'description'=>$value->description,'sales_volume'=>$value->sales_volume,'product_images'=>$value->product_images));
+                  
+               }
+           }
+           return view('user.index', compact('products','categorys','products_views','promotionPrice'));
+        }else {
+            return view('user.index', compact('products','categorys','promotionPrice'));
+        }
+        
     }
 
     /**
@@ -115,23 +131,7 @@ class ProductController extends Controller
         // dd($productImage);   
         $productSuggests = $this->getProductSuggests($id);
 
-
-
-
-        
-         // dd(Cookie('nam'));
-
-        // $response = new Response('abc');  
-        //  $value = 'Lập trình 123';
-        //  $time = 10;
-        //  $response->withCookie('BuiTu',$value,$time);
-
-         // dd($response);      
- //         $cookie_name = 'asd';
- // $cookie_value = '123';
- // setcookie($cookie_name,$cookie_value,1); //name,value,time,url
-
- // dd($_COOKIE["asd"]);
+        Session::push('products_vieww',$product);
 
         return view('user.product.product_detail', compact('product','categorys','promotionPrice','productImage', 'productSuggests','promotion'));
     }

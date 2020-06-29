@@ -63,25 +63,15 @@ Route::group(['prefix'=>'admin','middleware'=>'adminMiddleware'],function (){
 
 	Route::get('category/search', 'CategoryController@search')->name('search-category');
 	Route::get('/','CategoryController@fetch_data');
-	// Route::get('category/chirdren/{id}','CategoryController@update_chirdren');
 	Route::resource('category','CategoryController');
 	
-	// Route::get('/category/search', 'CategoryController@search')->name('search-button');
 	Route::get('/','ProductController@fetch_data');
 	Route::get('product/search', 'ProductController@search');
-	Route::get('product/sort-remains', 'ProductController@remains');
-	Route::get('product/sort-almost', 'ProductController@almost');
-	Route::get('product/sort-out', 'ProductController@out');
-
-	
+	Route::get('product/sort/{id}', 'ProductController@sort');	
 	Route::resource('product','ProductController');
 
 	Route::post('product/{id}', 'ProductController@image')->name('post.image');
 	Route::resource('image','ProductsImageController');
-
-
-
-
 
 	Route::get('/','UserController@fetch_data');
 	Route::get('user/search', 'UserController@search');
@@ -90,11 +80,8 @@ Route::group(['prefix'=>'admin','middleware'=>'adminMiddleware'],function (){
 
 	Route::get('/','OrderController@fetch_data');
 	Route::get('order/search', 'OrderController@search');
-	Route::get('order/old', 'OrderController@old');
-	Route::get('order/new', 'OrderController@new');
-	Route::get('order/statu', 'OrderController@status_c');
-	Route::get('order/status', 'OrderController@status_d');
-	Route::get('order/statuss', 'OrderController@status_h');
+	Route::get('order/sort/{id}', 'OrderController@sort');
+	Route::get('order/status/{id}', 'OrderController@status');
 	Route::resource('order','OrderController');
 
 
@@ -105,9 +92,10 @@ Route::group(['prefix'=>'admin','middleware'=>'adminMiddleware'],function (){
 
 
 	Route::get('/','PromotionController@fetch_data');
+	Route::get('promotion/search', 'PromotionController@search');
+	Route::get('promotion/sort/{id}', 'PromotionController@sort');
 	Route::get('promotion/ajax/{idSup}','PromotionController@ajax');
 	Route::resource('promotion','PromotionController');
-
 
 
 });

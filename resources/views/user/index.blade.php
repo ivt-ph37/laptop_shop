@@ -5,6 +5,41 @@
 	@include('user.header.header_slide')
 	
 	<div class="main">
+
+@if(Session::get('products_vieww') != NULL)
+	<div class="heading">
+					<h3>San pham da xem</h3>
+				</div>
+		<div class="section group">
+				@foreach($products_views as $key=>$value)
+				@if($key != 0)
+					
+					<div class="grid_1_of_4 images_1_of_4">
+						<a href="{{route('preview', $value['id'])}}">
+							@foreach($value['product_images'] as $keyy=>$item)
+	                                    @if($value['id'] == $item['product_id'])
+	                                    @if($keyy == 0)
+	                                    <img src="/uploads/{{$item['path']}}" alt="" ></img>
+	                                    @endif
+	                                    @endif
+	                                    @endforeach
+						</a>
+						<h2>{{$value['name']}}</h2>
+						<div class="price-details">
+							<div class="price-number">
+								<p><span class="rupees">${{$value['price']}}</span></p>
+							</div>
+							<div class="add-cart">								
+								<h4><a href="{{route('preview', $value['id'])}}">View Details</a></h4>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+					@endif
+				@endforeach
+			</div>
+	@endif
+
 		<div class="content">
 			<div class="content_top">
 				<div class="heading">
