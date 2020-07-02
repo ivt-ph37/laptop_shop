@@ -28,9 +28,6 @@
 
 </div>
 
-
-<!-- /input-group -->
-<!-- /.col-lg-12 -->
 <div id="table_pag">
 
 
@@ -61,8 +58,6 @@
                             @else
                                 @foreach($va->childrenCategories as $childCategory)
                                     @include('admin.cate.dequy', ['child_category' => $childCategory])
-                               
-               
                                 @endforeach
                             @endif
 
@@ -87,7 +82,6 @@
     {!!  $categoies->links() !!}
 </div>
 
-<!-- edit Modal-->
 @include('admin.cate.edit')
 
 @endsection
@@ -101,8 +95,6 @@ $(document).ready(function () {
 
     $('.pagination a').unbind('click').on('click', function(e) {
         e.preventDefault();
-        // $('#wrapper').hide();
-
         var page= $(this).attr('href').split('page=')[1];
         fetch_data(page);
     }) 
@@ -120,76 +112,64 @@ $(document).ready(function () {
      $('#form-search').submit(function(e){
         $('.pagination').hide();
                         e.preventDefault();
-                        // console.log(url);
                         $.ajax({
                             type: 'get',
                             url: 'category/search',
                         data: {
-                            'search': $('#search').val(),  //biến phải trùng vs tên REQUEST 
+                            'search': $('#search').val(), 
                         },
-                        success: function(ab) {
-                            // console.log(ab.data);
-                            $('#bodydd').html(ab);
-                var html ='';
-                    $.each(ab.data,function($key,$value){
+                        success: function($resuld) {
+                            $('#bodydd').html($resuld);
+                        var html ='';
+                        $.each($resuld.data,function($key,$value){
                         // console.log($key);
 
-                        var $a='';
-                        if ($value['parent_id'] == 0) {
-                                $a = 'None';
-                            } 
-                        else {
-                               $.each(ab.categories,function($keyy,$values){
-                    
-                                     if ($value['parent_id' ] == $values['id']) {
-                                             $a = $values['name'];
-                                             // console.log(ab.categories);
-                                             // console.log($values.children_categories)
-                                         }
-                                     else{
-                                        $.each($values.children_categories,function($keyy,$valuess){
-                    
-                                        if ($value['parent_id' ] == $valuess['id']) {
-                                             $a = $valuess['name'];
-                                             // console.log($values.children_categories);
-                                             // console.log($values.categories);
-                                         }
-                                         else{
-                                             $.each($valuess.categories,function($keyy,$valuesss){
-                    
-                                        if ($value['parent_id' ] == $valuesss['id']) {
-                                             $a = $valuesss['name'];
-
-                                                                        }
-                                                                    });                                       
-                                                              }
-                                                         }); 
-                                               }
-                                     }); 
-                                 }
-                        if ($value['desription'] == null) {
-                            $value['desription'] = '';
-                        }
+                            var $a='';
+                            if ($value['parent_id'] == 0) {
+                                    $a = 'None';
+                                } 
+                            else {
+                                   $.each($resuld.categories,function($keyy,$values){
                         
-                html +='<tr><td>'+$value['id']+'</td><td>'+$value['name']+'</td><td>'+$a+'</td><td>'+$value['desription']+'</td><td><a href="http://127.0.0.1/admin/category/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/category/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/category/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
-                        html += '</tr>';
-                    });
-                $('#bodydd').html(html);
-
-
-
-
+                                         if ($value['parent_id' ] == $values['id']) {
+                                                 $a = $values['name'];
+                                             }
+                                         else
+                                         {
+                                            $.each($values.children_categories,function($keyy,$valuess)
+                                            {
+                        
+                                            if ($value['parent_id' ] == $valuess['id']) {
+                                                 $a = $valuess['name'];
+                                             }
+                                             else
+                                             {
+                                                 $.each($valuess.categories,function($keyy,$valuesss)
+                                                 {
+                        
+                                                     if ($value['parent_id' ] == $valuesss['id']) 
+                                                     {
+                                                         $a = $valuesss['name'];
+                                                                 }
+                                                                        });                                       
+                                                                  }
+                                                             }); 
+                                                   }
+                                         }); 
+                                     }
+                            if ($value['desription'] == null) {
+                                $value['desription'] = '';
+                            }                         
+                            html +='<tr><td>'+$value['id']+'</td><td>'+$value['name']+'</td><td>'+$a+'</td><td>'+$value['desription']+'</td><td><a href="http://127.0.0.1/admin/category/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/category/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/category/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
+                            html += '</tr>';
+                        });
+                             $('#bodydd').html(html);
                             }
 
                         })
                     })
 
-
-
-
-
-
-        $(document).on('click', '.btn-delete', function(e){
+    $(document).on('click', '.btn-delete', function(e){
         var url = $(this).attr('data-url');
         var _this = $(this);
         if (confirm('Ban co chac muon xoa khong?')) {
@@ -198,13 +178,11 @@ $(document).ready(function () {
                 url: url,
                 data: { _token: '{{csrf_token()}}' },
                 success: function(response) {
-                    // toastr.success('Delete category success!')
                     alert('Xoa thanh cong');
                     _this.parent().parent().remove();
+                    window.location.reload();
                 },
-                // error: function (jqXHR, textStatus, errorThrown) {
-                //     //xử lý lỗi tại đây
-                // }
+
             })
         }
     })
@@ -216,34 +194,27 @@ $(document).ready(function () {
         e.preventDefault();
 
         $.ajax({
-                //phương thức get
 
                 type: 'get',
                 url: url,
                 success: function (response) {
-                    //đưa dữ liệu controller gửi về điền vào input trong form edit.
                     $('.tittle').text(response.data.name);
                     $('#name-edit').val(response.data.name);
                     $('#parent-edit').val(response.data.parent_id);
                     CKEDITOR.instances['desription-edit'].setData(response.data.desription);
-                    //thêm data-url chứa route sửa todo đã được chỉ định vào form sửa.
                     $('#form-edit').attr('data-url','{{ asset('admin/category/') }}/'+response.data.id)
                 },
-                // error: function (error) {
-                    
-                // }
             })
         })
     $('#form-edit').submit(function(e){
                         e.preventDefault();
                         var url=$(this).attr('data-url');
-                // console.log(url);
                         $.ajax({
                             type: "PUT",
                             url: url,
                         data: {
                             _token: '{{csrf_token()}}' ,
-                            'name': $('#name-edit').val(),  //biến phải trùng vs tên REQUEST 
+                            'name': $('#name-edit').val(),  
                             'parent_id': $('#parent-edit').val(),
                             'desription': CKEDITOR.instances['desription-edit'].getData(),
                             '_method':'put',
@@ -254,7 +225,7 @@ $(document).ready(function () {
                                 
                                 if ($resuld.mess.name) {
                                     $('.error').show();
-                                    $('.error').text($resuld.mess.name[0]);//tạo 1 thẻ class dươi input đê xuất lỗi.  Còn mess.name thì name tương ứng vs validator của nó
+                                    $('.error').text($resuld.mess.name[0]);
                                 }else{$('.error').hide()};
                                
             
@@ -263,22 +234,15 @@ $(document).ready(function () {
                             $('#name').text($resuld.data.name);
                             $('#parent_id').text($resuld.data.parent_id);
                             $('#desription').text($resuld.data.desription);
-                            // window.location.reload();
                             $('#mess').show();
                             $('#mess').html($resuld.message,{timeOut:5000});
                             toastr.success($resuld.message);
-                            // alert('Sua thanh cong');
                             window.location.reload();
                             }
 
                         },
-                            // error: function (jqXHR, textStatus, errorThrown) {
-                            //     //xử lý lỗi tại đây
-                            // }
                         })
                     })
-
-
 
 })
    

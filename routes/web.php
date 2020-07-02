@@ -21,12 +21,13 @@ Route::get('/product', 'User\ProductController@getAllProduct')->name('list-produ
 Route::get('/feature', 'User\ProductController@getFeature')->name('list-feature');
 Route::get('/highlight', 'User\ProductController@getHighlight')->name('list-highlight');
 Route::get('/category/{id}', 'User\CategoryController@index')->name('list-category');
-Route::post('search', 'User\ProductController@search')->name('search-product');
+Route::get('search', 'User\ProductController@search')->name('search-product');
 Route::get('/preview/{id}', 'User\ProductController@show')->name('preview');
 Route::get('/register', 'User\UserController@index')->name('register');
 Route::post('/register', 'User\UserController@store');
 Route::get('/login', 'User\UserController@getLogin')->name('login');
 Route::post('/login', 'User\UserController@setLogin');
+
 
 Route::get('/my-account/{id}', 'User\UserController@show')->name('user');
 Route::get('/my-account/account-information/{id}', 'User\UserController@edit')->name('information-user');
@@ -66,6 +67,7 @@ Route::group(['prefix'=>'admin','middleware'=>'adminMiddleware'],function (){
 	Route::resource('category','CategoryController');
 	
 	Route::get('/','ProductController@fetch_data');
+	Route::get('product/like/{id}','ProductController@like')->name('product.like');
 	Route::get('product/search', 'ProductController@search');
 	Route::get('product/sort/{id}', 'ProductController@sort');	
 	Route::resource('product','ProductController');

@@ -14,8 +14,6 @@
                                 <th>Name</th>
                                 <th>Phone</th>
                                 <th>Address</th>
-
-
                             </tr>
                         </thead>
                         <tbody>
@@ -83,13 +81,7 @@
             
             <span style="color: blue;font-size: 25px;">Deliver_Status :</span><button data-url="{{route('order.edit',$order_status->id)}}" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button">{{"Hoàn thành"}}</button><br>
         @endif
-            
-
-
-
-
-
-
+        
 <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -113,8 +105,7 @@
                             </div>
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Update</button>
-
-                                </div>
+                            </div>
                             </form>
                         </div>
                     </div>
@@ -126,43 +117,37 @@
 
 @endsection
 
-
-
-
-
 @section('sr')
 
 <script>
 $(document).ready(function () {
 
- $('.btn-edit').click(function(e){
+     $('.btn-edit').click(function(e){
 
-        var url = $(this).attr('data-url');
+            var url = $(this).attr('data-url');
 
-        e.preventDefault();
+            e.preventDefault();
 
-        $.ajax({
-                //phương thức get
-                type: 'get',
-                url: url,
-                success: function (response) {
-                    $('.tittle').text(response.data.username);
-                    if(response.data.deliver_status == 0){
-                        $('#option0').attr('selected','selected');
-                    }else if(response.data.deliver_status == 1){
-                        $('#option1').attr('selected','selected');
+            $.ajax({
+                    type: 'get',
+                    url: url,
+                    success: function (response) {
+                        $('.tittle').text(response.data.username);
+                        if(response.data.deliver_status == 0){
+                            $('#option0').attr('selected','selected');
+                        }else if(response.data.deliver_status == 1){
+                            $('#option1').attr('selected','selected');
+                        }
+                        else{
+                            $('#option2').attr('selected','selected');
+                        }
+                         $('#form-edit').attr('data-url','{{ asset('admin/order/') }}/'+response.data.id)
+
+                    },
+                    error: function (error) {                     
                     }
-                    else{
-                        $('#option2').attr('selected','selected');
-                    }
-                     $('#form-edit').attr('data-url','{{ asset('admin/order/') }}/'+response.data.id)
-
-                },
-                error: function (error) {
-                    
-                }
+                })
             })
-        })
     $('#form-edit').submit(function(e){
                         e.preventDefault();
                         var url=$(this).attr('data-url');
@@ -177,22 +162,12 @@ $(document).ready(function () {
                         },                       
                         success: function($resuld) {
                             $('#deliver_status').text($resuld.data.deliver_status);
-                            // $('#mess').show();
-                            // $('#mess').html($resuld.message,{timeOut:5000});
                             toastr.success($resuld.message);
                             window.location.reload();
 
                         },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                //xử lý lỗi tại đây
-                            }
                         })
                     })
-
-
-
-
-
 
 })
    

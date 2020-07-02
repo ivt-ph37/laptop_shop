@@ -6,16 +6,6 @@
                         </h1>
                     </div>
 <div class="col-lg-7" style="padding-bottom:120px">
-<!--     @if($errors->has('name') || $errors->has('desription'))
-        <div class="alert alert-success" role="alert">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{!!$error!!}</li>
-                @endforeach
-            </ul>
-                
-    </div>
-    @endif -->
     <form action="{{route('category.store')}}" method="POST">
         @csrf
         <div class="form-group">

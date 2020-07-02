@@ -9,8 +9,6 @@
     </div>
 
                     </div>
-                    
-                    <!-- /.col-lg-12 -->
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
                             <tr align="center">
@@ -63,13 +61,9 @@ $(document).ready(function () {
                 type: 'delete',
                 url: url,
                 success: function(response) {
-                    // toastr.success('Delete category success!')
                     alert('Xoa thanh cong');
                     _this.parent().parent().remove();
                 },
-                // error: function (jqXHR, textStatus, errorThrown) {
-                //     //xử lý lỗi tại đây
-                // }
             })
         }
     })
@@ -82,28 +76,20 @@ $(document).ready(function () {
         e.preventDefault();
 
         $.ajax({
-                //phương thức get
-
                 type: 'get',
                 url: url,
                 success: function (response) {
-                    //đưa dữ liệu controller gửi về điền vào input trong form edit.
                     $('.tittle').text(response.data.name);
                     $('#name-edit').val(response.data.name);
                     $('#parent-edit').val(response.data.parent_id);
                     $('#desription-edit').val(response.data.desription);
-                    //thêm data-url chứa route sửa todo đã được chỉ định vào form sửa.
                     $('#form-edit').attr('data-url','{{ asset('admin/category/chirdren') }}/'+response.data.id)
                 },
-                // error: function (error) {
-                    
-                // }
             })
         })
     $('#form-edit').submit(function(e){
                         e.preventDefault();
                         var url=$(this).attr('data-url');
-                // console.log(url);
                         $.ajax({
                             type: "get",
                             url: url,
@@ -119,7 +105,7 @@ $(document).ready(function () {
                                 
                                 if ($resuld.mess.name) {
                                     $('.error').show();
-                                    $('.error').text($resuld.mess.name[0]);//tạo 1 thẻ class dươi input đê xuất lỗi.  Còn mess.name thì name tương ứng vs validator của nó
+                                    $('.error').text($resuld.mess.name[0]);
                                 }else{$('.error').hide()};
                                 if ($resuld.mess.desription) {
                                     $('.errorss').show();
@@ -133,18 +119,13 @@ $(document).ready(function () {
                             $('#name').text($resuld.data.name);
                             $('#parent_id').text($resuld.data.parent_id);
                             $('#desription').text($resuld.data.desription);
-                            // window.location.reload();
                             $('#mess').show();
                             $('#mess').html($resuld.message,{timeOut:5000});
                             toastr.success($resuld.message);
-                            // alert('Sua thanh cong');
                             window.location.reload();
                             }
 
                         },
-                            // error: function (jqXHR, textStatus, errorThrown) {
-                            //     //xử lý lỗi tại đây
-                            // }
                         })
                     })
 

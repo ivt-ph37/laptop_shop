@@ -60,8 +60,6 @@ $(document).ready(function () {
             type: 'get',
             url: '/admin/promotion/ajax/'+idSup,
             success:function($resuld){
-                // console.log($resuld.data);
-                // alert(idSup);
                  var html ='';
                     $.each($resuld.data,function($key,$value){
                         if ($value['supplier_id']==idSup) {
@@ -78,9 +76,6 @@ $(document).ready(function () {
             }
         })
     })
-
-
-
 
 })
 </script>

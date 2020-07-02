@@ -81,10 +81,10 @@
                                 <input class="form-control" name="sales_volume" value="{!! old('sales_volume') !!}"/>
             
                             </div>
-           <div class="form-group">
-        <label>Image *</label>
-        <input  type="file" name="image[]" multiple value="{!! old('image') !!}" />
-
+                           <div class="form-group">
+                                <label>Image *</label>
+                                <input  type="file" name="image[]" multiple value="{!! old('image') !!}" />
+                            </div>
                             <button type="submit" class="btn btn-default">Product Add</button>
                             <button type="reset" class="btn btn-default">Reset</button>
                         <form>

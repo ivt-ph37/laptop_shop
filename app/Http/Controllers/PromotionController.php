@@ -29,8 +29,6 @@ class PromotionController extends Controller
            }
 
         }
-        // dd($promotions);
-        // $promotions->save();
         return view('admin.promotions.list',compact('promotions'));
     }
     public function fetch_data(Request $request){
@@ -43,19 +41,8 @@ class PromotionController extends Controller
     {
         if ($request->ajax() || 'NULL') {
             
-            // $promotions = Promotions::where('product_id',(select('id')Products::where('name', 'LIKE', '%' . $request->search . '%'))))->get();
             $products = Products::where('name', 'LIKE', '%' . $request->search . '%')->get();
-            // dd($products);
-            foreach ($products as $value) {
-                $promotions = Promotions::where('product_id',$value->id)->get();
-                if ($promotions != NULL) {
-                    dd($promotions);
-                }
-
-            }
-            // 
-            
-            // dd($promotions);
+            $promotions = Promotions::get();
             return response()->json(['data'=>$promotions,'products'=>$products],200);
         }
     }
@@ -80,7 +67,6 @@ class PromotionController extends Controller
      */
     public function create()
     {
-        // dd(Carbon::today());
         $suppliers = Suppliers::get();
         return view('admin.promotions.add',compact('suppliers'));
     }
@@ -99,15 +85,18 @@ class PromotionController extends Controller
     {
         if ($request->end_date >= $request->start_date) {
             $dt = Carbon::today();
-            // dd($dts);
-           // Promotions::create($request->all());
             $promotions = new Promotions();
             $promotions->user_id  = $request->user_id   ;
             $promotions->product_id  = $request->product_id   ;
-            $promotions->price  = $request->price   ;
+            $products = Products::where('id',$request->product_id )->first();
+            if ($products->price - 10 <$request->price ) {
+                return redirect()->route('promotion.create')->with('thongbao','Giá khuyễn mãi lớn hơn giá gốc');
+            } else {
+                $promotions->price  = $request->price   ;
+            }
+            
             $promotions->start_date  = $request->start_date   ;
             $promotions->end_date  = $request->end_date   ;
-            // dd($request->end_date,$dt->toDateString() );
            if ($request->end_date < $dt->toDateString() ) {
                $promotions->status = 0;
            }else{
@@ -166,19 +155,25 @@ class PromotionController extends Controller
         if ($validator->fails()) {
             return response()->json(['error'=>'true','mess'=>$validator->errors()],200);
         }
-        if ($request->end_date >= $request->start_date) {
+        $products = Products::where('id',$request->product_id )->first();
+        if ($products->price - 10 >= $request->price) {
+            if ($request->end_date >= $request->start_date ) {
             $dt = Carbon::today();
-        $promotions= Promotions::find($id);
-        if ($request->end_date < $dt->toDateString() ) {
-               $promotions->status = 0;
-           }else{
-                $promotions->status = 1;
-           }
-        $promotions->update($request->all());
-        return response()->json(['data'=>$promotions,'message'=>'Update promotions successfully'],200);
-        }else { 
-            return response()->json(['errorss'=>'true','thongbao'=>'End_date phải sau ngày Start_date'],200);
+            $promotions= Promotions::find($id);
+            if ($request->end_date < $dt->toDateString() ) {
+                   $promotions->status = 0;
+               }else{
+                    $promotions->status = 1;
+               }
+            $promotions->update($request->all());
+            return response()->json(['data'=>$promotions,'message'=>'Update promotions successfully'],200);
+            }else { 
+                return response()->json(['errorss'=>'true','thongbao'=>'End_date phải sau ngày Start_date'],200);
+            }
+        } else {
+            return response()->json(['errorsss'=>'true','thongbaoo'=>'Giá khuyễn mãi lớn hơn giá gốc'],200);
         }
+        
     }
 
     /**

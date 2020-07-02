@@ -39,42 +39,39 @@
                 <!-- /.col-lg-12 -->
 
 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-
-
-
-                        <thead>
-                            <tr align="center">
-                                <th>STT</th>
-                                <th>Name Product</th>
-                                <th>Promotion</th>
-                                <th>End Date</th>
-                                <th>Status</th>
-                                <th colspan="2">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="bodydd">
-                            @foreach($promotions as $key=>$item)
-                            <tr class="odd gradeX" align="center">
-                                <td>{{$item->id}}</td>
-                                <td id="product_id">{{$item->products->name}}</td>
-                                <td id="price">{{$item->price}}$</td>
-                                <td id="end_date">{{$item->end_date}}</td>
-                                <td id="status">
-                                    @if($item->status == 0) {{"Hết khuyến mãi"}}
-                                    @else {{"Khuyến mãi"}}
-                                    @endif
-                                </td>
-                                <td class="center">
+    <thead>
+        <tr align="center">
+            <th>STT</th>
+            <th>Name Product</th>
+            <th>Promotion</th>
+            <th>End Date</th>
+            <th>Status</th>
+            <th colspan="2">Action</th>
+        </tr>
+    </thead>
+    <tbody id="bodydd">
+        @foreach($promotions as $key=>$item)
+        <tr class="odd gradeX" align="center">
+            <td>{{$item->id}}</td>
+            <td id="product_id">{{$item->products->name}}</td>
+            <td id="price">{{$item->price}}$</td>
+            <td id="end_date">{{$item->end_date}}</td>
+            <td id="status">
+                @if($item->status == 0) {{"Hết khuyến mãi"}}
+                @else {{"Khuyến mãi"}}
+                @endif
+            </td>
+            <td class="center">
                 <button data-url="{{route('promotion.edit',$item->id)}}" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button>
             </td>
             <td class="center">
                 <button data-url="{{ route('promotion.destroy',$item->id) }}"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button>
             </td>
                                 
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+        </tr>
+            @endforeach
+    </tbody>
+</table>
             {{$promotions->links()}}
 </div>
 @include('admin.promotions.edit')
@@ -90,92 +87,82 @@ $(document).ready(function () {
     $('#mess').hide();
 
 
-         $('#form-search').submit(function(e){
-            $('.pagination').hide();
-                        e.preventDefault();
-                        $.ajax({
-                            type: 'get',
-                            url: 'promotion/search',
-                        data: {
-                            'search': $('#search').val(),  
-                        },
-                        success: function(ab) {
-                            $('#bodydd').html(ab);
-                var html ='';
-                    $.each(ab.data,function($key,$value){
-                        if ($value['status'] == 1) {
-                            $value['status'] = 'Khuyến mãi';
-                        } else {
-                            $value['status'] = 'Hết khuyến mãi';
-                        }
-                        $.each(ab.products,function($keyy,$values){
-                             if ($value['product_id' ] == $values['id']) {
-                            $a = $values['name'];
-                            }
-                        });
-                        
-                html +='<tr><td>'+$value['id']+'</td><td>'+$a+'</td><td>'+$value['price']+'</td><td>'+$value['end_date']+'</td><td>'+$value['status']+'</td><td class="center"><button data-url="http://127.0.0.1/admin/promotion/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/promotion/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
-                        html += '</tr>';
-                    });
-                $('#bodydd').html(html);
-
-
-
-
+    $('#form-search').submit(function(e){
+        $('.pagination').hide();
+        e.preventDefault();
+        $.ajax({
+            type: 'get',
+            url: 'promotion/search',
+        data: {
+            'search': $('#search').val(),  
+        },
+        success: function($resuld) {
+            $('#bodydd').html($resuld);
+            var html ='';
+            $.each($resuld.data,function($key,$value){
+                if ($value['status'] == 1) {
+                    $value['status'] = 'Khuyến mãi';
+                } else {
+                    $value['status'] = 'Hết khuyến mãi';
+                }
+                $.each($resuld.products,function($keyy,$values){
+                     if ($value['product_id' ] == $values['id']) {
+                    $a = $values['name'];
+                    html +='<tr><td>'+$value['id']+'</td><td>'+$a+'</td><td>'+$value['price']+'</td><td>'+$value['end_date']+'</td><td>'+$value['status']+'</td><td class="center"><button data-url="http://127.0.0.1/admin/promotion/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/promotion/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
+                html += '</tr>';
+                    }
+                });
+                
+        
+            });
+        $('#bodydd').html(html);
                             }
 
                         })
                     })
 
-             $(document).on('click', '.st1', function(e){
-         $('.pagination').hide();
-         var id= $(this).attr('value');
+    $(document).on('click', '.st1', function(e){
+        $('.pagination').hide();
+        var id= $(this).attr('value');
         e.preventDefault();
         $.ajax({
             type:'get',
             url: 'promotion/sort/'+id,
             
-            success:function(ab){
-                // console.log(ab.categories.id);
-                
-                $('#bodydd').html(ab);
-                // window.location.reload();
+            success:function($resuld){
+                $('#bodydd').html($resuld);
                 var html ='';
-                    $.each(ab.data,function($key,$value){
-                        $.each(ab.products,function($keyy,$values){
-                             if ($value['product_id' ] == $values['id']) {
+                $.each($resuld.data,function($key,$value){
+                    $.each($resuld.products,function($keyy,$values){
+                        if ($value['product_id' ] == $values['id']) {
                             $a = $values['name'];
                             }
                         });
-                            $value['status'] = 'Hết khuyến mãi';
-                html +='<tr><td>'+$value['id']+'</td><td>'+$a+'</td><td>'+$value['price']+'</td><td>'+$value['end_date']+'</td><td>'+$value['status']+'</td><td class="center"><button data-url="http://127.0.0.1/admin/promotion/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/promotion/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
+                        $value['status'] = 'Khuyến mãi';
+                         html +='<tr><td>'+$value['id']+'</td><td>'+$a+'</td><td>'+$value['price']+'</td><td>'+$value['end_date']+'</td><td>'+$value['status']+'</td><td class="center"><button data-url="http://127.0.0.1/admin/promotion/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/promotion/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
                         html += '</tr>';
                     });
                 $('#bodydd').html(html);
             }
         })
     })
-$(document).on('click', '.st2', function(e){
-     $('.pagination').hide();
-     var id= $(this).attr('value');
+    $(document).on('click', '.st2', function(e){
+        $('.pagination').hide();
+        var id= $(this).attr('value');
         e.preventDefault();
         $.ajax({
             type:'get',
             url: 'promotion/sort/'+id,
-            
-            success:function(ab){
-                // console.log(ab.categories.id);
-                
-                $('#bodydd').html(ab);
-                // window.location.reload();
-               var html ='';
-                    $.each(ab.data,function($key,$value){
-                        $.each(ab.products,function($keyy,$values){
-                             if ($value['product_id' ] == $values['id']) {
+            success:function($resuld){
+                $('#bodydd').html($resuld);
+                var html ='';
+                $.each($resuld.data,function($key,$value){
+                    $.each($resuld.products,function($keyy,$values){
+                        if ($value['product_id' ] == $values['id']) {
                             $a = $values['name'];
                             }
                         });
-                            $value['status'] = 'Khuyến mãi';
+                            $value['status'] = 'Hết khuyến mãi';
 
                 html +='<tr><td>'+$value['id']+'</td><td>'+$a+'</td><td>'+$value['price']+'</td><td>'+$value['end_date']+'</td><td>'+$value['status']+'</td><td class="center"><button data-url="http://127.0.0.1/admin/promotion/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/promotion/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
                         html += '</tr>';
@@ -189,8 +176,6 @@ $(document).on('click', '.st2', function(e){
 
     $('.pagination a').unbind('click').on('click', function(e) {
         e.preventDefault();
-        // $('#wrapper').hide();
-
         var page= $(this).attr('href').split('page=')[1];
         fetch_data(page);
     }) 
@@ -206,11 +191,7 @@ $(document).on('click', '.st2', function(e){
         })
     }
 
-
-
-
-    
-        $(document).on('click', '.btn-delete', function(e){
+    $(document).on('click', '.btn-delete', function(e){
         var url = $(this).attr('data-url');
         var _this = $(this);
         if (confirm('Ban co chac muon xoa khong?')) {
@@ -222,30 +203,22 @@ $(document).on('click', '.st2', function(e){
                     alert('Xoa thanh cong');
                     _this.parent().parent().remove();
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    //xử lý lỗi tại đây
-                }
             })
         }
     })
     $(document).on('click', '.btn-edit', function(e){
         $('.error1').hide();
         $('.error34').hide();
-
-
         var url = $(this).attr('data-url');
         e.preventDefault();
 
         $.ajax({
-                //phương thức get
                 type: 'get',
                 url: url,
-                success: function (response) {  //neu click thanh cong 
-                    //đưa dữ liệu controller gửi về điền vào input trong form edit.
+                success: function (response) {  
                     $('#price-edit').val(response.data.price);
                     $('#start_date-edit').val(response.data.start_date);
                     $('#end_date-edit').val(response.data.end_date);
-
                     var html ='';
                     $.each(response.users,function($key,$value){
                         if ($value['id']==response.data.user_id) {
@@ -280,48 +253,52 @@ $(document).on('click', '.st2', function(e){
             })
         })
     $('#form-edit').submit(function(e){
-                        e.preventDefault();
-                        var url=$(this).attr('data-url');
-                        $.ajax({
-                            type: "PUT",
-                            url: url,
-                         data: {
-                            _token: '{{csrf_token()}}' ,
-                            'user_id': $('.idUser').val(),  
-                            'product_id': $('.idProduct').val(),
-                            'price': $('#price-edit').val(),
-                            'start_date': $('#start_date-edit').val(),
-                            'end_date': $('#end_date-edit').val(),
+        e.preventDefault();
+        var url=$(this).attr('data-url');
+        $.ajax({
+            type: "PUT",
+            url: url,
+         data: {
+            _token: '{{csrf_token()}}' ,
+            'user_id': $('.idUser').val(),  
+            'product_id': $('.idProduct').val(),
+            'price': $('#price-edit').val(),
+            'start_date': $('#start_date-edit').val(),
+            'end_date': $('#end_date-edit').val(),
 
-                            '_method':'put',
-                         },
-                        success: function($resuld) {
-                            $('.error34').hide();
-                            if($resuld.error == 'true'){
-                                $('.error34').hide();
-                                if ($resuld.mess.price) {
-                                    $('.error1').show();
-                                    $('.error1').text($resuld.mess.price);
-                                } else {
-                                      $('.error1').hide(); 
-                                      $('.error34').hide();                                   
-                                }
+            '_method':'put',
+         },
+        success: function($resuld) {
+            $('.error34').hide();
+            if($resuld.error == 'true'){
+                $('.error34').hide();
+                if ($resuld.mess.price) {
+                    $('.error1').show();
+                    $('.error1').text($resuld.mess.price);
+                } else {
+                      $('.error1').hide(); 
+                      $('.error34').hide();                                   
+                }
 
-                            }else if ($resuld.errorss == 'true') {
-                                    $('.error34').show();
-                                     $('.error34').text($resuld.thongbao);
-                                     $('.error1').hide();
-                            } else {
-                                $('.error34').hide();
-                            $('#edit').hide();
-                            $('#product_id').text($resuld.data.product_id);
-                            $('#price').text($resuld.data.price);
-                            $('#end_date').text($resuld.data.end_date);
-                            $('#status').text($resuld.data.status);
-                            $('#mess').show();
-                            $('#mess').html($resuld.message,{timeOut:5000});
-                            window.location.reload();
-                        }
+            }else if ($resuld.errorsss == 'true') {
+                     $('.error1').show();
+                    $('.error1').text($resuld.thongbaoo);
+            }
+            else if ($resuld.errorss == 'true') {
+                    $('.error34').show();
+                     $('.error34').text($resuld.thongbao);
+                     $('.error1').hide();
+            } else {
+                $('.error34').hide();
+            $('#edit').hide();
+            $('#product_id').text($resuld.data.product_id);
+            $('#price').text($resuld.data.price);
+            $('#end_date').text($resuld.data.end_date);
+            $('#status').text($resuld.data.status);
+            $('#mess').show();
+            $('#mess').html($resuld.message,{timeOut:5000});
+            window.location.reload();
+        }
 
                         },
 

@@ -8,15 +8,26 @@
 
 
 
-	@if(Session::get('products_view') != NULL)
+	@if(Session::get('products_views') != NULL)
+
 	<div class="heading">
 					<h3>Sản phẩm đã xem</h3>
 				</div>
 		<div class="section group">
-				@foreach($products_views as $key=>$value)
+				@foreach($products_array as $key=>$value)
 				@if($key != 0)
 					
 					<div class="grid_1_of_4 images_1_of_4">
+						@if($value['quantity'] == 0)
+						<div class="data_value_none">Hết hàng</div>
+						@elseif($value['quantity'] <= 10)
+						<div class="data_value_none">Gần hết</div>
+						@else
+						<div class="data_value_none">Còn hàng</div>
+						@endif
+						@foreach($value['promotions'] as $promotion)
+							<div class="data_value_promotion">-{{$promotion->price}}$</div>
+						@endforeach
 						<a href="{{route('preview', $value['id'])}}">
 							@foreach($value['product_images'] as $keyy=>$item)
 	                                    @if($value['id'] == $item['product_id'])

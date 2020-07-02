@@ -24,6 +24,26 @@ class ProductController extends Controller
         // dd($products);
         return view('admin.product.list',compact('products'));
     }
+    public function like($id,Request $request){
+        if ($request->ajax() || 'NULL') {
+            $products = Products::find($id);
+            if ($products->note == 0) {
+                $products->note = 1;
+              $products->save();
+            $products = Products::with('product_images')->get();
+            $categories = Categoies::get();
+            return response()->json(['data'=>$products,'categories'=>$categories],200);
+            } else {
+                $products->note = 0;
+              $products->save();
+            $products = Products::with('product_images')->get();
+            $categories = Categoies::get();
+            return response()->json(['data'=>$products,'categories'=>$categories],200);
+            }
+              
+        }
+        
+    }
 
     public function image(Request $request,$id){
         if($request->hasFile('image')){
@@ -179,77 +199,8 @@ class ProductController extends Controller
             return response()->json(['error'=>'true','mess'=>$validator->errors()],200);
         }
         $products= Products::find($id);
-        
-        
+        $products->update($request->all());
 
-
-        // if($request->hasFile('image')){
-        // if($request->file('image')){
-            // $product_image = Product_Image::where('product_id',$id)->get();
-            // foreach ($product_image as $value) {
-            //     File::delete(public_path('uploads/'.$value->path));
-            // }
-            // $product_image = Product_Image::where('product_id',$id)->delete();
-            // $files = $request->file('image');
-            // // foreach ( $files as $file) {
-            //     // dd($file);
-            //         $product_images = new Product_Image;
-            //         // if (isset($files)) {
-            //         $product_images->product_id=$id;
-            //         $product_images->path = rand(0,1000).'.'.$files->getClientOriginalName();
-                    
-            //         $files->move( public_path() . '/uploads/', $product_images->path); 
-            //         $product_images->save();
-                    // }
-            // }  
-            // }         
-
-        // }     
-
-$products->update($request->all());
-
-
-
-
-        // dd($product_image);
-        // $files = $request->file('imagess');
-        // if(!empty($request->file('imagess'))){
-        //     $files= $request->file('imagess')->getClientOriginalName();
-        //     foreach ( $product_image as $item) {
-        //         $item->path = $files; 
-        //         $files->move( public_path() . '/uploads/', $item->path); 
-        //         if (File::exists()) {
-                    
-        //         }
-        //     }
-
-        // }    
-            
-         //    foreach ( $product_image as $item) {
-         //            if (!empty($files)) {
-         //            // $product_image->product_id=$id;
-         //            $item->path = $files->getClientOriginalName();
-                    
-         //            $files->move( public_path() . '/uploads/', $files->path); 
-         //            $product_image->save();
-         //            }
-         // }
-     // //    dd($product_image);
-     // //     if($request->hasFile('imagess')){
-     // //        $files = $request->file('imagess');
-            
-            
-     // //        foreach ( $files as $file) {
-     // //                if (isset($file)) {
-     // //                // $product_image->product_id=$products_id;
-     // //                $product_image->path = rand(0,1000).'.'.$file->getClientOriginalName();
-                    
-     // //                $file->move( public_path() . '/uploads/', $product_image->path); 
-     // //                $product_image->save();
-     // //                }
-     // //     }
-     // // }
-     // //'product_image'=>$product_image,
         return response()->json(['data'=>$products,'message'=>'Update product successfully'],200);
     }
 
