@@ -90,7 +90,7 @@
      			</ul>
 	     	</div>
 	     	<div class="search_box">
-	     		<form action="{{route('search-product')}}" method="post">
+	     		<form action="{{route('search-product')}}" method="get">
 	     			@csrf
 	     			<input type="text" name="search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">
 	     			<input type="submit" value="">

@@ -95,15 +95,13 @@
 
 <script>
 $(document).ready(function () {
-$('#mess').hide();
+    $('#mess').hide();
 
-$('.pagination a').unbind('click').on('click', function(e) {
-        e.preventDefault();
-        // $('#wrapper').hide();
-
-        var page= $(this).attr('href').split('page=')[1];
-        fetch_data(page);
-    }) 
+    $('.pagination a').unbind('click').on('click', function(e) {
+            e.preventDefault();
+            var page= $(this).attr('href').split('page=')[1];
+            fetch_data(page);
+        }) 
     function fetch_data(page){
         $.ajax({
             type:"get",
@@ -121,32 +119,31 @@ $('.pagination a').unbind('click').on('click', function(e) {
      $('#form-search').submit(function(e){
         $('.pagination').hide();
                         e.preventDefault();
-                        // console.log(url);
                         $.ajax({
                             type: 'get',
                             url: 'order/search',
                         data: {
-                            'search': $('#search').val(),  //biến phải trùng vs tên REQUEST 
+                            'search': $('#search').val(),  
                         },
-                        success: function(ab) {
-                            $('#bodydd').html(ab);
-                var html ='';
-                    $.each(ab.data,function($key,$value){
-             if ($value['deliver_status'] == 0) {
-                            $a = 'Chờ xử lý';
-                        } else if ($value['deliver_status'] == 1) {
-                            $a = 'Đang giao hàng';
-                        } else {
-                            $a = 'Hoàn thành';
-                        }
-                if ($value['delivery_date'] == null) {
-                    $value['delivery_date'] ='';
-                } 
-                        
-                html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value['email']+'</td><td>'+$value['order_date']+'</td><td>'+$value['delivery_date']+'</td><td>'+$a+'</td><td><a href="http://127.0.0.1/admin/order/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
-                        html += '</tr>';
-                    });
-                $('#bodydd').html(html);
+                        success: function($resuld) {
+                            $('#bodydd').html($resuld);
+                            var html ='';
+                            $.each($resuld.data,function($key,$value){
+                                if ($value['deliver_status'] == 0) {
+                                    $a = 'Chờ xử lý';
+                                } else if ($value['deliver_status'] == 1) {
+                                    $a = 'Đang giao hàng';
+                                } else {
+                                    $a = 'Hoàn thành';
+                                }
+                                if ($value['delivery_date'] == null) {
+                                    $value['delivery_date'] ='';
+                                } 
+                                
+                                html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value['email']+'</td><td>'+$value['order_date']+'</td><td>'+$value['delivery_date']+'</td><td>'+$a+'</td><td><a href="http://127.0.0.1/admin/order/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
+                                html += '</tr>';
+                                         });
+                                $('#bodydd').html(html);
                             }
 
                         })
@@ -156,18 +153,15 @@ $('.pagination a').unbind('click').on('click', function(e) {
         $(document).on('click', '.neworder', function(e){
             $('.pagination').hide();
             var id= $(this).attr('value');
-        e.preventDefault();
-        $.ajax({
+            e.preventDefault();
+            $.ajax({
             type:'get',
             url: 'order/sort/'+id,
             
-            success:function(ab){
-                // console.log(ab.data);
-                
-                $('#bodydd').html(ab);
-                // window.location.reload();
+            success:function($resuld){       
+                $('#bodydd').html($resuld);
                 var html ='';
-                    $.each(ab.data,function($key,$value){
+                    $.each($resuld.data,function($key,$value){
                         if ($value['deliver_status'] == 0) {
                             $a = 'Chờ xử lý';
                         } else if ($value['deliver_status'] == 1) {
@@ -175,42 +169,10 @@ $('.pagination a').unbind('click').on('click', function(e) {
                         } else {
                             $a = 'Hoàn thành';
                         } 
-                     if ($value['delivery_date'] == null) {
-                    $value['delivery_date'] ='';
+                        if ($value['delivery_date'] == null) {
+                            $value['delivery_date'] ='';
                 }    
-                html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value['email']+'</td><td>'+$value['order_date']+'</td><td>'+$value['delivery_date']+'</td><td>'+$a+'</td><td><a href="http://127.0.0.1/admin/order/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
-                        html += '</tr>';
-                    });
-                $('#bodydd').html(html);
-            }
-        })
-    })
-         $(document).on('click', '.oldorder', function(e){
-            $('.pagination').hide();
-            var id= $(this).attr('value');
-        e.preventDefault();
-        $.ajax({
-            type:'get',
-           url: 'order/sort/'+id,
-            
-            success:function(ab){
-                // console.log(ab.data);
-                
-                $('#bodydd').html(ab);
-                // window.location.reload();
-                var html ='';
-                    $.each(ab.data,function($key,$value){
-                        if ($value['deliver_status'] == 0) {
-                            $a = 'Chờ xử lý';
-                        } else if ($value['deliver_status'] == 1) {
-                            $a = 'Đang giao hàng';
-                        } else {
-                            $a = 'Hoàn thành';
-                        } 
-                   if ($value['delivery_date'] == null) {
-                    $value['delivery_date'] ='';
-                }      
-            html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value['email']+'</td><td>'+$value['order_date']+'</td><td>'+$value['delivery_date']+'</td><td>'+$a+'</td><td><a href="http://127.0.0.1/admin/order/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
+                        html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value['email']+'</td><td>'+$value['order_date']+'</td><td>'+$value['delivery_date']+'</td><td>'+$a+'</td><td><a href="http://127.0.0.1/admin/order/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
                         html += '</tr>';
                     });
                 $('#bodydd').html(html);
@@ -218,21 +180,77 @@ $('.pagination a').unbind('click').on('click', function(e) {
         })
     })
 
-        $(document).on('click', '.st1', function(e){
-            $('.pagination').hide();
-            var id= $(this).attr('value');
+    $(document).on('click', '.oldorder', function(e){
+        $('.pagination').hide();
+        var id= $(this).attr('value');
+        e.preventDefault();
+        $.ajax({
+            type:'get',
+            url: 'order/sort/'+id,
+            success:function($resuld){
+                $('#bodydd').html($resuld);
+                var html ='';
+                    $.each($resuld.data,function($key,$value){
+                        if ($value['deliver_status'] == 0) {
+                            $a = 'Chờ xử lý';
+                        } else if ($value['deliver_status'] == 1) {
+                            $a = 'Đang giao hàng';
+                        } else {
+                            $a = 'Hoàn thành';
+                        } 
+                       if ($value['delivery_date'] == null) {
+                        $value['delivery_date'] ='';
+                     }      
+                        html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value['email']+'</td><td>'+$value['order_date']+'</td><td>'+$value['delivery_date']+'</td><td>'+$a+'</td><td><a href="http://127.0.0.1/admin/order/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
+                        html += '</tr>';
+                    });
+                $('#bodydd').html(html);
+            }
+        })
+    })
+
+    $(document).on('click', '.st1', function(e){
+        $('.pagination').hide();
+        var id= $(this).attr('value');
+        e.preventDefault();
+        $.ajax({
+            type:'get',
+            url: 'order/status/'+id,
+            success:function($resuld){
+              
+                $('#bodydd').html($resuld);
+                var html ='';
+                    $.each($resuld.data,function($key,$value){
+                        if ($value['deliver_status'] == 0) {
+                            $a = 'Chờ xử lý';
+                        } else if ($value['deliver_status'] == 1) {
+                            $a = 'Đang giao hàng';
+                        } else {
+                            $a = 'Hoàn thành';
+                        } 
+                        if ($value['delivery_date'] == null) {
+                        $value['delivery_date'] ='';
+                         } 
+                        html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value['email']+'</td><td>'+$value['order_date']+'</td><td>'+$value['delivery_date']+'</td><td>'+$a+'</td><td><a href="http://127.0.0.1/admin/order/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
+                        html += '</tr>';
+                    });
+                $('#bodydd').html(html);
+            }
+        })
+    })
+
+    $(document).on('click', '.st2', function(e){
+        $('.pagination').hide();
+        var id= $(this).attr('value');
         e.preventDefault();
         $.ajax({
             type:'get',
             url: 'order/status/'+id,
             
-            success:function(ab){
-                // console.log(ab.data);
-                
-                $('#bodydd').html(ab);
-                // window.location.reload();
+            success:function($resuld){
+                $('#bodydd').html($resuld);
                 var html ='';
-                    $.each(ab.data,function($key,$value){
+                    $.each($resuld.data,function($key,$value){
                         if ($value['deliver_status'] == 0) {
                             $a = 'Chờ xử lý';
                         } else if ($value['deliver_status'] == 1) {
@@ -243,14 +261,14 @@ $('.pagination a').unbind('click').on('click', function(e) {
                         if ($value['delivery_date'] == null) {
                     $value['delivery_date'] ='';
                 } 
-html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value['email']+'</td><td>'+$value['order_date']+'</td><td>'+$value['delivery_date']+'</td><td>'+$a+'</td><td><a href="http://127.0.0.1/admin/order/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
+                html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value['email']+'</td><td>'+$value['order_date']+'</td><td>'+$value['delivery_date']+'</td><td>'+$a+'</td><td><a href="http://127.0.0.1/admin/order/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
                         html += '</tr>';
                     });
                 $('#bodydd').html(html);
             }
         })
     })
-     $(document).on('click', '.st2', function(e){
+    $(document).on('click', '.st3', function(e){
         $('.pagination').hide();
         var id= $(this).attr('value');
         e.preventDefault();
@@ -258,45 +276,10 @@ html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value
             type:'get',
             url: 'order/status/'+id,
             
-            success:function(ab){
-                // console.log(ab.data);
-                
-                $('#bodydd').html(ab);
-                // window.location.reload();
+            success:function($resuld){
+                $('#bodydd').html($resuld);
                 var html ='';
-                    $.each(ab.data,function($key,$value){
-                        if ($value['deliver_status'] == 0) {
-                            $a = 'Chờ xử lý';
-                        } else if ($value['deliver_status'] == 1) {
-                            $a = 'Đang giao hàng';
-                        } else {
-                            $a = 'Hoàn thành';
-                        } 
-                        if ($value['delivery_date'] == null) {
-                    $value['delivery_date'] ='';
-                } 
-html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value['email']+'</td><td>'+$value['order_date']+'</td><td>'+$value['delivery_date']+'</td><td>'+$a+'</td><td><a href="http://127.0.0.1/admin/order/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
-                        html += '</tr>';
-                    });
-                $('#bodydd').html(html);
-            }
-        })
-    })
-      $(document).on('click', '.st3', function(e){
-        $('.pagination').hide();
-        var id= $(this).attr('value');
-        e.preventDefault();
-        $.ajax({
-            type:'get',
-            url: 'order/status/'+id,
-            
-            success:function(ab){
-                // console.log(ab.data);
-                
-                $('#bodydd').html(ab);
-                // window.location.reload();
-                var html ='';
-                    $.each(ab.data,function($key,$value){
+                    $.each($resuld.data,function($key,$value){
                         if ($value['deliver_status'] == 0) {
                             $a = 'Chờ xử lý';
                         } else if ($value['deliver_status'] == 1) {
@@ -307,17 +290,13 @@ html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value
                       if ($value['delivery_date'] == null) {
                     $value['delivery_date'] ='';
                 }   
-html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value['email']+'</td><td>'+$value['order_date']+'</td><td>'+$value['delivery_date']+'</td><td>'+$a+'</td><td><a href="http://127.0.0.1/admin/order/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
+                        html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value['email']+'</td><td>'+$value['order_date']+'</td><td>'+$value['delivery_date']+'</td><td>'+$a+'</td><td><a href="http://127.0.0.1/admin/order/'+$value['id']+'">Show</a></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'/edit" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#edit" type="button"><i class="fa fa-pencil fa-fw" ></i> </button></td><td class="center"><button data-url="http://127.0.0.1/admin/order/'+$value['id']+'"​ type="button" data-target="#delete" data-toggle="modal" class="btn btn-danger btn-delete"><i class="fa fa-trash-o  fa-fw"></i></button></td>';
                         html += '</tr>';
                     });
                 $('#bodydd').html(html);
             }
         })
     })
-
-
-
-
 
     $(document).on('click', '.btn-delete', function(e){
         var url = $(this).attr('data-url');
@@ -331,20 +310,13 @@ html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value
                     alert('Xoa thanh cong');
                     _this.parent().parent().remove();
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    //xử lý lỗi tại đây
-                }
             })
         }
     })
     $(document).on('click', '.btn-edit', function(e){
-
         var url = $(this).attr('data-url');
-
         e.preventDefault();
-
         $.ajax({
-                //phương thức get
                 type: 'get',
                 url: url,
                 success: function (response) {
@@ -369,33 +341,30 @@ html +='<tr><td>'+$value['id']+'</td><td>'+$value['username']+'</td><td>'+$value
         })
 
  
-        $(document).on('submit', '#form-edit', function(e){
-                        e.preventDefault();
-                        var url=$(this).attr('data-url');
-                        $.ajax({
-                            type: "PUT",
-                            url: url,
+    $(document).on('submit', '#form-edit', function(e){
+        e.preventDefault();
+        var url=$(this).attr('data-url');
+        $.ajax({
+            type: "PUT",
+            url: url,
 
-                        data: {
-                            _token: '{{csrf_token()}}',
-                            'deliver_status': $('#deliver_status-edit').val(),
-                            '_method':'put',
+        data: {
+            _token: '{{csrf_token()}}',
+            'deliver_status': $('#deliver_status-edit').val(),
+            '_method':'put',
 
-                        },                       
-                        success: function($resuld) {
-                            $('#deliver_status').text($resuld.data.deliver_status);
-                            $('#delivery_date').text($resuld.data.delivery_date);
-                            $('#mess').show();
-                            $('#mess').html($resuld.message,{timeOut:5000});
-                            toastr.success($resuld.message);
-                            window.location.reload();
+        },                       
+        success: function($resuld) {
+            $('#deliver_status').text($resuld.data.deliver_status);
+            $('#delivery_date').text($resuld.data.delivery_date);
+            $('#mess').show();
+            $('#mess').html($resuld.message,{timeOut:5000});
+            toastr.success($resuld.message);
+            window.location.reload();
 
-                        },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                //xử lý lỗi tại đây
-                            }
-                        })
-                    })
+        },
+        })
+    })
 
 
 

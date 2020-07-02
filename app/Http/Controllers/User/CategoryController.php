@@ -16,7 +16,27 @@ class CategoryController extends Controller
      */
     public function index($id)
     {
-      $products = Products::where('category_id',$id)->paginate(8);
+        if ($id == 1) {
+            $products = Products::where('RAM', 'LIKE', '%' . '4' . '%')->paginate(8);
+            // dd($products);
+        } elseif ($id == 2) {
+            $products = Products::where('RAM', 'LIKE', '%' . '8GB' . '%')->paginate(8);
+        }
+        elseif ($id == 3) {
+            $products = Products::where('RAM', 'LIKE', '%' . '16GB' . '%')->paginate(8);
+        }
+        elseif ($id == 4) {
+            $products = Products::where('price','<',13)->where('CPU','!=',NULL)->paginate(8);
+        }
+        elseif ($id == 5) {
+            $products = Products::where('price','>=',13)->where('price','<=',17)->where('CPU','!=',NULL)->paginate(8);
+        }elseif ($id == 6) {
+            $products = Products::where('price','>',17)->where('CPU','!=',NULL)->paginate(8);
+        }
+        else {
+            $products = Products::where('category_id',$id)->paginate(8);
+        }
+      
         $categorys = Categoies::with('childrenCategories')->where('parent_id',0)->get();
         return view('user.product.product', compact('products','categorys'));
     }

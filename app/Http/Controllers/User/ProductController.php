@@ -41,32 +41,35 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-       
+ 
 
         $products = Products::with('product_images')->orderBy('created_at', 'DESC')->limit(4)->get();
 
         $categorys = Categoies::with('childrenCategories')->where('parent_id',0)->get();
         $promotionPrice = Products::with('promotions')->take(1)->get();
-        $products_view=Session::get('products_view');
+
+                $products_view=Session::get('products_views');
+
         $key=0;
-        if ($products_view != NULL){
-            $products_views = array($key=>array('id'=>0));// ta tạo thêm một mảng bỏ nó vào mac dinh no la 0 ha thì mình pải tạo 1 cái đe mình foreach đk bén đo t xét vs khác 0 ok?? roi đe a xoa sesion tạo cái khác đa chứ lỗi rồi mà trc đó t pải tạo NULL vì mới vào làm gi mình sesion liền c
+        if (Session::get('products_views') != NULL){
+            $products_array = array($key=>array('id'=>0));// ta tạo thêm một mảng bỏ nó vào mac dinh no la 0 ha thì mình pải tạo 1 cái đe mình foreach đk bén đo t xét vs khác 0 ok?? roi đe a xoa sesion tạo cái khác đa chứ lỗi rồi mà trc đó t pải tạo NULL vì mới vào làm gi mình sesion liền c
            // dd($a);
-           foreach ($products_view as $value) { 
+            // dd($products_views);
+           foreach ($products_view as $value) { //1,5,5,7
                 $b=0;
-               foreach ($products_views as $item) {
+               foreach ($products_array as $item) {
                    if ($value->id == $item['id']) {
                        $b++;
                    }
                }
                if ($b == 0) {//có đang xem ko đó ko thây trả lời co
                 $key++;
-                   $products_views += array($key=>array('id'=>$value->id,'name'=>$value->name,'quantity'=>$value->quantity,'price'=>$value->price,'supplier_id'=>$value->supplier_id,'category_id'=>$value->category_id,'RAM'=>$value->RAM,'VGA'=>$value->VGA,'operating_system'=>$value->operating_system,'CPU'=>$value->CPU,'guarantee'=>$value->guarantee,'note'=>$value->note,'description'=>$value->description,'sales_volume'=>$value->sales_volume,'product_images'=>$value->product_images));
+                   $products_array += array($key=>array('id'=>$value->id,'name'=>$value->name,'quantity'=>$value->quantity,'price'=>$value->price,'supplier_id'=>$value->supplier_id,'category_id'=>$value->category_id,'RAM'=>$value->RAM,'VGA'=>$value->VGA,'operating_system'=>$value->operating_system,'CPU'=>$value->CPU,'guarantee'=>$value->guarantee,'note'=>$value->note,'description'=>$value->description,'sales_volume'=>$value->sales_volume,'product_images'=>$value->product_images,'promotions'=>$value->promotions));
                   
                }
            }
-           return view('user.index', compact('products','categorys','products_views','promotionPrice'));
-        }else {
+           return view('user.index', compact('products','categorys','products_array','promotionPrice'));
+        }else {   
             return view('user.index', compact('products','categorys','promotionPrice'));
         }
         
@@ -80,10 +83,10 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $search = $request->search;
-        $products = Products::where('name', 'like', '%'. $search .'%')->get();
+        $products = Products::where('name', 'like', '%'. $search .'%')->paginate(8);
         $categorys = Categoies::with('childrenCategories')->where('parent_id',0)->get();
         // dd($products);
-        return view('user.index', compact('products','categorys'));
+        return view('user.product.product', compact('products','categorys'));
     }
     public function create()
     {
@@ -121,8 +124,10 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request,$id)
-    {
+    {   
         $product = Products::where('id', $id)->first();
+
+        
         $promotionPrice = Promotions::where('product_id', $id)->where('end_date', '<', GETDATE())->take(1)->orderBy('created_at', 'ASC')->get();
         $promotion = Promotions::where('product_id', $id)->where('status',0)->first();
          // dd($promotionPrice);
@@ -133,7 +138,9 @@ class ProductController extends Controller
         $productSuggests = $this->getProductSuggests($id);
 
 
-        Session::push('products_view',$product);
+
+        Session::push('products_views',$product);
+
 
 
 
@@ -179,3 +186,7 @@ class ProductController extends Controller
         //
     }
 }
+
+
+
+

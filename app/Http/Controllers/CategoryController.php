@@ -126,32 +126,6 @@ class CategoryController extends Controller
         $categoies->save();
         return response()->json(['data'=>$categoies,'message'=>'Update category successfully'],200);
     }
-    // public function update_chirdren(Request $request, $id)
-    // {
-    //     $validator = Validator::make($request->all(),
-    //         [
-    //             'name' => 'required|min:3|max:255',
-    //             'desription' => 'required'
-    //         ],
-    //     [
-    //         'name.required' => 'Please Enter Name Category',
-    //         'name.min' => 'Attribute length of 3-255 characters ',
-    //         'name.max' => 'Attribute length of 3-255 characters ',
-    //         'desription.required' =>'Please Enter Name Desription',
-    //     ]);
-    //     if ($validator->fails()) {
-    //         return response()->json(['error'=>'true','mess'=>$validator->errors()],200);
-    //     }
-    //     $categoies= Categoies::find($id);
-    //     $categoies->name = $request->name;
-    //     // if ($request->parent_id != 0) {
-    //         $categoies->parent_id = $request->parent_id;
-    //     // }
-    //     // $categoies->parent_id = 0;
-    //     $categoies->desription = $request->desription;
-    //     $categoies->save();
-    //     return response()->json(['data'=>$categoies,'message'=>'Update category successfully'],200);
-    // }
 
     /**
      * Remove the specified resource from storage.
@@ -159,9 +133,27 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function children($childrens){
+        foreach ($childrens as $item) {
+            Categoies::destroy($item->id);
+            $this->children($item->childrenCategories);
+        }
+        
+
+    }
+
+
     public function destroy($id)
     {
-        Categoies::find($id)->delete();
-        return response()->json(['data'=>'removed'],200);
+        $categoies = Categoies::find($id);
+        $childrenID = Categoies::with('childrenCategories')->where('parent_id',$id)->get();
+        foreach ($childrenID as $value) {
+            Categoies::destroy($value->id);
+            $this->children($value->childrenCategories);
+        }
+        $categoies->delete();
+            return response()->json(['data'=>'removed'],200);
+
+        
     }
 }
