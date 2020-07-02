@@ -60,7 +60,7 @@
 								<tr>
 									<td>{{$i}}</td>
 									<td>
-										<img src="/uploads/{{$value->options->img}}" width="50" alt="" class="img img-thumbnail pull-left">
+										<img src="/uploads/{{$value->options->img}}" width="20%" alt="" class="img img-thumbnail pull-left">
 										<span class="pull-left cart-product-option">
 
 											<strong>{{$value->name}}</strong><br />
@@ -81,8 +81,8 @@
 										
 										
 									</td>
-									<td id="unit_price">{{$value->price}}</td>
-									<td><p class="total_ammount_p1" id="sub_total_cart">{{$value->subtotal()}}</p></td>
+									<td id="unit_price">{{$value->price}}$</td>
+									<td><p class="total_ammount_p1" id="sub_total_cart">{{$value->subtotal()}}$</p></td>
 								</tr>   
 								<?php $i++?>  
 								<?php $total +=  $value->subtotal(); ?>           
