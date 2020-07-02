@@ -212,19 +212,19 @@
 							<div class="clear"></div>
 						</div>
 						<div class="section group">
-							@foreach($productSuggests as $item)
-							<div class="grid_1_of_4 images_1_of_4">
+							@foreach($productCategory as $item)
+							<div class="grid_1_of_4 images_1_of_4" style="height: 300px">
 								@foreach($item->product_images as $key=>$value)
 				                       
                                 @if($key == 0)
-                               <a href=""><img src="/uploads/{{$value->path}}" alt=""></img></a> 
+                               <a href="{{route('preview', $item->id)}}"><img src="/uploads/{{$value->path}}" alt=""></img></a> 
                    
                                 @endif
                                 @endforeach	
 								<div>{{$item->name}}</div>			
 								<div class="price" style="border:none">
 									<div class="add-cart" style="float:none">								
-										<h4><a href="{{route('preview', $value->id)}}">View Details</a></h4>
+										<h4><a href="{{route('preview', $item->id)}}">View Details</a></h4>
 									</div>
 									<div class="clear"></div>
 								</div>

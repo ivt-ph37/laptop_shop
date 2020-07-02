@@ -7,6 +7,9 @@
 				<ul>
 					@if(Auth::check())
 						<li><a href="{{route('user', Auth::user()->id)}}">Xin chào {{Auth::user()->fullname}}</a></li>
+						@if(Auth::user()->level == 1)
+						<li><a href="{{route('category.index')}}">Admin</a></li>
+						@endif
 						<li><a href="#">Delivery</a></li>
 						<!-- <li><a href="{{route('checkout')}}">Checkout</a></li> -->
 						<!-- <li><a href="#">My Account</a></li> -->
@@ -39,7 +42,7 @@
 				  	   		</a>
 				  	   	</span>
 				  	   	<div id="dd" class="wrapper-dropdown-2">
-				  	   		{{Cart::count()}} sản phẩm - {{Cart::total()}}$
+				  	   		{{Cart::count()}} sản phẩm 
 
 				  	   		
 				  	   		<ul class="dropdown">

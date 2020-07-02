@@ -237,8 +237,8 @@ a:hover{
 	cursor: pointer;
 	background: url(/images/search.png) no-repeat 0px 7px;
 	position: absolute;
-	top: -2px;
-	right: 1px;
+	top: -3px;
+	right: 0px;
 	width: 20px;
 	height: 25px;
 }

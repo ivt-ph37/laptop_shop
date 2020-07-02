@@ -133,6 +133,7 @@ class ProductController extends Controller
          // dd($promotionPrice);
     
         $categorys = Categoies::with('childrenCategories')->where('parent_id',0)->get();
+        $productCategory = Products::where('category_id',$product->category_id)->where('id','!=',$product->id)->take(4)->get();
         $productImage = Products::with('product_images')->where('id', $id)->get();
         // dd($productImage);   
         $productSuggests = $this->getProductSuggests($id);
@@ -144,7 +145,7 @@ class ProductController extends Controller
 
 
 
-        return view('user.product.product_detail', compact('product','categorys','promotionPrice','productImage', 'productSuggests','promotion'));
+        return view('user.product.product_detail', compact('product','categorys','promotionPrice','productImage', 'productSuggests','promotion','productCategory'));
     }
 
     private function getProductSuggests($id)

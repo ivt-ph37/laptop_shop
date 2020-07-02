@@ -859,7 +859,8 @@ a.add-to-cart {
 
 /*** Style for cart page ***/
 .cart-product-option {
-    margin-left: 5%;
+    margin-left: 2%;
+    margin-top: 7%;
 }
 .total_product_sum {
     color: #e91717;
@@ -1170,7 +1171,7 @@ label.error {
 .minh-form-ck{
     display: flex;
     justify-content: center;
-    align-items: baseline;
+    align-items: flex-start;
     padding: 10px !important;
 }
 .minh-form-ck .minh-form-ck-group{
@@ -1186,8 +1187,10 @@ label.error {
     width: 45%;
 }
 .minh-form-ck .table .pull-left{
-    float: none !important;
+    float: left;
+    margin-top: 4%;
 }
+
  .table>tbody>tr>td{
     vertical-align: middle !important;
 }
