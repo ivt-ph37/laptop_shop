@@ -10,7 +10,7 @@ use App\Model\Products;
 use App\Model\Promotions;
 use App\Model\Product_Image;
 use App\Model\Categoies;
-use Cookie;
+use Session;
 
 class ProductController extends Controller
 {
@@ -47,7 +47,7 @@ class ProductController extends Controller
 
         $categorys = Categoies::with('childrenCategories')->where('parent_id',0)->get();
         $promotionPrice = Products::with('promotions')->take(1)->get();
-        $products_view=Session::get('products_vieww');
+        $products_view=Session::get('products_view');
         $key=0;
         if ($products_view != NULL){
             $products_views = array($key=>array('id'=>0));// ta tạo thêm một mảng bỏ nó vào mac dinh no la 0 ha thì mình pải tạo 1 cái đe mình foreach đk bén đo t xét vs khác 0 ok?? roi đe a xoa sesion tạo cái khác đa chứ lỗi rồi mà trc đó t pải tạo NULL vì mới vào làm gi mình sesion liền c
@@ -126,14 +126,14 @@ class ProductController extends Controller
         $promotionPrice = Promotions::where('product_id', $id)->where('end_date', '<', GETDATE())->take(1)->orderBy('created_at', 'ASC')->get();
         $promotion = Promotions::where('product_id', $id)->where('status',0)->first();
          // dd($promotionPrice);
-   
+    
         $categorys = Categoies::with('childrenCategories')->where('parent_id',0)->get();
         $productImage = Products::with('product_images')->where('id', $id)->get();
         // dd($productImage);   
         $productSuggests = $this->getProductSuggests($id);
 
 
-        Session::push('products_vieww',$product);
+        Session::push('products_view',$product);
 
 
 

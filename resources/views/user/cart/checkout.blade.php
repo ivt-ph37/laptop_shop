@@ -37,10 +37,11 @@
 		<div class="login-page">
 			<div class="container">
 				<div class="row">
-					@if(Auth::check())
 					@if(Session::has('success'))
 					<div class="alert alert-success">{{Session::get('success')}}</div>
 					@endif
+					@if(Auth::check())
+					
 					<div class="col-md-8 col-md-offset-2 minh-checkout">
 						<h2 class="text-center">Thông Tin Giao Hàng</h2>
 
@@ -105,7 +106,7 @@
 								<tr>
 									<td>{{$i}}</td>
 									<td>
-										<img src="{{asset($value->options->img)}}" width="50" alt="" class="img img-thumbnail pull-left">
+										<img src="/uploads/{{$value->options->img}}" width="50" alt="" class="img img-thumbnail pull-left">
 										<span class="pull-left cart-product-option">
 
 											<strong>{{$value->name}}</strong><br />
@@ -220,7 +221,7 @@
 								<tr>
 									<td>{{$i}}</td>
 									<td>
-										<img src="{{asset($value->options->img)}}" width="50" alt="" class="img img-thumbnail pull-left">
+										<img src="/uploads/{{$value->options->img}}" width="50" alt="" class="img img-thumbnail pull-left">
 										<span class="pull-left cart-product-option">
 
 											<strong>{{$value->name}}</strong><br />

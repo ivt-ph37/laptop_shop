@@ -8,9 +8,9 @@
 
 
 
-	@if(Session::get('products_vieww') != NULL)
+	@if(Session::get('products_view') != NULL)
 	<div class="heading">
-					<h3>San pham da xem</h3>
+					<h3>Sản phẩm đã xem</h3>
 				</div>
 		<div class="section group">
 				@foreach($products_views as $key=>$value)

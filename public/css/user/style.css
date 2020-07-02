@@ -235,9 +235,10 @@ a:hover{
 .search_box form input[type="submit"] {
 	border: none;
 	cursor: pointer;
-	/*background: url(../images/search.png) no-repeat 0px 7px;*/
+	background: url(/images/search.png) no-repeat 0px 7px;
 	position: absolute;
-	right: 0;
+	top: -2px;
+	right: 1px;
 	width: 20px;
 	height: 25px;
 }
@@ -342,7 +343,7 @@ a:hover{
 }
 
 .grid_1_of_4.images_1_of_4 {
-    margin: 1% 0.5% !important;
+    margin: 2% 0.5% !important;
 }
  
 .grid_1_of_4:first-child {

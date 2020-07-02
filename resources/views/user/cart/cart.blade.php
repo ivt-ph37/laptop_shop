@@ -60,7 +60,7 @@
 								<tr>
 									<td>{{$i}}</td>
 									<td>
-										<img src="{{asset($value->options->img)}}" width="50" alt="" class="img img-thumbnail pull-left">
+										<img src="/uploads/{{$value->options->img}}" width="50" alt="" class="img img-thumbnail pull-left">
 										<span class="pull-left cart-product-option">
 
 											<strong>{{$value->name}}</strong><br />

@@ -41,19 +41,18 @@
 			<div class="container">
 
 				<div class="row">
-					<div class="col-sm-3">
-						<h2>My Account</h2>
+					<div class="col-sm-4">
+						<h2>Tài khoản của tôi</h2>
 						<ul>
-							<li  class="active"><a href="#">Account Control Panel</a></li>
-							<li><a href="account_carts.html">My All Orders</a></li>
-							<li><a href="account_carts.html">My Carts Products</a></li>
-							<li><a href="account_reviews.html">My Reviews and Ratings</a></li>
+							<li  class="active"><a href="#">Bảng điều khiển tài khoản</a></li>
+							<li><a href="account_carts.html">Tất cả đơn hàng của tôi</a></li>
+							<li><a href="account_carts.html">Tất cả sản phẩm đã mua</a></li>
 						</ul>
 					</div>
-					<div class="col-sm-9">
+					<div class="col-sm-8">
 						<h2>Thông Tin Tài Khoản</h2>
-						<strong>Hello {{$user->fullname}}</strong><br />
-						<p>From your account control panel, you can access all of your recent activites, orders, save products and you can edit your personal information and other details.</p>
+						<strong>Xin chào {{$user->fullname}} !</strong><br />
+						<p>Tại đây, bạn có thể truy cập tất cả các hoạt động, đơn đặt hàng gần đây, lưu sản phẩm và bạn có thể chỉnh sửa thông tin cá nhân và các chi tiết khác.</p>
 						<div class="row">
 							<div class="col-md-6 col-sm-6">
 								<div class="well">
@@ -68,7 +67,7 @@
 
 							<div class="col-md-6 col-sm-6">
 								<div class="well">
-									<h3>News Letters</h3>
+									<h3>Đề nghị của bạn</h3>
 									<p>Do you want to get the latest product news and promotion offers then make it on otherwise off it.</p>
 									<p class="pull-right"><a href="#"><i class="fa fa-edit"></i> Edit</a></p>
 									<div class="clearfix"></div>
@@ -77,7 +76,7 @@
 
 							<div class="col-md-6 col-sm-6">
 								<div class="well">
-									<h3>Default Billing Address</h3>
+									<h3>Địa chỉ thanh toán</h3>
 									<address class="address">
 										<strong>Name:</strong> {{$user->fullname}} <br />
 										<strong>Email:</strong> {{$user->email}} <br />
@@ -90,7 +89,7 @@
 
 							<div class="col-md-6 col-sm-6">
 								<div class="well">
-									<h3>Default Delivery Address Address</h3>
+									<h3>Địa chỉ giao hàng</h3>
 									<address class="address">
 										<strong>Name:</strong> Maniruzzaman Akash <br />
 										<strong>Address:</strong> <br />

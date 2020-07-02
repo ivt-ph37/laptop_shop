@@ -142,7 +142,11 @@
 
 												<div class="component_rating" style="width:15%;">
 													<div class="rating_item">
-														<div class=""><span class="fas fa-star" style="font-size:30px; color:#ff9705">2.5</span></div>
+														@if($product->total_rating == 0)
+														<div class=""><span class="fas fa-star" style="font-size:30px; color:#ff9705"> 0 </span></div>
+														@else
+														<div class=""><span class="fas fa-star" style="font-size:30px; color:#ff9705"> {{number_format($product->total_rating / $product->total_number_point, 1, ',', ' ')}} </span></div>
+														@endif	
 													</div>
 												</div>
 												
