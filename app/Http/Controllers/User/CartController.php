@@ -96,7 +96,7 @@ class CartController extends Controller
     {
         $product = Products::find($id);
         // dd($product);
-        $productImage = Product_Image::with('products')->first();
+        $productImage = Product_Image::with('products')->get();
         $promotionPrice = Promotions::where('product_id', $id)->where('end_date', '<', GETDATE())->take(1)->orderBy('created_at', 'ASC')->get();
 
         // foreach($promotionPrice as $item)

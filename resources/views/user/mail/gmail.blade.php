@@ -10,7 +10,7 @@
                                 <tr>
                                     <td align="left" valign="middle" style="width:500px;height:60px">
                                         <a href="#" style="border:0" target="_blank" width="130" height="35" style="display:block;border:0px">
-                                            <img src="https://i.imgur.com/SJMpt6k.png" height="100" width="115" style="display:block;border:0px;float: left;"> <b style="float: left;line-height: 100px;color: red;font-size: 20px;">Electrolic Store</b>
+                                            <img src="{{asset('images/logo.png')}}" height="100" width="115" style="display:block;border:0px;float: left;"> <b style="float: left;line-height: 100px;color: red;font-size: 20px;">Home Store</b>
                                         </a>
                                     </td>
                                     <td align="right" valign="middle" style="padding-right:15px">
@@ -96,11 +96,11 @@
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top" style="width:120px;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#666666;line-height:20px;padding-left:15px;padding-right:10px;padding-bottom:5px"> 
-                                                            <b>Tổng thanh toán</b>
+                                                            <b>Đơn giá</b>
                                                         </td>
                                                         <td align="left" valign="top" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#666666;line-height:20px;padding-bottom:5px">:</td>
                                                         <td align="left" valign="top" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#666666;line-height:20px;padding-left:10px;padding-bottom:5px">
-                                                           
+                                                            {{$o->price * $o->quantity}}
                                                         </td>
                                                     </tr>
                                                     <tr>
